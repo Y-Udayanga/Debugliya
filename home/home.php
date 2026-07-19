@@ -21,7 +21,7 @@ $stmt = $pdo->prepare("SELECT id, name FROM categories LIMIT 4");
 $stmt->execute();
 $categories = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-$stmt = $pdo->prepare("SELECT username, profile_photo FROM users ORDER BY RAND() LIMIT 1");
+$stmt = $pdo->prepare("SELECT username, profile_photo FROM users ORDER BY " . ($dbDriver === 'pgsql' ? 'RANDOM()' : 'RAND()') . " LIMIT 1");
 $stmt->execute();
 $featured_user = $stmt->fetch(PDO::FETCH_ASSOC);
 

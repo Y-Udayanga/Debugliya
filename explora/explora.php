@@ -27,7 +27,7 @@ $stmt = $pdo->prepare("
     FROM posts p
     JOIN users u ON p.user_id = u.id
     LEFT JOIN categories c ON p.category_id = c.id
-    WHERE p.created_at >= NOW() - INTERVAL 7 DAY
+    WHERE p.created_at >= " . ($dbDriver === 'pgsql' ? "NOW() - INTERVAL '7 days'" : "NOW() - INTERVAL 7 DAY") . "
     ORDER BY (like_count + comment_count) DESC
     LIMIT 10
 ");

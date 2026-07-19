@@ -41,7 +41,7 @@ try {
     // Insert post into database
     $stmt = $pdo->prepare("INSERT INTO posts (user_id, content, category_id, created_at) VALUES (?, ?, ?, NOW())");
     $stmt->execute([$user_id, $content, $category_id]);
-    $post_id = $pdo->lastInsertId();
+    $post_id = $dbDriver === 'pgsql' ? $pdo->lastInsertId('posts_id_seq') : $pdo->lastInsertId();
 
     // Handle image uploads
     if (!empty($_FILES['images']['name'][0])) {

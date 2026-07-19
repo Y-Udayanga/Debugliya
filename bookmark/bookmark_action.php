@@ -64,7 +64,10 @@ try {
     }
 
     if ($action === 'add') {
-        $stmt = $pdo->prepare("INSERT IGNORE INTO bookmarks (user_id, post_id, created_at) VALUES (?, ?, NOW())");
+        $sql = $dbDriver === 'pgsql'
+            ? "INSERT INTO bookmarks (user_id, post_id, created_at) VALUES (?, ?, NOW()) ON CONFLICT (user_id, post_id) DO NOTHING"
+            : "INSERT IGNORE INTO bookmarks (user_id, post_id, created_at) VALUES (?, ?, NOW())";
+        $stmt = $pdo->prepare($sql);
         $stmt->execute([$user_id, $post_id]);
         $response['success'] = true;
         $response['message'] = 'Post bookmarked!';

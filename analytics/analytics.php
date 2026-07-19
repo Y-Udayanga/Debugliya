@@ -40,7 +40,7 @@ $categories = $stmt->fetchAll(PDO::FETCH_ASSOC);
 $stmt = $pdo->prepare("
     SELECT DATE(created_at) AS date, COUNT(*) AS post_count
     FROM posts
-    WHERE user_id = ? AND created_at >= DATE_SUB(CURDATE(), INTERVAL 30 DAY)
+    WHERE user_id = ? AND created_at >= " . ($dbDriver === 'pgsql' ? "CURRENT_DATE - INTERVAL '30 days'" : "DATE_SUB(CURDATE(), INTERVAL 30 DAY)") . "
     GROUP BY DATE(created_at)
     ORDER BY date
 ");

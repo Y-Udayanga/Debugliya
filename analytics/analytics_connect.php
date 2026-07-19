@@ -10,7 +10,7 @@ if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
 }
 
 $input = json_decode(file_get_contents('php://input'), true);
-if (!isset($input['csrf_token']) || $input['csrf_token'] !== $_SESSION['csrf_token']) {
+if (!isset($input['csrf_token'], $_SESSION['csrf_token']) || !hash_equals($_SESSION['csrf_token'], $input['csrf_token'])) {
     echo json_encode(['success' => false, 'message' => 'Invalid CSRF token']);
     exit;
 }
@@ -46,7 +46,7 @@ try {
     $stmt = $pdo->prepare("
         SELECT DATE(created_at) AS date, COUNT(*) AS post_count
         FROM posts
-        WHERE user_id = ? AND created_at >= DATE_SUB(CURDATE(), INTERVAL 30 DAY)
+        WHERE user_id = ? AND created_at >= " . ($dbDriver === 'pgsql' ? "CURRENT_DATE - INTERVAL '30 days'" : "DATE_SUB(CURDATE(), INTERVAL 30 DAY)") . "
         GROUP BY DATE(created_at)
         ORDER BY date
     ");

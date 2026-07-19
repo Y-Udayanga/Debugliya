@@ -5,13 +5,46 @@ error_reporting(E_ALL);
 ini_set('log_errors', 1);
 ini_set('error_log', __DIR__ . '/logs/php_errors.log');
 
-$host = 'localhost';
-$dbname = 'debuglia';
-$username = 'root';
-$password = '';
+$databaseUrl = getenv('DATABASE_URL') ?: '';
+$dbDriver = 'mysql';
 
 try {
-    $pdo = new PDO("mysql:host=$host;dbname=$dbname;charset=utf8mb4", $username, $password);
+    if ($databaseUrl !== '') {
+        $parts = parse_url($databaseUrl);
+        if ($parts === false || empty($parts['scheme'])) {
+            throw new PDOException('Invalid DATABASE_URL');
+        }
+
+        $dbDriver = str_starts_with($parts['scheme'], 'postgres') ? 'pgsql' : 'mysql';
+        $host = $parts['host'] ?? 'localhost';
+        $port = $parts['port'] ?? ($dbDriver === 'pgsql' ? 5432 : 3306);
+        $dbname = isset($parts['path']) ? ltrim($parts['path'], '/') : '';
+        $username = isset($parts['user']) ? urldecode($parts['user']) : '';
+        $password = isset($parts['pass']) ? urldecode($parts['pass']) : '';
+        $query = [];
+        if (!empty($parts['query'])) {
+            parse_str($parts['query'], $query);
+        }
+
+        if ($dbDriver === 'pgsql') {
+            $sslmode = $query['sslmode'] ?? 'require';
+            $dsn = "pgsql:host=$host;port=$port;dbname=$dbname;sslmode=$sslmode";
+        } else {
+            $dsn = "mysql:host=$host;port=$port;dbname=$dbname;charset=utf8mb4";
+        }
+    } else {
+        if (getenv('VERCEL')) {
+            throw new PDOException('DATABASE_URL is not configured. Add the Supabase Postgres connection string in Vercel project environment variables.');
+        }
+
+        $host = 'localhost';
+        $dbname = 'debuglia';
+        $username = 'root';
+        $password = '';
+        $dsn = "mysql:host=$host;dbname=$dbname;charset=utf8mb4";
+    }
+
+    $pdo = new PDO($dsn, $username, $password);
     $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
     $pdo->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE, PDO::FETCH_ASSOC);
     $pdo->setAttribute(PDO::ATTR_EMULATE_PREPARES, false);
