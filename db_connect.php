@@ -5,7 +5,44 @@ error_reporting(E_ALL);
 ini_set('log_errors', 1);
 ini_set('error_log', __DIR__ . '/logs/php_errors.log');
 
+function loadEnvFile(string $path): void
+{
+    if (!is_file($path) || !is_readable($path)) {
+        return;
+    }
+
+    foreach (file($path, FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES) as $line) {
+        $line = trim($line);
+        if ($line === '' || str_starts_with($line, '#') || !str_contains($line, '=')) {
+            continue;
+        }
+
+        [$key, $value] = array_map('trim', explode('=', $line, 2));
+        $value = trim($value, "\"'");
+
+        if (getenv($key) === false) {
+            putenv("$key=$value");
+            $_ENV[$key] = $value;
+            $_SERVER[$key] = $value;
+        }
+    }
+}
+
+loadEnvFile(__DIR__ . '/.env');
+
 $databaseUrl = getenv('DATABASE_URL') ?: '';
+$supabaseDbPassword = getenv('SUPABASE_DB_PASSWORD') ?: '';
+if (str_contains($databaseUrl, '<password>')) {
+    $databaseUrl = '';
+}
+
+if ($databaseUrl === '' && $supabaseDbPassword !== '' && $supabaseDbPassword !== 'paste-your-supabase-db-password-here') {
+    $databaseUrl = sprintf(
+        'postgresql://postgres:%s@db.rhbpmopeylzyahwtmoyt.supabase.co:5432/postgres?sslmode=require',
+        rawurlencode($supabaseDbPassword)
+    );
+}
+
 $dbDriver = 'mysql';
 
 try {
