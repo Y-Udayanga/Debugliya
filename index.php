@@ -1,12 +1,13 @@
 <?php
 session_start();
-require 'db_connect.php';
 
 // Check if user is logged in
 if (!isset($_SESSION['user_id'])) {
     header('Location: login.php');
     exit;
 }
+
+require 'db_connect.php';
 
 if (!isset($_SESSION['csrf_token'])) {
     $_SESSION['csrf_token'] = bin2hex(random_bytes(32));

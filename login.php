@@ -1,6 +1,5 @@
 <?php
 session_start();
-require 'db_connect.php';
 
 if (isset($_SESSION['user_id'])) {
     header('Location: index.php');
@@ -8,6 +7,8 @@ if (isset($_SESSION['user_id'])) {
 }
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    require 'db_connect.php';
+
     $identifier = $_POST['identifier'];
     $password = $_POST['password'];
 
