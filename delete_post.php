@@ -16,7 +16,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         exit;
     }
 
-    $post_id = $input['post_id'];
+    $post_id = filter_var($input['post_id'] ?? null, FILTER_VALIDATE_INT);
+    if (!$post_id) {
+        echo json_encode(['success' => false, 'message' => 'Invalid post']);
+        exit;
+    }
     $stmt = $pdo->prepare("SELECT user_id FROM posts WHERE id = ?");
     $stmt->execute([$post_id]);
     $post = $stmt->fetch();
@@ -29,8 +33,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $stmt->execute([$post_id]);
             $images = $stmt->fetchAll(PDO::FETCH_COLUMN);
             foreach ($images as $image) {
-                if (file_exists('Uploads/' . $image)) {
-                    unlink('Uploads/' . $image);
+                $path = __DIR__ . '/uploads/' . basename($image);
+                if (file_exists($path)) {
+                    unlink($path);
                 }
             }
             // Delete post (cascades to comments, likes, post_images)

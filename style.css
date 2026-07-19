@@ -1799,3 +1799,224 @@ main .container .right {
         align-items: center;
     }
 }
+
+/* Modern UI refresh */
+:root {
+    --primary-color-hue: 188;
+    --color-white: #ffffff;
+    --color-light: #eef3f6;
+    --color-gray: #65737e;
+    --color-primary: #0f8fa8;
+    --color-secondary: #ffe3d3;
+    --color-success: #25a36f;
+    --color-danger: #e04f5f;
+    --color-dark: #1f2933;
+    --color-black: #101820;
+    --surface-soft: #f8fbfc;
+    --accent-warm: #f97352;
+    --accent-gold: #d99a22;
+    --border-radius: 8px;
+    --card-border-radius: 8px;
+    --btn-padding: 0.7rem 1.15rem;
+    --card-padding: 1.15rem;
+    --shadow-soft: 0 10px 28px rgba(16, 24, 32, 0.08);
+    --border-subtle: 1px solid rgba(31, 41, 51, 0.08);
+}
+
+body {
+    background:
+        linear-gradient(180deg, #f8fbfc 0%, #eef3f6 100%);
+    letter-spacing: 0;
+}
+
+.navbar {
+    background: rgba(16, 24, 32, 0.96);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    box-shadow: 0 8px 24px rgba(16, 24, 32, 0.18);
+}
+
+.logo {
+    color: #ffffff;
+    font-size: 1.55rem;
+}
+
+.nav-links ul li a {
+    border-radius: 8px;
+    color: rgba(255, 255, 255, 0.86);
+    padding: 0.45rem 0.65rem;
+}
+
+.nav-links ul li a:hover,
+.nav-links ul li a.active {
+    background: rgba(15, 143, 168, 0.18);
+    color: #ffffff;
+}
+
+.help-link,
+.profile-link,
+.logout,
+.login,
+#theme-toggle {
+    border-color: rgba(255, 255, 255, 0.22);
+    border-radius: 8px;
+}
+
+.help-link:hover,
+.profile-link:hover,
+.logout:hover,
+.login:hover,
+#theme-toggle:hover {
+    background: #0f8fa8;
+    border-color: #0f8fa8;
+    color: #ffffff;
+}
+
+.left .sidebar,
+.middle .create-post,
+.middle .feeds .feed,
+.right .trending-topic,
+.right .communities,
+.customize-theme .card,
+.notifications-list,
+.profile-card,
+.settings-card {
+    border: var(--border-subtle);
+    border-radius: 8px;
+    box-shadow: var(--shadow-soft);
+}
+
+.left .sidebar .menu-item {
+    border-radius: 8px;
+    margin: 0.15rem 0.35rem;
+}
+
+.left .sidebar .menu-item:hover,
+.left .sidebar .active {
+    background: rgba(15, 143, 168, 0.1);
+    color: var(--color-primary);
+}
+
+.left .sidebar .active::before {
+    background: var(--accent-warm);
+    border-radius: 8px;
+}
+
+.middle .create-post {
+    gap: 0.75rem;
+}
+
+.middle .create-post input,
+.middle .feed .comments-section .comment-input,
+textarea,
+select,
+input {
+    border: 1px solid rgba(31, 41, 51, 0.12);
+    border-radius: 8px;
+}
+
+.middle .create-post input:focus,
+.middle .feed .comments-section .comment-input:focus,
+textarea:focus,
+select:focus,
+input:focus {
+    border-color: var(--color-primary);
+    box-shadow: 0 0 0 3px rgba(15, 143, 168, 0.14);
+}
+
+.btn,
+.btn-primary,
+.middle .create-post .btn,
+.middle .feed .comments-section .btn,
+.right .communities .btn-join,
+button[type="submit"] {
+    background: var(--color-primary);
+    border-radius: 8px;
+    box-shadow: 0 8px 18px rgba(15, 143, 168, 0.18);
+    color: #ffffff;
+    font-weight: 600;
+}
+
+.btn:hover,
+.btn-primary:hover,
+.middle .create-post .btn:hover,
+.middle .feed .comments-section .btn:hover,
+.right .communities .btn-join:hover,
+button[type="submit"]:hover {
+    background: #0b7285;
+    transform: translateY(-1px);
+}
+
+.middle .feed .category h3,
+.category span {
+    background: rgba(249, 115, 82, 0.12);
+    border: 1px solid rgba(249, 115, 82, 0.18);
+    border-radius: 8px;
+    color: #b9472e;
+}
+
+.middle .feed .photo-gallery img,
+.post-image {
+    border-radius: 8px;
+}
+
+.like-btn.liked,
+.comment-like-btn.liked {
+    color: var(--color-danger);
+}
+
+.bookmark-btn.bookmarked {
+    color: var(--accent-gold);
+}
+
+.footer {
+    background: #101820;
+    color: rgba(255, 255, 255, 0.82);
+}
+
+.footer a,
+.footer h3,
+.footer h4 {
+    color: #ffffff;
+}
+
+body.dark-mode {
+    --color-light: #101820;
+    --color-white: #18232d;
+    --color-dark: #eef3f6;
+    --color-gray: #a7b3bd;
+    background: #101820;
+}
+
+body.dark-mode .navbar,
+body.dark-mode .footer {
+    background: #0b1117;
+}
+
+body.dark-mode .middle .feed .category h3,
+body.dark-mode .category span {
+    color: #ffb39e;
+}
+
+@media screen and (max-width: 768px) {
+    .navbar .containers {
+        gap: 0.75rem;
+    }
+
+    .nav-links.active {
+        border-radius: 0 0 8px 8px;
+    }
+
+    main .container {
+        width: min(94%, 680px);
+    }
+
+    .left,
+    .right {
+        position: static;
+    }
+
+    .middle .create-post,
+    .middle .feed {
+        padding: 1rem;
+    }
+}

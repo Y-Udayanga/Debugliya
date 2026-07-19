@@ -17,7 +17,7 @@ if (!isset($_SESSION['user_id'])) {
 $input = json_decode(file_get_contents('php://input'), true);
 
 
-if (!isset($input['csrf_token']) || $input['csrf_token'] !== $_SESSION['csrf_token']) {
+if (!isset($input['csrf_token'], $_SESSION['csrf_token']) || !hash_equals($_SESSION['csrf_token'], $input['csrf_token'])) {
     $response['message'] = 'Invalid CSRF token.';
     echo json_encode($response);
     exit;
@@ -29,11 +29,17 @@ try {
     if (isset($input['post_id'], $input['content'])) {
         // Create the comment or replys
         $post_id = (int)$input['post_id'];
-        $content = htmlspecialchars(trim($input['content']));
+        $content = trim($input['content']);
         $parent_comment_id = isset($input['parent_comment_id']) ? (int)$input['parent_comment_id'] : null;
 
         if (empty($content)) {
             $response['message'] = 'Comment content cannot be empty.';
+            echo json_encode($response);
+            exit;
+        }
+
+        if (mb_strlen($content) > 1000) {
+            $response['message'] = 'Comment is too long.';
             echo json_encode($response);
             exit;
         }

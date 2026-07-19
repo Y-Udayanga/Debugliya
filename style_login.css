@@ -1,14 +1,16 @@
 :root {
-    --primary-color: #007bff;
-    --background-color: #f0f2f5;
+    --primary-color: #0f8fa8;
+    --background-color: #eef3f6;
     --card-background: #ffffff;
-    --text-color: #333;
-    --muted-color: #6c757d;
-    --error-color: #dc3545;
+    --text-color: #1f2933;
+    --muted-color: #65737e;
+    --error-color: #e04f5f;
 }
 
 body {
-    background: url('logoo.jpg') no-repeat center center;
+    background:
+        linear-gradient(rgba(16, 24, 32, 0.5), rgba(16, 24, 32, 0.5)),
+        url('logoo.jpg') no-repeat center center;
     background-size: cover;
     display: flex;
     justify-content: center;
@@ -29,10 +31,11 @@ body {
 }
 
 .login-card {
-    background: var(--card-background);
-    border-radius: 10px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    padding: 20px;
+    background: rgba(255, 255, 255, 0.96);
+    border: 1px solid rgba(255, 255, 255, 0.65);
+    border-radius: 8px;
+    box-shadow: 0 20px 55px rgba(16, 24, 32, 0.22);
+    padding: 28px;
     width: 100%;
     text-align: center;
 }
@@ -76,14 +79,14 @@ input {
     width: 100%;
     padding: 10px 10px 10px 40px;
     border: 1px solid #ddd;
-    border-radius: 5px;
+    border-radius: 8px;
     font-size: 1rem;
     outline: none;
 }
 
 input:focus {
     border-color: var(--primary-color);
-    box-shadow: 0 0 5px rgba(0, 123, 255, 0.3);
+    box-shadow: 0 0 0 3px rgba(15, 143, 168, 0.14);
 }
 
 .btn {
@@ -91,14 +94,14 @@ input:focus {
     color: #fff;
     padding: 10px;
     border: none;
-    border-radius: 5px;
+    border-radius: 8px;
     font-size: 1rem;
     cursor: pointer;
     transition: background 0.3s;
 }
 
 .btn:hover {
-    background: #0056b3;
+    background: #0b7285;
 }
 
 .login-options {

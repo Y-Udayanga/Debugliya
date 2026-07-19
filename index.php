@@ -64,7 +64,7 @@ foreach ($posts as $post) {
             <ul>
                 <li><a href="home/home.php" class="active">Home</a></li>
                 <li><a href="about/about.php">About</a></li>
-                <li><a href="Profile/profile.php">Profile</a></li>
+                <li><a href="profile/profile.php">Profile</a></li>
                 <li><a href="index.php">Forum</a></li>
                 <li><a href="resources/resources.php">Resources</a></li>
             </ul>
@@ -74,7 +74,7 @@ foreach ($posts as $post) {
                 <li><span class="lang-toggle" role="button" aria-label="Toggle language">EN</span></li>
                 <li><a href="#" class="help-link">Help</a></li>
                 <?php if (isset($_SESSION['user_id'])): ?>
-                    <li><a href="../edit_debug/logout.php" class="logout">Logout</a></li>
+                    <li><a href="logout.php" class="logout">Logout</a></li>
                 <?php else: ?>
                     <li><a href="../login.php" class="login">Login</a></li>
                 <?php endif; ?>
@@ -89,7 +89,7 @@ foreach ($posts as $post) {
         <div class="left">
             <a class="profile" href="profile/profile.php">
                 <div class="profile-photo">
-                    <img src="<?php echo $user['profile_photo'] ? 'Uploads/' . htmlspecialchars($user['profile_photo']) : 'blank-profile-picture.webp'; ?>" alt="Profile Photo">
+                    <img src="<?php echo $user['profile_photo'] ? 'uploads/' . htmlspecialchars($user['profile_photo']) : 'blank-profile-picture.webp'; ?>" alt="Profile Photo">
                 </div>
                 <div class="handle">
                     <h4><?php echo htmlspecialchars($user['username']); ?></h4>
@@ -106,7 +106,7 @@ foreach ($posts as $post) {
                 <a class="menu-item" id="Trending Topics" href="trending_topic/trending_topic.php">
                     <span><i class="bi bi-chat-fill"></i></span><h3>Trending Topics</h3>
                 </a>
-                <a class="menu-item" href="Bookmark/bookmark.php">
+                <a class="menu-item" href="bookmark/bookmark.php">
                     <span><i class="bi bi-bookmarks"></i></span><h3>Bookmarks</h3>
                 </a>
                 <a class="menu-item" href="analytics/analytics.php">
@@ -136,7 +136,7 @@ foreach ($posts as $post) {
                         <div class="head">
                             <div class="user">
                                 <div class="profile-photo">
-                                    <img src="<?php echo $post['profile_photo'] ? 'Uploads/' . htmlspecialchars($post['profile_photo']) : 'blank-profile-picture.webp'; ?>">
+                                    <img src="<?php echo $post['profile_photo'] ? 'uploads/' . htmlspecialchars($post['profile_photo']) : 'blank-profile-picture.webp'; ?>">
                                 </div>
                                 <div class="info">
                                     <h3><?php echo htmlspecialchars($post['username']); ?></h3>
@@ -160,7 +160,7 @@ foreach ($posts as $post) {
                         <?php if (!empty($post_images[$post['id']])): ?>
                             <div class="photo-gallery <?php echo count($post_images[$post['id']]) === 1 ? 'single-image' : ''; ?>">
                                 <?php foreach ($post_images[$post['id']] as $image): ?>
-                                    <img src="Uploads/<?php echo htmlspecialchars($image); ?>" alt="Post Image" class="post-image">
+                                    <img src="uploads/<?php echo htmlspecialchars($image); ?>" alt="Post Image" class="post-image">
                                 <?php endforeach; ?>
                             </div>
                         <?php endif; ?>
@@ -341,7 +341,7 @@ foreach ($posts as $post) {
 </div>
 <div class="post-images">
     <?php foreach ($post['images'] as $image): ?>
-        <img src="Uploads/<?php echo htmlspecialchars($image); ?>" class="post-image">
+        <img src="uploads/<?php echo htmlspecialchars($image); ?>" class="post-image">
     <?php endforeach; ?>
 </div>
 
@@ -355,7 +355,7 @@ foreach ($posts as $post) {
             <h4>Quick Links</h4>
             <ul>
                 <li><a href="setting/setting.php">Settings</a></li>
-                <li><a href="Profile/profile.php">Profile</a></li>
+                <li><a href="profile/profile.php">Profile</a></li>
                 <li><a href="analytics/analytics.php">Analytics</a></li>
                 <li><a href="logout.php">Logout</a></li>
             </ul>

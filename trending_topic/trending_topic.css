@@ -1,0 +1,245 @@
+.trending-topic {
+    box-shadow: var(--box-shadow);
+    transition: all 0.3s ease;
+    padding: var(--padding-1);
+    border-radius: var(--border-radius);
+}
+
+.trending-topic .heading {
+    margin-bottom: 1.5rem;
+}
+
+.trending-topic .heading h4 {
+    color: var(--color-dark);
+    font-size: 1.2rem;
+}
+
+.trending-topic .search-bar {
+    margin-bottom: 1rem;
+    position: relative;
+}
+
+.trending-topic .search-bar i {
+    position: absolute;
+    top: 50%;
+    left: 10px;
+    transform: translateY(-50%);
+    color: var(--color-gray);
+}
+
+.trending-topic .search-bar input {
+    width: 100%;
+    padding: 0.5rem 0.5rem 0.5rem 2rem;
+    border: 1px solid var(--color-light);
+    border-radius: var(--border-radius);
+    font-size: 0.9rem;
+}
+
+.trending-topic .category {
+    margin: 0;
+    list-style: none;
+    max-height: 300px;
+    overflow-y: auto;
+}
+
+.category-link {
+    display: inline-block;
+    background-color: #6f42c1;
+    color: white;
+    padding: 5px 10px;
+    border-radius: 15px;
+    text-decoration: none;
+    font-size: 14px;
+    margin: 5px 0;
+}
+
+.category-link:hover {
+    background-color: #5a32a3;
+    color: white;
+}
+
+.trending-topic .category li {
+    margin-bottom: 0.75rem;
+}
+
+.trending-topic .category a {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    text-decoration: none;
+    color: var(--primary-color);
+    font-size: 0.9rem;
+    transition: color 0.2s ease;
+}
+
+.trending-topic .category a:hover {
+    color: hsl(var(--primary-color-hue), 75%, 50%);
+}
+
+.trending-topic .category a.active {
+    font-weight: 600;
+    color: var(--color-dark);
+}
+
+.trending-topic .category .post-count {
+    color: var(--color-gray);
+    font-size: 0.85rem;
+}
+
+.feeds h2 {
+    color: var(--color-dark);
+    font-size: 1.8rem;
+    font-weight: 600;
+    text-align: center;
+    margin: 2rem 0;
+    transition: color 0.3s ease;
+}
+
+/* Individual Feed Card */
+.feed {
+    background: var(--color-white);
+    padding: var(--card-padding);
+    margin: 1rem 0;
+    border-radius: var(--card-border-radius);
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    position: relative;
+}
+
+.feed:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
+}
+
+.feed .category-tag {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background-color: #6f42c1;
+    color: white;
+    padding: 6px 12px;
+    border-radius: 15px;
+    font-size: 0.9rem;
+    font-weight: 500;
+    z-index: 10;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+/* Post Images */
+.feed .post-images {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+    gap: 0.5rem;
+    margin: 0.7rem 0;
+}
+
+.feed .post-images.single-image {
+    display: block;
+}
+
+.feed .post-images img {
+    width: 100%;
+    max-height: 300px;
+    object-fit: cover;
+    border-radius: var(--card-border-radius);
+    transition: transform 0.3s ease;
+}
+
+.feed .post-images img:hover {
+    transform: scale(1.05);
+}
+
+.feed .post-images.single-image img {
+    max-height: 400px;
+    object-fit: contain;
+}
+
+.feed .action-buttons {
+    margin-top: 0.5rem;
+}
+
+.feed .interaction-buttons span {
+    margin-right: 1rem;
+    cursor: pointer;
+}
+
+.feed .like-btn.liked {
+    color: var(--primary-color);
+}
+
+.feed .comments-section {
+    margin-top: 1rem;
+}
+
+.feed .comment-form {
+    display: flex;
+    gap: 0.5rem;
+    margin-bottom: 0.5rem;
+}
+
+.feed .comment-input {
+    flex: 1;
+    padding: 0.5rem;
+    border: 1px solid var(--color-light);
+    border-radius: var(--border-radius);
+}
+
+.dark-mode .trending-topic {
+    background: var(--color-dark);
+    box-shadow: none;
+    border: 1px solid var(--color-light);
+}
+
+.dark-mode .trending-topic .category {
+    color: var(--color-white);
+}
+
+.dark-mode .trending-topic .heading h4,
+.dark-mode .feeds h2,
+.dark-mode .feed {
+    color: var(--color-white);
+    background: var(--color-dark);
+}
+
+.dark-mode .trending-topic .category a.active {
+    color: var(--color-white);
+}
+
+.dark-mode .feed .category-tag {
+    background-color: #9b7de5;
+    color: white;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+.dark-mode .feed .comment-input {
+    background: var(--color-dark);
+    color: var(--color-white);
+    border-color: var(--color-gray);
+}
+
+@media (max-width: 768px) {
+    .trending-topic {
+        padding: var(--padding-2);
+    }
+
+    .trending-topic .category a {
+        font-size: 0.85rem;
+    }
+
+    .trending-topic .category .post-count {
+        font-size: 0.8rem;
+    }
+
+    .feeds h2 {
+        font-size: 1.2rem;
+    }
+
+    .feed {
+        padding: var(--padding-2);
+    }
+
+    .feed .category-tag {
+        font-size: 0.8rem;
+        padding: 4px 10px;
+    }
+}

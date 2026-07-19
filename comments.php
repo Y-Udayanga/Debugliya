@@ -10,7 +10,11 @@ if (!isset($_SESSION['user_id'])) {
 }
 
 if (isset($_GET['post_id'])) {
-    $post_id = $_GET['post_id'];
+    $post_id = filter_var($_GET['post_id'], FILTER_VALIDATE_INT);
+    if (!$post_id) {
+        echo json_encode(['success' => false, 'message' => 'Invalid post ID']);
+        exit;
+    }
 
     $stmt = $pdo->prepare("
         SELECT c.id, c.content, c.created_at, u.username, u.profile_photo,

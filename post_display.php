@@ -112,7 +112,7 @@ $images = $stmt->fetchAll(PDO::FETCH_ASSOC);
                 ">
                     <li><a href="home/home.php" style="text-decoration: none; color: var(--color-dark); font-weight: 500;">Home</a></li>
                     <li><a href="about/about.php" style="text-decoration: none; color: var(--color-dark); font-weight: 500;">About</a></li>
-                    <li><a href="Profile/profile.php" style="text-decoration: none; color: var(--color-dark); font-weight: 500;">Profile</a></li>
+                    <li><a href="profile/profile.php" style="text-decoration: none; color: var(--color-dark); font-weight: 500;">Profile</a></li>
                     <li><a href="index.php" style="text-decoration: none; color: var(--color-dark); font-weight: 500;">Forum</a></li>
                     <li><a href="resources/resources.php" style="text-decoration: none; color: var(--color-dark); font-weight: 500;">resources</a></li>
                 </ul>
@@ -121,7 +121,7 @@ $images = $stmt->fetchAll(PDO::FETCH_ASSOC);
                 <span style="cursor: pointer; color: var(--color-gray);" role="button" aria-label="Toggle language">EN</span>
                 <a href="#" style="text-decoration: none; color: var(--primary-color);">Help</a>
                 <a href="logout.php" style="text-decoration: none; color: var(--primary-color);">Logout</a>
-                <button id="theme-toggle" style="background: none; border: none; font-size: 1.2rem; cursor: pointer;" aria-label="Toggle theme">🌙</button>
+                <button id="theme-toggle" style="background: none; border: none; font-size: 1.2rem; cursor: pointer;" aria-label="Toggle theme"><i class="bi bi-moon-stars"></i></button>
             </div>
         </div>
     </header>
@@ -136,7 +136,7 @@ $images = $stmt->fetchAll(PDO::FETCH_ASSOC);
             padding: 0 1.5rem;
         " class="container">
             <div style="position: sticky; top: calc(80px + var(--sticky-top-left)); align-self: start;" class="left">
-                <a style="display: flex; align-items: center; text-decoration: none; margin-bottom: 1.5rem;" class="profile" href="Profile/profile.php">
+                <a style="display: flex; align-items: center; text-decoration: none; margin-bottom: 1.5rem;" class="profile" href="profile/profile.php">
                     <div style="
                         width: 3rem;
                         height: 3rem;
@@ -144,7 +144,7 @@ $images = $stmt->fetchAll(PDO::FETCH_ASSOC);
                         overflow: hidden;
                         margin-right: 1rem;
                     " class="profile-photo">
-                        <img src="<?php echo $user['profile_photo'] ? 'Uploads/' . htmlspecialchars($user['profile_photo']) : 'blank-profile-picture.webp'; ?>" style="width: 100%; height: 100%; object-fit: cover;" alt="Profile Photo">
+                        <img src="<?php echo $user['profile_photo'] ? 'uploads/' . htmlspecialchars($user['profile_photo']) : 'blank-profile-picture.webp'; ?>" style="width: 100%; height: 100%; object-fit: cover;" alt="Profile Photo">
                     </div>
                     <div class="handle">
                         <h4 style="margin: 0; color: var(--color-dark); font-size: 1rem;"><?php echo htmlspecialchars($user['username']); ?></h4>
@@ -165,7 +165,7 @@ $images = $stmt->fetchAll(PDO::FETCH_ASSOC);
                         color: var(--color-dark);
                         border-radius: var(--border-radius-1);
                         transition: background 0.2s ease;
-                    " class="menu-item" href="explora/explora.html">
+                    " class="menu-item" href="explora/explora.php">
                         <span style="margin-right: 1rem; font-size: 1.2rem;"><i class="bi bi-compass"></i></span><h3 style="margin: 0; font-size: 1rem;">Explore</h3>
                     </a>
                     <a style="
@@ -187,7 +187,7 @@ $images = $stmt->fetchAll(PDO::FETCH_ASSOC);
                         color: var(--color-dark);
                         border-radius: var(--border-radius-1);
                         transition: background 0.2s ease;
-                    " class="menu-item" href="trending_topic/trending_topic.html">
+                    " class="menu-item" href="trending_topic/trending_topic.php">
                         <span style="margin-right: 1rem; font-size: 1.2rem;"><i class="bi bi-chat-fill"></i></span><h3 style="margin: 0; font-size: 1rem;">Trending Topics</h3>
                     </a>
                     <a style="
@@ -198,7 +198,7 @@ $images = $stmt->fetchAll(PDO::FETCH_ASSOC);
                         color: var(--color-dark);
                         border-radius: var(--border-radius-1);
                         transition: background 0.2s ease;
-                    " class="menu-item" href="bookmarK/bookmark.html">
+                    " class="menu-item" href="bookmark/bookmark.php">
                         <span style="margin-right: 1rem; font-size: 1.2rem;"><i class="bi bi-bookmarks"></i></span><h3 style="margin: 0; font-size: 1rem;">Bookmarks</h3>
                     </a>
                     <a style="
@@ -209,7 +209,7 @@ $images = $stmt->fetchAll(PDO::FETCH_ASSOC);
                         color: var(--color-dark);
                         border-radius: var(--border-radius-1);
                         transition: background 0.2s ease;
-                    " class="menu-item" href="analytics/analytics.html">
+                    " class="menu-item" href="analytics/analytics.php">
                         <span style="margin-right: 1rem; font-size: 1.2rem;"><i class="bi bi-clipboard2-data"></i></span><h3 style="margin: 0; font-size: 1rem;">Analytics</h3>
                     </a>
                     <a style="
@@ -266,7 +266,7 @@ $images = $stmt->fetchAll(PDO::FETCH_ASSOC);
                                 overflow: hidden;
                                 margin-right: 0.75rem;
                             " class="profile-photo">
-                                <img src="<?php echo $post['profile_photo'] ? 'Uploads/' . htmlspecialchars($post['profile_photo']) : 'blank-profile-picture.webp'; ?>" style="width: 100%; height: 100%; object-fit: cover;">
+                                <img src="<?php echo $post['profile_photo'] ? 'uploads/' . htmlspecialchars($post['profile_photo']) : 'blank-profile-picture.webp'; ?>" style="width: 100%; height: 100%; object-fit: cover;">
                             </div>
                             <div class="info">
                                 <h3 style="margin: 0; font-size: 1rem; color: var(--color-dark);"><?php echo htmlspecialchars($post['username']); ?></h3>
@@ -298,7 +298,7 @@ $images = $stmt->fetchAll(PDO::FETCH_ASSOC);
                                 margin-top: 1rem;
                             " class="post-images">
                                 <?php foreach ($images as $image): ?>
-                                    <img src="Uploads/<?php echo htmlspecialchars($image['image']); ?>" style="
+                                    <img src="uploads/<?php echo htmlspecialchars($image['image']); ?>" style="
                                         width: 100%;
                                         max-height: 300px;
                                         object-fit: cover;
@@ -428,8 +428,8 @@ $images = $stmt->fetchAll(PDO::FETCH_ASSOC);
                 <h4 style="margin: 0 0 1rem; color: var(--color-dark); font-size: 1rem;">Quick Links</h4>
                 <ul style="list-style: none; padding: 0; margin: 0;">
                     <li><a href="setting/setting.php" style="text-decoration: none; color: var(--color-gray); font-size: 0.9rem;">Settings</a></li>
-                    <li><a href="Profile/profile.php" style="text-decoration: none; color: var(--color-gray); font-size: 0.9rem;">Profile</a></li>
-                    <li><a href="analytics/analytics.html" style="text-decoration: none; color: var(--color-gray); font-size: 0.9rem;">Analytics</a></li>
+                    <li><a href="profile/profile.php" style="text-decoration: none; color: var(--color-gray); font-size: 0.9rem;">Profile</a></li>
+                    <li><a href="analytics/analytics.php" style="text-decoration: none; color: var(--color-gray); font-size: 0.9rem;">Analytics</a></li>
                     <li><a href="logout.php" style="text-decoration: none; color: var(--color-gray); font-size: 0.9rem;">Logout</a></li>
                 </ul>
             </div>

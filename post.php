@@ -9,8 +9,7 @@ if (!isset($_SESSION['user_id'])) {
     exit;
 }
 
-// CSRF token valid test
-if (!isset($_POST['csrf_token']) || $_POST['csrf_token'] !== $_SESSION['csrf_token']) {
+if (!isset($_POST['csrf_token'], $_SESSION['csrf_token']) || !hash_equals($_SESSION['csrf_token'], $_POST['csrf_token'])) {
     echo json_encode(['success' => false, 'message' => 'Invalid CSRF token.']);
     exit;
 }
@@ -24,6 +23,11 @@ if (empty($_POST['content']) || empty($_POST['category_id'])) {
 $content = trim($_POST['content']);
 $category_id = (int)$_POST['category_id'];
 $user_id = $_SESSION['user_id'];
+
+if (mb_strlen($content) > 5000) {
+    echo json_encode(['success' => false, 'message' => 'Post content is too long.']);
+    exit;
+}
 
 //  category_id exists in categories table validationss..
 $stmt = $pdo->prepare("SELECT id FROM categories WHERE id = ?");
@@ -41,20 +45,31 @@ try {
 
     // Handle image uploads
     if (!empty($_FILES['images']['name'][0])) {
-        $allowed_types = ['image/jpeg', 'image/png', 'image/gif'];
-        $upload_dir = 'Uploads/';
+        $allowed_types = [
+            'image/jpeg' => 'jpg',
+            'image/png' => 'png',
+            'image/gif' => 'gif',
+            'image/webp' => 'webp',
+        ];
+        $upload_dir = __DIR__ . '/uploads/';
         if (!is_dir($upload_dir)) {
             mkdir($upload_dir, 0755, true);
         }
 
+        $finfo = new finfo(FILEINFO_MIME_TYPE);
         foreach ($_FILES['images']['name'] as $key => $name) {
             if ($_FILES['images']['error'][$key] === UPLOAD_ERR_OK) {
-                $file_type = $_FILES['images']['type'][$key];
-                if (!in_array($file_type, $allowed_types)) {
+                if ($_FILES['images']['size'][$key] > 5 * 1024 * 1024) {
+                    continue;
+                }
+
+                $file_type = $finfo->file($_FILES['images']['tmp_name'][$key]);
+                if (!isset($allowed_types[$file_type])) {
                     continue; 
                 }
 
-                $file_name = uniqid() . '_' . basename($name);
+                $safe_name = preg_replace('/[^A-Za-z0-9._-]/', '_', pathinfo($name, PATHINFO_FILENAME));
+                $file_name = uniqid('post_', true) . '_' . $safe_name . '.' . $allowed_types[$file_type];
                 $file_path = $upload_dir . $file_name;
 
                 if (move_uploaded_file($_FILES['images']['tmp_name'][$key], $file_path)) {
