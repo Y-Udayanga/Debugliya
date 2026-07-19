@@ -163,6 +163,30 @@ main .container,
 .profile-photo {
     border: 2px solid rgba(32, 104, 212, 0.14);
     background: var(--ui-surface-2);
+    position: relative;
+    display: grid;
+    place-items: center;
+}
+
+.profile-photo:has(img[src$="blank-profile-picture.webp"]) {
+    background:
+        linear-gradient(135deg, rgba(32, 104, 212, 0.18), rgba(15, 154, 154, 0.16)),
+        #eef4f5;
+}
+
+.profile-photo:has(img[src$="blank-profile-picture.webp"])::before {
+    content: "";
+    width: 42%;
+    height: 42%;
+    border-radius: 50%;
+    background: var(--ui-blue);
+    box-shadow: 0 0.6em 0 -0.1em var(--ui-blue);
+}
+
+.profile-photo:has(img[src$="blank-profile-picture.webp"]) img {
+    opacity: 0;
+    position: absolute;
+    inset: 0;
 }
 
 .left .sidebar {
@@ -632,12 +656,34 @@ body.dark-mode .middle .feed .caption p {
     .left,
     main .container .left,
     .right {
-        position: static;
+        position: static !important;
+        top: auto !important;
         width: 100%;
     }
 
+    main .container > .left,
+    .container:has(.left):has(.middle) > .left {
+        order: 1 !important;
+        grid-column: 1 !important;
+        grid-row: auto !important;
+    }
+
+    main .container > .middle,
+    .container:has(.left):has(.middle) > .middle {
+        order: 2 !important;
+        grid-column: 1 !important;
+        grid-row: auto !important;
+    }
+
+    main .container > .right,
+    .container:has(.left):has(.middle) > .right {
+        order: 3 !important;
+        grid-column: 1 !important;
+        grid-row: auto !important;
+    }
+
     .left .profile {
-        display: none;
+        display: none !important;
     }
 
     .left .sidebar {

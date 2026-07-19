@@ -5,3 +5,4 @@ logs
 .env.*
 vendor
 node_modules
+verification-screenshots
