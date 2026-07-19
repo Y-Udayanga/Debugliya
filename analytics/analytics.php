@@ -57,6 +57,7 @@ $activity = $stmt->fetchAll(PDO::FETCH_ASSOC);
     <title>Debuglia - Analytics</title>
     <link rel="stylesheet" href="../style.css">
     <link rel="stylesheet" href="analytics.css">
+    <link rel="stylesheet" href="../ui-polish.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>

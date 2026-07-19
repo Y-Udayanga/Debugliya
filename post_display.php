@@ -54,6 +54,8 @@ $images = $stmt->fetchAll(PDO::FETCH_ASSOC);
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Debuglia - Post</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="ui-polish.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
 </head>
 <body style="

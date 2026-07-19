@@ -48,6 +48,7 @@ $pdo->prepare("UPDATE notifications SET is_read = {$readTrue} WHERE user_id = ? 
     <link rel="stylesheet" href="../style.css">
     <link rel="stylesheet" href="../profile_settings.css">
     <link rel="stylesheet" href="notification.css">
+    <link rel="stylesheet" href="../ui-polish.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
 </head>
 <body>
