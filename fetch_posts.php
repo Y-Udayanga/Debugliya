@@ -1,6 +1,6 @@
 <?php
 session_start();
-require 'db_connect.php';
+require __DIR__ . '/db_connect.php';
 define('JSON_RESPONSE', true);
 
 header('Content-Type: application/json');

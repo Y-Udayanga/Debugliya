@@ -7,7 +7,7 @@ if (isset($_SESSION['user_id'])) {
 }
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    require 'db_connect.php';
+    require __DIR__ . '/db_connect.php';
 
     $username = $_POST['username'];
     $email = $_POST['email'];

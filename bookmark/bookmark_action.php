@@ -1,7 +1,7 @@
 <?php
 ob_start();
 session_start();
-require '../db_connect.php';
+require __DIR__ . '/../db_connect.php';
 
 header('Content-Type: application/json');
 $response = ['success' => false, 'message' => ''];

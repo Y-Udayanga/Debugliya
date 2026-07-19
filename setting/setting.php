@@ -1,6 +1,6 @@
 <?php
 session_start();
-require '../db_connect.php';
+require __DIR__ . '/../db_connect.php';
 
 if (!isset($_SESSION['user_id'])) {
     header('Location: ../login.php');
@@ -77,7 +77,7 @@ $user = $stmt->fetch(PDO::FETCH_ASSOC);
                     <a class="menu-item" href="../trending_topic/trending_topic.php"><i class="bi bi-chat-fill"></i><h3>Trending Topics</h3></a>
                     <a class="menu-item" href="../bookmark/bookmark.php"><i class="bi bi-bookmarks"></i><h3>Bookmarks</h3></a>
                     <a class="menu-item" href="../analytics/analytics.php"><i class="bi bi-clipboard2-data"></i><h3>Analytics</h3></a>
-                    <a class="menu-item active" href="../setting/settings.php"><i class="bi bi-gear"></i><h3>Settings</h3></a>
+                    <a class="menu-item active" href="../setting/setting.php"><i class="bi bi-gear"></i><h3>Settings</h3></a>
                     <a class="menu-item" href="../logout.php"><i class="bi bi-box-arrow-right"></i><h3>Logout</h3></a>
                 </div>
             </div>
@@ -87,7 +87,7 @@ $user = $stmt->fetch(PDO::FETCH_ASSOC);
                     <h2>Settings</h2>
                     <div class="tabs">
                         <button class="tab-btn active" data-tab="account">Account</button>
-                        <Vbutton class="tab-btn" data-tab="privacy">Privacy</button>
+                        <button class="tab-btn" data-tab="privacy">Privacy</button>
                         <button class="tab-btn" data-tab="notifications">Notifications</button>
                     </div>
                     <div class="tab-content" id="account">
@@ -173,7 +173,7 @@ $user = $stmt->fetch(PDO::FETCH_ASSOC);
             <div class="footer-links">
                 <h4>Quick Links</h4>
                 <ul>
-                    <li><a href="settings.php">Settings</a></li>
+                    <li><a href="setting.php">Settings</a></li>
                     <li><a href="../profile/profile.php">Profile</a></li>
                     <li><a href="../analytics/analytics.php">Analytics</a></li>
                     <li><a href="../logout.php">Logout</a></li>

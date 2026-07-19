@@ -1,6 +1,6 @@
 <?php
 session_start();
-require '../db_connect.php';
+require __DIR__ . '/../db_connect.php';
 
 //  CSRF token
 if (!isset($_SESSION['csrf_token'])) {

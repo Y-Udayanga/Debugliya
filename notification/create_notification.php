@@ -1,6 +1,6 @@
 <?php
 session_start();
-require '../db_connect.php';
+require __DIR__ . '/../db_connect.php';
 header('Content-Type: application/json');
 
 if (!isset($_SESSION['user_id'])) {

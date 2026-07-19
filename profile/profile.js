@@ -640,7 +640,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 }
 
                 try {
-                    const response = await fetch('delete_post.php', {
+                    const response = await fetch('../delete_post.php', {
                         method: 'POST',
                         headers: { 'Content-Type': 'application/json', 'X-CSRF-Token': window.csrfToken },
                         body: JSON.stringify({ post_id: postId, csrf_token: window.csrfToken })

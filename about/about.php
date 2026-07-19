@@ -1,6 +1,6 @@
 <?php
 session_start();
-require '../db_connect.php';
+require __DIR__ . '/../db_connect.php';
 
 if (!isset($_SESSION['csrf_token'])) {
     $_SESSION['csrf_token'] = bin2hex(random_bytes(32));

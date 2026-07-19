@@ -1,7 +1,7 @@
 <?php
 session_start();
 define('JSON_RESPONSE', true);
-require '../db_connect.php';
+require __DIR__ . '/../db_connect.php';
 
 header('Content-Type: application/json');
 

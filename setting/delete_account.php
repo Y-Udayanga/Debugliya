@@ -1,7 +1,7 @@
 <?php
 ob_start(); 
 session_start();
-require '../db_connect.php';
+require __DIR__ . '/../db_connect.php';
 
 //remove in production
 ini_set('display_errors', 0);

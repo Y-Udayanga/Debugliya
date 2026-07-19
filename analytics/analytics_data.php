@@ -1,6 +1,6 @@
 <?php
 session_start();
-require 'db_connect.php';
+require __DIR__ . '/../db_connect.php';
 
 header('Content-Type: application/json');
 
@@ -42,10 +42,8 @@ try {
     $stmt->execute([$user_id]);
     $total_comments = $stmt->fetchColumn();
 
-    // Total Followers
-    $stmt = $pdo->prepare("SELECT COUNT(*) FROM followers WHERE followed_id = ?");
-    $stmt->execute([$user_id]);
-    $total_followers = $stmt->fetchColumn();
+    // Follow data is not part of the current schema.
+    $total_followers = 0;
 
     // Posts by Category
     $stmt = $pdo->prepare("

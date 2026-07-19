@@ -1,5 +1,5 @@
 <?php
-require 'db_connect.php';
+require __DIR__ . '/db_connect.php';
 
 function sendResetEmail($email, $reset_link) {
     // In a production environment, use a proper email library like PHPMailer

@@ -1,7 +1,7 @@
 <?php
 ob_start();
 session_start();
-require '../db_connect.php';
+require __DIR__ . '/../db_connect.php';
 
 if (!isset($_SESSION['user_id'])) {
     header('Location: ../login.php');

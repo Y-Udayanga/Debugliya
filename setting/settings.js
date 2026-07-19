@@ -101,9 +101,9 @@ document.addEventListener('DOMContentLoaded', () => {
                 showError('CSRF token is missing. Please reload the page.');
                 return;
             }
-            console.log('Fetching account_delete.php with CSRF token:', window.csrfToken);
+            console.log('Fetching delete_account.php with CSRF token:', window.csrfToken);
             if (confirm('Are you sure you want to delete your account? This action cannot be undone.')) {
-                fetch('account_delete.php', {
+                fetch('delete_account.php', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json'
@@ -124,7 +124,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     if (data.success) {
                         showSuccess('Account deleted successfully.');
                         setTimeout(() => {
-                            window.location.href = '../index.php';
+                            window.location.href = '../login.php';
                         }, 2000);
                     } else {
                         showError(data.message || 'Failed to delete account.');

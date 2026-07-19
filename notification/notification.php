@@ -1,6 +1,6 @@
 <?php
 session_start();
-require '../db_connect.php';
+require __DIR__ . '/../db_connect.php';
 
 if (!isset($_SESSION['user_id'])) {
     header('Location: ../login.php');
@@ -27,12 +27,15 @@ $stmt = $pdo->prepare("
 $stmt->execute([$user_id]);
 $notifications = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-$stmt = $pdo->prepare("SELECT COUNT(*) FROM notifications WHERE user_id = ? AND is_read = 0");
+$readTrue = $dbDriver === 'pgsql' ? 'true' : '1';
+$readFalse = $dbDriver === 'pgsql' ? 'false' : '0';
+
+$stmt = $pdo->prepare("SELECT COUNT(*) FROM notifications WHERE user_id = ? AND is_read = {$readFalse}");
 $stmt->execute([$user_id]);
 $unread_count = $stmt->fetchColumn();
 
 // Mark notifications as read
-$pdo->prepare("UPDATE notifications SET is_read = 1 WHERE user_id = ? AND is_read = 0")->execute([$user_id]);
+$pdo->prepare("UPDATE notifications SET is_read = {$readTrue} WHERE user_id = ? AND is_read = {$readFalse}")->execute([$user_id]);
 ?>
 
 <!DOCTYPE html>

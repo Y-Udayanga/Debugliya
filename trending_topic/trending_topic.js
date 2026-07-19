@@ -115,12 +115,13 @@ async function fetchPosts(categoryId, link) {
             btn.addEventListener('click', async () => {
                 const postId = btn.dataset.postId;
                 try {
-                    const response = await fetch('../like_post.php', {
+                    const action = btn.classList.contains('liked') ? 'unlike' : 'like';
+                    const response = await fetch('../like.php', {
                         method: 'POST',
                         headers: {
-                            'Content-Type': 'application/x-www-form-urlencoded',
+                            'Content-Type': 'application/json',
                         },
-                        body: `post_id=${postId}&csrf_token=${window.csrfToken}`
+                        body: JSON.stringify({ post_id: postId, action, csrf_token: window.csrfToken })
                     });
                     const result = await response.json();
                     if (result.success) {
@@ -160,12 +161,12 @@ async function fetchPosts(categoryId, link) {
                 if (!content) return;
 
                 try {
-                    const response = await fetch('../add_comment.php', {
+                    const response = await fetch('../comment.php', {
                         method: 'POST',
                         headers: {
-                            'Content-Type': 'application/x-www-form-urlencoded',
+                            'Content-Type': 'application/json',
                         },
-                        body: `post_id=${postId}&content=${encodeURIComponent(content)}&csrf_token=${window.csrfToken}`
+                        body: JSON.stringify({ post_id: postId, content, csrf_token: window.csrfToken })
                     });
                     const result = await response.json();
                     if (result.success) {
@@ -191,9 +192,9 @@ async function fetchPosts(categoryId, link) {
                     const response = await fetch('../delete_post.php', {
                         method: 'POST',
                         headers: {
-                            'Content-Type': 'application/x-www-form-urlencoded',
+                            'Content-Type': 'application/json',
                         },
-                        body: `post_id=${postId}&csrf_token=${window.csrfToken}`
+                        body: JSON.stringify({ post_id: postId, csrf_token: window.csrfToken })
                     });
                     const result = await response.json();
                     if (result.success) {
@@ -224,7 +225,7 @@ async function fetchPosts(categoryId, link) {
     // Fetch comments for a post
     async function fetchComments(postId) {
         try {
-            const response = await fetch(`../get_comments.php?post_id=${postId}`);
+            const response = await fetch(`../comments.php?post_id=${postId}`);
             const result = await response.json();
             const commentsList = document.querySelector(`.comments-section[data-post-id="${postId}"] .comments-list`);
             if (result.success) {
