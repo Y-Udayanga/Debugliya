@@ -1,6 +1,7 @@
 <?php
 ob_start();
-session_start();
+require_once __DIR__ . '/../session_bootstrap.php';
+app_session_start();
 require __DIR__ . '/../db_connect.php';
 
 if (!isset($_SESSION['user_id'])) {

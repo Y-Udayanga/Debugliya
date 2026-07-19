@@ -1,5 +1,6 @@
 <?php
-session_start();
+require_once __DIR__ . '/session_bootstrap.php';
+app_session_start();
 
 if (isset($_SESSION['user_id'])) {
     header('Location: index.php');
@@ -17,9 +18,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $user = $stmt->fetch();
 
     if ($user && password_verify($password, $user['password'])) {
-        $_SESSION['user_id'] = $user['id'];
-        $_SESSION['username'] = $user['username'];
-        $_SESSION['profile_photo'] = $user['profile_photo'];
+        app_persist_login($user);
         header('Location: index.php');
         exit;
     } else {

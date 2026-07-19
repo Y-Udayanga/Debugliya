@@ -15,7 +15,8 @@ ini_set('log_errors', 1);
 ini_set('error_log', __DIR__ . '/../logs/php_errors.log');
 
 // Start session
-session_start();
+require_once __DIR__ . '/../session_bootstrap.php';
+app_session_start();
 
 // Set JSON header
 header('Content-Type: application/json');

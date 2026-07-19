@@ -1,5 +1,6 @@
 <?php
-session_start();
+require_once __DIR__ . '/session_bootstrap.php';
+app_session_start();
 
 // Check if user is logged in
 if (!isset($_SESSION['user_id'])) {
