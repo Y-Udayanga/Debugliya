@@ -19,16 +19,18 @@ $user = [
 
 // Fetch trending posts likes/comments in the last 7 days)
 $stmt = $pdo->prepare("
-    SELECT p.id, p.user_id, p.content, p.created_at, p.category_id, c.name AS category,
-           u.username, u.profile_photo,
-           (SELECT COUNT(*) FROM likes l WHERE l.post_id = p.id) AS like_count,
-           (SELECT COUNT(*) FROM comments c WHERE c.post_id = p.id) AS comment_count,
-           (SELECT COUNT(*) FROM likes l WHERE l.post_id = p.id AND l.user_id = ?) AS user_liked,
-           (SELECT COUNT(*) FROM bookmarks b WHERE b.post_id = p.id AND b.user_id = ?) AS is_bookmarked
-    FROM posts p
-    JOIN users u ON p.user_id = u.id
-    LEFT JOIN categories c ON p.category_id = c.id
-    WHERE p.created_at >= " . ($dbDriver === 'pgsql' ? "NOW() - INTERVAL '7 days'" : "NOW() - INTERVAL 7 DAY") . "
+    SELECT * FROM (
+        SELECT p.id, p.user_id, p.content, p.created_at, p.category_id, c.name AS category,
+               u.username, u.profile_photo,
+               (SELECT COUNT(*) FROM likes l WHERE l.post_id = p.id) AS like_count,
+               (SELECT COUNT(*) FROM comments c WHERE c.post_id = p.id) AS comment_count,
+               (SELECT COUNT(*) FROM likes l WHERE l.post_id = p.id AND l.user_id = ?) AS user_liked,
+               (SELECT COUNT(*) FROM bookmarks b WHERE b.post_id = p.id AND b.user_id = ?) AS is_bookmarked
+        FROM posts p
+        JOIN users u ON p.user_id = u.id
+        LEFT JOIN categories c ON p.category_id = c.id
+        WHERE p.created_at >= " . ($dbDriver === 'pgsql' ? "NOW() - INTERVAL '7 days'" : "NOW() - INTERVAL 7 DAY") . "
+    ) AS sub
     ORDER BY (like_count + comment_count) DESC
     LIMIT 10
 ");
