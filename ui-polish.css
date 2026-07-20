@@ -1,18 +1,18 @@
 :root {
-    --ui-bg: #f5f7f8;
+    --ui-bg: #f0f4f8;
     --ui-surface: #ffffff;
-    --ui-surface-2: #eef4f5;
-    --ui-border: rgba(25, 35, 45, 0.09);
+    --ui-surface-2: #e8eef2;
+    --ui-border: rgba(25, 35, 45, 0.05);
     --ui-text: #1d2730;
     --ui-muted: #667684;
     --ui-blue: #2068d4;
     --ui-teal: #0f9a9a;
     --ui-coral: #ef6a4a;
     --ui-amber: #c58a17;
-    --ui-shadow: 0 16px 36px rgba(25, 35, 45, 0.08);
-    --ui-shadow-hover: 0 22px 46px rgba(25, 35, 45, 0.13);
-    --ui-radius: 8px;
-    --ui-radius-sm: 6px;
+    --ui-shadow: 0 8px 30px rgba(0, 0, 0, 0.04);
+    --ui-shadow-hover: 0 14px 40px rgba(0, 0, 0, 0.08);
+    --ui-radius: 16px;
+    --ui-radius-sm: 10px;
     --sticky-top-left: 6rem;
     --sticky-top-right: 6rem;
 }
@@ -23,9 +23,9 @@ html {
 
 body {
     background:
-        radial-gradient(circle at 12% 0%, rgba(32, 104, 212, 0.10), transparent 24rem),
-        radial-gradient(circle at 88% 10%, rgba(239, 106, 74, 0.10), transparent 22rem),
-        linear-gradient(180deg, #fbfcfd 0%, var(--ui-bg) 100%);
+        radial-gradient(circle at 15% 5%, rgba(32, 104, 212, 0.08), transparent 30rem),
+        radial-gradient(circle at 85% 15%, rgba(239, 106, 74, 0.08), transparent 28rem),
+        linear-gradient(180deg, #f8fafc 0%, var(--ui-bg) 100%);
     color: var(--ui-text);
 }
 
@@ -156,6 +156,7 @@ main .container,
 .trending-topic,
 .trending-topics,
 .suggested-communities,
+.communities,
 .analytics-header,
 .analytics-cards .card,
 .analytics-chart,
@@ -166,20 +167,22 @@ main .container,
 .feed,
 .no-bookmarks,
 .search-bar {
-    border: 1px solid var(--ui-border);
-    border-radius: var(--ui-radius);
-    box-shadow: var(--ui-shadow);
-    background: rgba(255, 255, 255, 0.94);
+    border: 1px solid rgba(255, 255, 255, 0.4);
+    border-radius: 20px;
+    box-shadow: 0 8px 30px rgba(0,0,0,0.04);
+    background: linear-gradient(145deg, rgba(255,255,255,1) 0%, rgba(248,250,252,0.95) 100%);
 }
 
 .left .profile {
-    padding: 0.9rem;
+    padding: 1rem;
     color: var(--ui-text);
-    transition: transform 180ms ease, box-shadow 180ms ease;
+    background: linear-gradient(145deg, rgba(255,255,255,1) 0%, rgba(248,250,252,0.9) 100%);
+    backdrop-filter: blur(10px);
+    transition: transform 250ms cubic-bezier(0.4, 0, 0.2, 1), box-shadow 250ms cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .left .profile:hover {
-    transform: translateY(-2px);
+    transform: translateY(-3px);
     box-shadow: var(--ui-shadow-hover);
 }
 
@@ -189,6 +192,11 @@ main .container,
     position: relative;
     display: grid;
     place-items: center;
+    transition: box-shadow 0.3s ease;
+}
+
+.left .profile:hover .profile-photo {
+    box-shadow: 0 0 0 4px rgba(32, 104, 212, 0.1);
 }
 
 .profile-photo:has(img[src$="blank-profile-picture.webp"]) {
@@ -213,7 +221,7 @@ main .container,
 }
 
 .left .sidebar {
-    padding: 0.45rem;
+    padding: 0.6rem 0.45rem;
     max-height: calc(100vh - 7rem);
 }
 
@@ -222,11 +230,13 @@ main .container,
     min-height: 48px;
     height: auto;
     gap: 0.75rem;
-    padding: 0.72rem 0.8rem;
-    margin: 0.15rem 0;
+    padding: 0.75rem 1rem;
+    margin: 0.25rem 0;
     border-radius: var(--ui-radius-sm);
     color: var(--ui-muted);
     overflow: hidden;
+    transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+    background: transparent;
 }
 
 .left .sidebar .menu-item i,
@@ -235,28 +245,37 @@ main .container,
     min-width: 24px;
     margin-left: 0;
     text-align: center;
-    font-size: 1.15rem;
+    font-size: 1.2rem;
+    transition: transform 0.25s ease;
 }
 
 .left .sidebar .menu-item h3,
 .menu-item h3 {
     margin-left: 0;
-    font-size: 0.92rem;
+    font-size: 0.95rem;
     line-height: 1.25;
     white-space: normal;
+    font-weight: 500;
 }
 
 .left .sidebar .menu-item:hover,
 .menu-item:hover {
     background: rgba(32, 104, 212, 0.08);
     color: var(--ui-blue);
-    transform: translateX(2px);
+    transform: translateX(4px);
+}
+
+.left .sidebar .menu-item:hover i,
+.menu-item:hover i {
+    transform: scale(1.1);
 }
 
 .left .sidebar .active,
 .menu-item.active {
-    background: linear-gradient(90deg, rgba(32, 104, 212, 0.14), rgba(15, 154, 154, 0.09));
+    background: linear-gradient(90deg, rgba(32, 104, 212, 0.12), transparent);
     color: var(--ui-blue);
+    border-left: 3px solid var(--ui-blue);
+    padding-left: calc(1rem - 3px);
 }
 
 .left .sidebar .active::before,
@@ -291,10 +310,13 @@ input[type="search"],
 textarea,
 select {
     border: 1px solid var(--ui-border);
-    border-radius: var(--ui-radius-sm);
-    background: #f8fafb;
+    border-radius: 20px;
+    background: rgba(243, 246, 248, 0.8);
+    box-shadow: inset 0 2px 4px rgba(0,0,0,0.02);
     color: var(--ui-text);
     min-height: 42px;
+    padding: 0.5rem 1.25rem;
+    transition: all 0.3s ease;
 }
 
 .middle .create-post input:focus,
@@ -305,8 +327,9 @@ select {
 input:focus,
 textarea:focus,
 select:focus {
+    background: #ffffff;
     border-color: rgba(32, 104, 212, 0.45);
-    box-shadow: 0 0 0 4px rgba(32, 104, 212, 0.10);
+    box-shadow: inset 0 2px 4px rgba(0,0,0,0.02), 0 0 0 4px rgba(32, 104, 212, 0.10);
 }
 
 .btn,
@@ -314,21 +337,23 @@ button,
 .btn-primary,
 .btn-secondary,
 .suggested-communities .btn-join {
-    border-radius: var(--ui-radius-sm);
+    border-radius: 999px;
     min-height: 42px;
     display: inline-flex;
     align-items: center;
     justify-content: center;
     gap: 0.45rem;
     line-height: 1;
-    transition: transform 180ms ease, box-shadow 180ms ease, background-color 180ms ease;
+    font-weight: 600;
+    padding: 0.6rem 1.5rem;
+    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.3s cubic-bezier(0.4, 0, 0.2, 1), background-color 0.3s ease;
 }
 
 .btn-primary,
 .suggested-communities .btn-join {
-    background: linear-gradient(135deg, var(--ui-blue), var(--ui-teal));
+    background: linear-gradient(135deg, var(--ui-blue), #4f46e5);
     color: #ffffff;
-    box-shadow: 0 10px 20px rgba(32, 104, 212, 0.18);
+    box-shadow: 0 6px 15px rgba(32, 104, 212, 0.25);
 }
 
 .btn:hover,
@@ -337,8 +362,7 @@ button:hover,
 .btn-secondary:hover,
 .suggested-communities .btn-join:hover {
     transform: translateY(-2px);
-    box-shadow: 0 14px 28px rgba(25, 35, 45, 0.14);
-    opacity: 1;
+    box-shadow: 0 10px 25px rgba(32, 104, 212, 0.35);
 }
 
 .middle .feeds {
@@ -347,15 +371,19 @@ button:hover,
 
 .middle .feeds .feed,
 .feed {
-    padding: 1rem;
-    margin: 1rem 0;
+    padding: 1.25rem;
+    margin: 1.25rem 0;
     animation: uiRise 420ms ease both;
+    background: #ffffff;
+    border-radius: 20px;
+    box-shadow: 0 8px 30px rgba(0,0,0,0.04);
+    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .middle .feeds .feed:hover,
 .feed:hover {
-    transform: translateY(-3px);
-    box-shadow: var(--ui-shadow-hover);
+    transform: translateY(-4px);
+    box-shadow: 0 16px 40px rgba(0,0,0,0.08);
 }
 
 .middle .feed .head,
@@ -406,13 +434,13 @@ button:hover,
 .like-btn,
 .comment-btn,
 .delete-post-btn {
-    min-width: 34px;
-    min-height: 34px;
+    min-width: 38px;
+    min-height: 38px;
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    border-radius: var(--ui-radius-sm);
-    transition: transform 160ms ease, background-color 160ms ease, color 160ms ease;
+    border-radius: 50%;
+    transition: transform 0.25s cubic-bezier(0.4, 0, 0.2, 1), background-color 0.25s ease, color 0.25s ease, box-shadow 0.25s ease;
 }
 
 .interaction-buttons span:hover,
@@ -421,13 +449,17 @@ button:hover,
 .like-btn:hover,
 .comment-btn:hover,
 .delete-post-btn:hover {
-    background: var(--ui-surface-2);
-    transform: translateY(-1px);
+    background: rgba(32, 104, 212, 0.08);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 10px rgba(0,0,0,0.05);
 }
 
-.like-btn.liked,
+.like-btn.liked {
+    color: #f43f5e; /* vibrant rose/red */
+}
+
 .bookmark-btn.bookmarked i {
-    color: var(--ui-coral);
+    color: var(--ui-blue);
 }
 
 .right {
