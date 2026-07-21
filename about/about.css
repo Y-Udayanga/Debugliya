@@ -9,8 +9,9 @@
 
 .hero {
     position: relative;
-    height: 80vh;
-    background: transparent;
+    min-height: 45vh;
+    padding: 4.5rem 1.5rem 3.5rem;
+    background: linear-gradient(135deg, #09090b 0%, #18181b 100%);
     color: var(--color-white);
     text-align: center;
     display: flex;
@@ -26,7 +27,8 @@
     left: 0;
     width: 100%;
     height: 100%;
-    background: linear-gradient(135deg, rgba(15, 23, 42, 0.95), rgba(32, 104, 212, 0.75));
+    background: radial-gradient(circle at 50% 30%, rgba(56, 189, 248, 0.15) 0%, transparent 60%),
+                radial-gradient(circle at 80% 80%, rgba(168, 85, 247, 0.15) 0%, transparent 50%);
     z-index: 0;
 }
 
@@ -44,41 +46,45 @@ canvas#particles {
     position: relative;
     z-index: 1;
     animation: fadeIn 1.2s ease-in;
+    max-width: 800px;
+    margin: 0 auto;
 }
 
 .hero-content h1 {
     font-size: 3.5rem;
-    font-weight: 700;
-    margin-bottom: 1.8rem;
-    text-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+    font-weight: 800;
+    margin-bottom: 1rem;
+    background: linear-gradient(to right, #38bdf8, #a855f7, #38bdf8);
+    background-size: 200% auto;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    letter-spacing: -1.5px;
+    animation: gradientShift 6s linear infinite;
 }
 
 .typewriter {
-    font-size: 1.6rem;
-    margin-bottom: 2.5rem;
+    font-size: 1.25rem;
+    margin-bottom: 1.8rem;
     overflow: hidden;
     white-space: nowrap;
-    border-right: 0.15em solid var(--color-primary);
+    color: #a1a1aa;
+    border-right: 0.15em solid #38bdf8;
     animation: typing 3.5s steps(40, end), blink-caret 0.75s step-end infinite;
 }
 
 /* Global button styles are handled by ui-polish.css */
 
 .scroll-down {
-    position: absolute;
-    bottom: 2.5rem;
-    color: var(--color-white);
-    font-size: 2.2rem;
-    animation: bounce 2s infinite;
+    display: none;
 }
 
 .sections {
-    padding: 3rem 1.5rem;
+    padding: 2rem 1.5rem;
     background: var(--ui-bg);
 }
 
 .mission, .team, .community, .journey, .cta {
-    padding: 6rem 1.5rem;
+    padding: 3rem 1.5rem;
     background: transparent;
 }
 

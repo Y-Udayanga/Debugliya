@@ -77,7 +77,6 @@ $timeline_images = [
                 <h1>About Debuglia</h1>
                 <p class="typewriter">Empowering developers to connect, learn, and innovate.</p>
                 <a href="../index.php" class="btn btn-primary">Join Our Community</a>
-                <a href="#sections" class="scroll-down"><i class="bi bi-chevron-down"></i></a>
             </div>
         </section>
 
