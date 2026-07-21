@@ -361,10 +361,13 @@ h2 {
 
 /* Join CTA Section */
 .join-cta-card {
+    width: 100%;
+    max-width: 1000px;
+    margin: 0 auto;
     background: linear-gradient(135deg, #09090b 0%, #18181b 100%);
     border: 1px solid rgba(255, 255, 255, 0.15);
     border-radius: 28px;
-    padding: 4rem 2.5rem;
+    padding: 3rem 2rem;
     text-align: center;
     box-shadow: 0 20px 50px rgba(0, 0, 0, 0.3);
     position: relative;
