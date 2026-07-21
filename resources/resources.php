@@ -93,7 +93,6 @@ $resources = [
                 <h1>Developer Resources</h1>
                 <p class="typewriter">Discover tools, tutorials, and APIs to elevate your coding journey.</p>
                 <a href="#resources" class="btn btn-primary">Explore Resources</a>
-                <a href="#resources" class="scroll-down"><i class="bi bi-chevron-down"></i></a>
             </div>
         </section>
 
