@@ -298,43 +298,55 @@ h2 {
 
 .resource-grid, .thread-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-    gap: 2.5rem;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: 3rem;
 }
 
 .resource-card, .thread-card {
-    background: var(--color-white);
-    border-radius: 16px;
+    background: rgba(255, 255, 255, 0.8);
+    backdrop-filter: blur(20px);
+    border: 1px solid rgba(255, 255, 255, 0.6);
+    border-radius: 24px;
     padding: 2.5rem;
-    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.05);
     text-align: center;
-    transition: transform 0.3s, box-shadow 0.3s;
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
     animation: slideUp 0.8s ease-out;
 }
 
 .resource-card:hover, .thread-card:hover {
     transform: translateY(-12px);
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+    box-shadow: 0 20px 50px rgba(56, 189, 248, 0.15);
+    border-color: rgba(56, 189, 248, 0.3);
 }
 
 .resource-card img, .thread-card img {
     width: 100%;
-    height: 150px;
-    object-fit: cover;
-    border-radius: 12px;
-    margin-bottom: 1.5rem;
+    height: 180px;
+    object-fit: contain;
+    border-radius: 16px;
+    margin-bottom: 2rem;
+    background: rgba(0, 0, 0, 0.02);
+    padding: 1.5rem;
+    transition: transform 0.3s ease;
+}
+
+.resource-card:hover img, .thread-card:hover img {
+    transform: scale(1.05);
 }
 
 .resource-card h3, .thread-card h3 {
-    font-size: 1.8rem;
+    font-size: 1.6rem;
+    font-weight: 700;
     color: var(--color-dark);
-    margin-bottom: 4rem;
-
+    margin-bottom: 1rem;
 }
+
 .resource-card p, .thread-card p {
-    font-size: 1.2rem;
+    font-size: 1.1rem;
     color: var(--color-gray);
-    margin-bottom: 2rem;
+    margin-bottom: 2.5rem;
+    line-height: 1.6;
 }
 
 .read-more {
