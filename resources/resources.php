@@ -178,12 +178,17 @@ $resources = [
                         <button class="filter-btn" data-filter="Tools"><i class="bi bi-tools"></i> Tools</button>
                         <button class="filter-btn" data-filter="Tutorials"><i class="bi bi-journal-code"></i> Tutorials</button>
                         <button class="filter-btn" data-filter="APIs"><i class="bi bi-code-slash"></i> APIs</button>
+                        <button class="filter-btn" data-filter="bookmarked"><i class="bi bi-star-fill"></i> Saved</button>
                     </div>
+                    <button class="btn-suggest" id="open-suggest-modal"><i class="bi bi-plus-circle-fill"></i> Suggest Resource</button>
                 </div>
 
                 <div class="resource-grid">
                     <?php foreach ($resources as $resource): ?>
                         <div class="resource-card" data-tilt data-category="<?php echo htmlspecialchars($resource['category']); ?>" data-name="<?php echo strtolower(htmlspecialchars($resource['name'])); ?>" data-desc="<?php echo strtolower(htmlspecialchars($resource['description'])); ?>">
+                            <button class="bookmark-btn" aria-label="Bookmark resource" data-id="<?php echo htmlspecialchars($resource['name']); ?>">
+                                <i class="bi bi-star"></i>
+                            </button>
                             <div class="resource-badge"><?php echo htmlspecialchars($resource['badge']); ?></div>
                             <?php if (isset($resource['image'])): ?>
                                 <img src="<?php echo htmlspecialchars($resource['image']); ?>" alt="<?php echo htmlspecialchars($resource['name']); ?>">
@@ -324,7 +329,38 @@ $resources = [
         <div class="footer-bottom">
             <p>© 2025 Debuglia. All rights reserved.</p>
         </div>
-    </footer>
+    <!-- Suggest Resource Modal -->
+    <div class="modal-overlay" id="suggest-modal">
+        <div class="modal-card">
+            <button class="modal-close" id="close-suggest-modal" aria-label="Close modal">&times;</button>
+            <h3><i class="bi bi-lightbulb-fill"></i> Suggest a Developer Resource</h3>
+            <p>Know a great tool, tutorial, or API? Share it with the Debuglia community!</p>
+            
+            <form id="suggest-resource-form">
+                <div class="form-group">
+                    <label for="suggest-title">Resource Name</label>
+                    <input type="text" id="suggest-title" placeholder="e.g. Postman, CSS Tricks" required>
+                </div>
+                <div class="form-group">
+                    <label for="suggest-category">Category</label>
+                    <select id="suggest-category" required>
+                        <option value="Tools">Developer Tools</option>
+                        <option value="Tutorials">Tutorials & Courses</option>
+                        <option value="APIs">Public APIs</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="suggest-link">Resource URL</label>
+                    <input type="url" id="suggest-link" placeholder="https://example.com" required>
+                </div>
+                <div class="form-group">
+                    <label for="suggest-desc">Brief Description</label>
+                    <textarea id="suggest-desc" rows="3" placeholder="Why is this resource useful for developers?" required></textarea>
+                </div>
+                <button type="submit" class="btn btn-primary btn-block">Submit Suggestion</button>
+            </form>
+        </div>
+    </div>
 
     <script src="resources.js"></script>
 </body>
