@@ -84,11 +84,34 @@ $timeline_images = [
 
         <section class="mission" id="mission">
             <div class="container">
-                <h2>Our Mission</h2>
+                <h2>Our Mission & Core Pillars</h2>
                 <div class="mission-content">
-                    <p class="mission-text">At Debuglia, we’re passionate about fostering a global community where developers can share knowledge, solve problems, and build the future of technology together.</p>
+                    <p class="mission-text">At Debuglia, we're passionate about fostering a global community where developers can share knowledge, solve problems, and build the future of technology together.</p>
                     <div class="mission-image">
                         <img src="<?php echo htmlspecialchars($mission_image); ?>" alt="Community Collaboration">
+                    </div>
+                </div>
+
+                <div class="values-grid">
+                    <div class="value-card" data-tilt>
+                        <div class="value-icon icon-blue"><i class="bi bi-globe2"></i></div>
+                        <h3>Global Knowledge Sharing</h3>
+                        <p>Connecting developers across borders to share solutions and learn from real-world debugging scenarios.</p>
+                    </div>
+                    <div class="value-card" data-tilt>
+                        <div class="value-icon icon-purple"><i class="bi bi-lightning-charge-fill"></i></div>
+                        <h3>Open Source Innovation</h3>
+                        <p>Empowering creators with curated developer tools, tutorials, cheat sheets, and free API references.</p>
+                    </div>
+                    <div class="value-card" data-tilt>
+                        <div class="value-icon icon-teal"><i class="bi bi-code-square"></i></div>
+                        <h3>Peer Code Reviews</h3>
+                        <p>Building a constructive space for code feedback, technical discussions, and collaborative troubleshooting.</p>
+                    </div>
+                    <div class="value-card" data-tilt>
+                        <div class="value-icon icon-amber"><i class="bi bi-rocket-takeoff-fill"></i></div>
+                        <h3>Inclusive Dev Growth</h3>
+                        <p>Fostering an encouraging platform accessible to self-taught coders, students, and senior architects alike.</p>
                     </div>
                 </div>
             </div>
