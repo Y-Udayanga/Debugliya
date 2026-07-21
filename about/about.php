@@ -170,27 +170,49 @@ $timeline_images = [
 
         <section class="journey" id="journey">
             <div class="container">
-                <h2>Our Journey</h2>
+                <h2>Our Evolution & Milestones</h2>
                 <div class="timeline-container">
+                    <div class="timeline-line"></div>
+
                     <div class="timeline-item" data-animate>
-                        <div class="timeline-content">
-                            <h3>2023</h3>
-                            <p>Debuglia was founded to connect developers worldwide.</p>
-                            <img src="<?php echo htmlspecialchars($timeline_images['2023']); ?>" alt="Founded">
+                        <div class="timeline-node"><i class="bi bi-lightbulb-fill"></i></div>
+                        <div class="timeline-content" data-tilt>
+                            <div class="timeline-header">
+                                <span class="year-badge">2023</span>
+                                <h3>Platform Foundations</h3>
+                            </div>
+                            <p>Debuglia was founded to connect developers worldwide, solving code bugs collaboratively.</p>
+                            <div class="timeline-img-wrapper">
+                                <img src="<?php echo htmlspecialchars($timeline_images['2023']); ?>" alt="Founded">
+                            </div>
                         </div>
                     </div>
+
                     <div class="timeline-item" data-animate>
-                        <div class="timeline-content">
-                            <h3>2024</h3>
-                            <p>Launched the forum, reaching 1,000 users.</p>
-                            <img src="<?php echo htmlspecialchars($timeline_images['2024']); ?>" alt="Forum Launch">
+                        <div class="timeline-node"><i class="bi bi-chat-quote-fill"></i></div>
+                        <div class="timeline-content" data-tilt>
+                            <div class="timeline-header">
+                                <span class="year-badge">2024</span>
+                                <h3>Community & Forum Launch</h3>
+                            </div>
+                            <p>Launched the community forum, reaching over 1,000 active software engineers.</p>
+                            <div class="timeline-img-wrapper">
+                                <img src="<?php echo htmlspecialchars($timeline_images['2024']); ?>" alt="Forum Launch">
+                            </div>
                         </div>
                     </div>
+
                     <div class="timeline-item" data-animate>
-                        <div class="timeline-content">
-                            <h3>2025</h3>
-                            <p>Expanded with new features and communities.</p>
-                            <img src="<?php echo htmlspecialchars($timeline_images['2025']); ?>" alt="Expansion">
+                        <div class="timeline-node"><i class="bi bi-stars"></i></div>
+                        <div class="timeline-content" data-tilt>
+                            <div class="timeline-header">
+                                <span class="year-badge">2025</span>
+                                <h3>Developer Ecosystem Expansion</h3>
+                            </div>
+                            <p>Expanded with Developer Resources, Cheatsheet Hubs, and global community channels.</p>
+                            <div class="timeline-img-wrapper">
+                                <img src="<?php echo htmlspecialchars($timeline_images['2025']); ?>" alt="Expansion">
+                            </div>
                         </div>
                     </div>
                 </div>
