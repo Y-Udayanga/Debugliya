@@ -449,14 +449,14 @@ h2 {
     position: relative;
     max-width: 850px;
     margin: 0 auto;
-    padding-left: 2rem;
+    padding-left: 0;
 }
 
 .timeline-line {
     position: absolute;
     top: 0;
     bottom: 0;
-    left: 2.8rem;
+    left: 1.2rem;
     width: 3px;
     background: linear-gradient(180deg, #38bdf8, #a855f7, #38bdf8);
     border-radius: 3px;
@@ -464,7 +464,7 @@ h2 {
 
 .timeline-item {
     position: relative;
-    padding: 1.8rem 0 1.8rem 3.5rem;
+    padding: 1.2rem 0 1.2rem 3rem;
     opacity: 0;
     transform: translateY(40px);
     transition: opacity 0.6s ease, transform 0.6s ease;
@@ -477,12 +477,13 @@ h2 {
 
 .timeline-node {
     position: absolute;
-    left: 1.5rem;
-    top: 2rem;
-    width: 44px;
-    height: 44px;
+    left: 0;
+    top: 1.6rem;
+    width: 40px;
+    height: 40px;
     border-radius: 50%;
     background: #09090b;
+    border: 2px solid #38bdf8;
     border: 2px solid #38bdf8;
     color: #38bdf8;
     display: flex;
