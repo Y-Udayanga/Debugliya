@@ -116,31 +116,40 @@ h2 {
 
 .mission-content {
     display: flex;
-    flex-direction: column; 
+    flex-direction: row; 
     align-items: center; 
-    gap: 30px; 
-    background: linear-gradient(145deg, rgba(255,255,255,1) 0%, rgba(248,250,252,0.95) 100%);
-    backdrop-filter: blur(10px);
-    border: 1px solid rgba(255, 255, 255, 0.4);
+    justify-content: space-between;
+    gap: 2.5rem; 
+    background: rgba(255, 255, 255, 0.85);
+    backdrop-filter: blur(15px);
+    border: 1px solid rgba(255, 255, 255, 0.6);
     border-radius: 24px;
-    padding: 4rem;
-    box-shadow: 0 8px 30px rgba(0,0,0,0.04);
+    padding: 2.2rem;
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.04);
 }
 
 .mission-text {
     flex: 1;
-    font-size: 1.4rem;
+    font-size: 1.2rem;
     color: var(--color-gray);
-    line-height: 1.8;
-    text-align: center; 
-    width: 100%; 
+    line-height: 1.7;
+    text-align: left; 
     font-weight: 400;
 }
 
+.mission-image {
+    flex: 1;
+    max-width: 480px;
+    width: 100%;
+}
+
 .mission-image img {
-    max-width: 100%; 
-    border-radius: 20px;
-    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+    width: 100%; 
+    max-height: 260px;
+    object-fit: cover;
+    object-position: center;
+    border-radius: 18px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
     transition: transform 0.4s ease;
 }
 
@@ -151,9 +160,10 @@ h2 {
 /* Core Values Grid */
 .values-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-    gap: 2rem;
-    margin-top: 3rem;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 1.5rem;
+    margin-top: 2rem;
+    width: 100%;
 }
 
 .value-card {
