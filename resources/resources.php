@@ -126,6 +126,43 @@ $resources = [
             </div>
         </section>
 
+        <!-- Glassmorphic Quick Stats Banner -->
+        <section class="stats-banner">
+            <div class="stats-container">
+                <div class="stat-item">
+                    <div class="stat-icon"><i class="bi bi-tools"></i></div>
+                    <div class="stat-info">
+                        <span class="stat-number">50+</span>
+                        <span class="stat-label">Curated Tools</span>
+                    </div>
+                </div>
+                <div class="stat-divider"></div>
+                <div class="stat-item">
+                    <div class="stat-icon"><i class="bi bi-book-half"></i></div>
+                    <div class="stat-info">
+                        <span class="stat-number">100%</span>
+                        <span class="stat-label">Free Learning</span>
+                    </div>
+                </div>
+                <div class="stat-divider"></div>
+                <div class="stat-item">
+                    <div class="stat-icon"><i class="bi bi-lightning-charge-fill"></i></div>
+                    <div class="stat-info">
+                        <span class="stat-number">Instant</span>
+                        <span class="stat-label">API References</span>
+                    </div>
+                </div>
+                <div class="stat-divider"></div>
+                <div class="stat-item">
+                    <div class="stat-icon"><i class="bi bi-people-fill"></i></div>
+                    <div class="stat-info">
+                        <span class="stat-number">Active</span>
+                        <span class="stat-label">Dev Community</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
         <section class="resources" id="resources">
             <div class="container">
                 <h2>Curated Resources</h2>
