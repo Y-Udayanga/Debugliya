@@ -21,22 +21,52 @@ $posts = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
 $resources = [
     [
-        'name' => 'Tools',
+        'name' => 'VS Code & Dev Tools',
+        'category' => 'Tools',
+        'badge' => 'Essential',
         'description' => 'Essential developer tools like VS Code, Git, and Docker.',
         'image' => 'vs code.png',
         'link' => 'https://code.visualstudio.com/'
     ],
     [
-        'name' => 'Tutorials',
-        'description' => 'Learn coding with free tutorials from freeCodeCamp and more.',
+        'name' => 'freeCodeCamp',
+        'category' => 'Tutorials',
+        'badge' => 'Free',
+        'description' => 'Learn coding with free interactive tutorials and certifications.',
         'image' => 'tutorials.jpg',
         'link' => 'https://www.freecodecamp.org/'
     ],
     [
-        'name' => 'APIs',
-        'description' => 'Explore public APIs for your projects.',
+        'name' => 'GitHub REST & GraphQL API',
+        'category' => 'APIs',
+        'badge' => 'Popular',
+        'description' => 'Explore GitHub public APIs and integration tools for software devs.',
         'image' => 'api.webp',
         'link' => 'https://api.github.com/'
+    ],
+    [
+        'name' => 'DevDocs Documentation',
+        'category' => 'Tools',
+        'badge' => 'Docs',
+        'description' => 'Fast, offline API documentation browser for all web & backend stacks.',
+        'icon' => 'bi-journal-bookmark-fill',
+        'link' => 'https://devdocs.io/'
+    ],
+    [
+        'name' => 'Can I Use',
+        'category' => 'Tools',
+        'badge' => 'Utility',
+        'description' => 'Up-to-date browser support tables for modern HTML5, CSS3, and JS APIs.',
+        'icon' => 'bi-browser-chrome',
+        'link' => 'https://caniuse.com/'
+    ],
+    [
+        'name' => 'Public APIs Directory',
+        'category' => 'APIs',
+        'badge' => 'Curated',
+        'description' => 'Collective index of free APIs for authentication, weather, AI, and finance.',
+        'icon' => 'bi-hdd-network-fill',
+        'link' => 'https://github.com/public-apis/public-apis'
     ]
 ];
 
@@ -99,10 +129,32 @@ $resources = [
         <section class="resources" id="resources">
             <div class="container">
                 <h2>Curated Resources</h2>
+                
+                <!-- Search & Category Filters -->
+                <div class="resource-controls">
+                    <div class="search-box">
+                        <i class="bi bi-search"></i>
+                        <input type="text" id="resource-search" placeholder="Search tools, tutorials, APIs..." aria-label="Search resources">
+                    </div>
+                    <div class="filter-pills" role="tablist">
+                        <button class="filter-btn active" data-filter="all"><i class="bi bi-grid-fill"></i> All</button>
+                        <button class="filter-btn" data-filter="Tools"><i class="bi bi-tools"></i> Tools</button>
+                        <button class="filter-btn" data-filter="Tutorials"><i class="bi bi-journal-code"></i> Tutorials</button>
+                        <button class="filter-btn" data-filter="APIs"><i class="bi bi-code-slash"></i> APIs</button>
+                    </div>
+                </div>
+
                 <div class="resource-grid">
                     <?php foreach ($resources as $resource): ?>
-                        <div class="resource-card" data-tilt>
-                            <img src="<?php echo htmlspecialchars($resource['image']); ?>" alt="<?php echo htmlspecialchars($resource['name']); ?>">
+                        <div class="resource-card" data-tilt data-category="<?php echo htmlspecialchars($resource['category']); ?>" data-name="<?php echo strtolower(htmlspecialchars($resource['name'])); ?>" data-desc="<?php echo strtolower(htmlspecialchars($resource['description'])); ?>">
+                            <div class="resource-badge"><?php echo htmlspecialchars($resource['badge']); ?></div>
+                            <?php if (isset($resource['image'])): ?>
+                                <img src="<?php echo htmlspecialchars($resource['image']); ?>" alt="<?php echo htmlspecialchars($resource['name']); ?>">
+                            <?php else: ?>
+                                <div class="resource-icon-box">
+                                    <i class="bi <?php echo htmlspecialchars($resource['icon']); ?>"></i>
+                                </div>
+                            <?php endif; ?>
                             <h3><?php echo htmlspecialchars($resource['name']); ?></h3>
                             <p><?php echo htmlspecialchars($resource['description']); ?></p>
                             <a href="<?php echo htmlspecialchars($resource['link']); ?>" target="_blank" class="btn btn-secondary">Learn More</a>

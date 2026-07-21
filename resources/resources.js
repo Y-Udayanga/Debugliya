@@ -106,4 +106,46 @@ document.addEventListener('DOMContentLoaded', () => {
             card.style.transform = 'perspective(1000px) rotateX(0) rotateY(0)';
         });
     });
+
+    // Resource Search and Filter System
+    const resourceSearch = document.querySelector('#resource-search');
+    const filterBtns = document.querySelectorAll('.filter-btn');
+    const resourceCards = document.querySelectorAll('.resource-card');
+
+    let currentFilter = 'all';
+    let currentQuery = '';
+
+    function filterResources() {
+        resourceCards.forEach(card => {
+            const category = card.getAttribute('data-category') || '';
+            const name = card.getAttribute('data-name') || '';
+            const desc = card.getAttribute('data-desc') || '';
+
+            const matchesCategory = (currentFilter === 'all' || category.toLowerCase() === currentFilter.toLowerCase());
+            const matchesSearch = (name.includes(currentQuery) || desc.includes(currentQuery));
+
+            if (matchesCategory && matchesSearch) {
+                card.style.display = 'block';
+                card.style.animation = 'fadeIn 0.4s ease-out';
+            } else {
+                card.style.display = 'none';
+            }
+        });
+    }
+
+    if (resourceSearch) {
+        resourceSearch.addEventListener('input', (e) => {
+            currentQuery = e.target.value.toLowerCase().trim();
+            filterResources();
+        });
+    }
+
+    filterBtns.forEach(btn => {
+        btn.addEventListener('click', () => {
+            filterBtns.forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            currentFilter = btn.getAttribute('data-filter') || 'all';
+            filterResources();
+        });
+    });
 });
