@@ -201,6 +201,60 @@ $resources = [
             </div>
         </section>
 
+        <!-- Developer Cheat Sheets Section -->
+        <section class="cheatsheets-section" id="cheatsheets">
+            <div class="container">
+                <h2><i class="bi bi-code-square"></i> Developer Quick References</h2>
+                <p class="section-subtitle">Copy-paste essential commands and code snippets in one click.</p>
+                
+                <div class="snippet-grid">
+                    <div class="snippet-card">
+                        <div class="snippet-header">
+                            <span class="snippet-tag tag-git"><i class="bi bi-git"></i> Git</span>
+                            <h4>Undo Last Commit (Keep Changes)</h4>
+                        </div>
+                        <div class="snippet-code-box">
+                            <code>git reset --soft HEAD~1</code>
+                            <button class="copy-btn" data-copy="git reset --soft HEAD~1"><i class="bi bi-clipboard"></i> Copy</button>
+                        </div>
+                    </div>
+
+                    <div class="snippet-card">
+                        <div class="snippet-header">
+                            <span class="snippet-tag tag-css"><i class="bi bi-filetype-css"></i> CSS Grid</span>
+                            <h4>Responsive Auto-Fit Grid</h4>
+                        </div>
+                        <div class="snippet-code-box">
+                            <code>grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));</code>
+                            <button class="copy-btn" data-copy="grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));"><i class="bi bi-clipboard"></i> Copy</button>
+                        </div>
+                    </div>
+
+                    <div class="snippet-card">
+                        <div class="snippet-header">
+                            <span class="snippet-tag tag-docker"><i class="bi bi-box-seam"></i> Docker</span>
+                            <h4>Clean Unused Containers & Images</h4>
+                        </div>
+                        <div class="snippet-code-box">
+                            <code>docker system prune -a --volumes</code>
+                            <button class="copy-btn" data-copy="docker system prune -a --volumes"><i class="bi bi-clipboard"></i> Copy</button>
+                        </div>
+                    </div>
+
+                    <div class="snippet-card">
+                        <div class="snippet-header">
+                            <span class="snippet-tag tag-js"><i class="bi bi-filetype-js"></i> JavaScript</span>
+                            <h4>Async Fetch with Error Check</h4>
+                        </div>
+                        <div class="snippet-code-box">
+                            <code>const res = await fetch(url); if(!res.ok) throw new Error();</code>
+                            <button class="copy-btn" data-copy="const res = await fetch(url); if(!res.ok) throw new Error();"><i class="bi bi-clipboard"></i> Copy</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
         <section class="featured-threads">
             <div class="container">
                 <h2>Featured Forum Threads</h2>

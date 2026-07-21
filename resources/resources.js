@@ -148,4 +148,24 @@ document.addEventListener('DOMContentLoaded', () => {
             filterResources();
         });
     });
+
+    // Copy Code Snippet Handler
+    document.querySelectorAll('.copy-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+            const textToCopy = btn.getAttribute('data-copy');
+            if (textToCopy) {
+                navigator.clipboard.writeText(textToCopy).then(() => {
+                    const originalText = btn.innerHTML;
+                    btn.innerHTML = '<i class="bi bi-check-lg"></i> Copied!';
+                    btn.classList.add('copied');
+                    setTimeout(() => {
+                        btn.innerHTML = originalText;
+                        btn.classList.remove('copied');
+                    }, 2000);
+                }).catch(err => {
+                    console.error('Failed to copy: ', err);
+                });
+            }
+        });
+    });
 });
