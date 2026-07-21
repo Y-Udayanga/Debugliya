@@ -47,8 +47,8 @@ $timeline_images = [
         </button>
         <nav class="nav-links">
             <ul>
-                <li><a href="../home/home.php" class="active">Home</a></li>
-                <li><a href="../about/about.php">About</a></li>
+                <li><a href="../home/home.php">Home</a></li>
+                <li><a href="../about/about.php" class="active">About</a></li>
                 <li><a href="../profile/profile.php">Profile</a></li>
                 <li><a href="../index.php">Forum</a></li>
                 <li><a href="../resources/resources.php">Resources</a></li>
