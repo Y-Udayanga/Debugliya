@@ -119,10 +119,16 @@ $resources = [
                 <div class="thread-grid">
                     <?php foreach ($posts as $post): ?>
                         <div class="thread-card" data-tilt>
-                            <img src="https://source.unsplash.com/150x150/?forum,<?php echo $post['id']; ?>" alt="Thread">
-                            <h3><?php echo htmlspecialchars($post['username']); ?></h3>
-                            <p><?php echo htmlspecialchars(substr($post['content'], 0, 100)) . (strlen($post['content']) > 100 ? '...' : ''); ?></p>
-                            <a href="../index.php" class="read-more">Join Discussion</a>
+                            <div class="thread-header">
+                                <div class="thread-avatar">
+                                    <?php echo strtoupper(substr($post['username'], 0, 1)); ?>
+                                </div>
+                                <h3><?php echo htmlspecialchars($post['username']); ?></h3>
+                            </div>
+                            <p class="thread-content">"<?php echo htmlspecialchars(substr($post['content'], 0, 100)) . (strlen($post['content']) > 100 ? '...' : ''); ?>"</p>
+                            <div class="thread-footer">
+                                <a href="../index.php" class="read-more">Join Discussion <i class="bi bi-arrow-right-short"></i></a>
+                            </div>
                         </div>
                     <?php endforeach; ?>
                 </div>
