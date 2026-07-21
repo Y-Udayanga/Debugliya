@@ -148,7 +148,7 @@ body {
 .hero {
     position: relative;
     height: 100vh;
-    background: url('https://source.unsplash.com/1600x900/?coding,resources') no-repeat center center/cover;
+    background: linear-gradient(135deg, #09090b 0%, #18181b 100%);
     color: var(--color-white);
     text-align: center;
     display: flex;
@@ -164,7 +164,8 @@ body {
     left: 0;
     width: 100%;
     height: 100%;
-    background: linear-gradient(135deg, rgba(0, 0, 0, 0.6), rgba(30, 144, 255, 0.3));
+    background: radial-gradient(circle at 50% 30%, rgba(56, 189, 248, 0.15) 0%, transparent 60%),
+                radial-gradient(circle at 80% 80%, rgba(168, 85, 247, 0.15) 0%, transparent 50%);
 }
 
 .hero-content {
@@ -174,50 +175,78 @@ body {
 }
 
 .hero-content h1 {
-    font-size: 3.5rem;
-    font-weight: 700;
-    margin-bottom: 1.8rem;
-    text-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+    font-size: 4.5rem;
+    font-weight: 800;
+    margin-bottom: 1.5rem;
+    background: linear-gradient(to right, #38bdf8, #a855f7, #38bdf8);
+    background-size: 200% auto;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    letter-spacing: -1.5px;
+    animation: gradientShift 6s linear infinite;
 }
 
 .typewriter {
-    font-size: 1.6rem;
-    margin-bottom: 2.5rem;
+    font-size: 1.4rem;
+    margin-bottom: 3rem;
     overflow: hidden;
     white-space: nowrap;
-    border-right: 0.15em solid var(--color-primary);
+    color: #a1a1aa;
+    border-right: 0.15em solid #38bdf8;
     animation: typing 3.5s steps(40, end), blink-caret 0.75s step-end infinite;
 }
 
 .explorabtn .btn-primary {
     display: inline-block;
-    margin-left: 32rem;
-    margin-top: 1.9rem;
-    background: linear-gradient(135deg, var(--color-primary), var(--color-secondary));
+    margin: 1.9rem auto 0 auto;
+    background: linear-gradient(135deg, #38bdf8, #818cf8);
     color: var(--color-white);
     padding: 1rem 2.5rem;
     border-radius: 30px;
     text-decoration: none;
     font-weight: 600;
     font-size: 1.1rem;
-    transition: transform 0.3s, box-shadow 0.3s;
+    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.3s;
+}
+
+.hero-content .btn-primary {
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    color: #fff;
+    padding: 1rem 2.5rem;
+    border-radius: 50px;
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 1.1rem;
+    display: inline-block;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+}
+
+.hero-content .btn-primary:hover {
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    transform: translateY(-3px);
+    box-shadow: 0 10px 40px rgba(56, 189, 248, 0.2);
 }
 
 .btn-primary {
-    background: linear-gradient(135deg, var(--color-primary), var(--color-secondary));
+    background: linear-gradient(135deg, #38bdf8, #818cf8);
     color: var(--color-white);
     padding: 1rem 2.5rem;
     border-radius: 30px;
+    border: none;
     text-decoration: none;
     font-weight: 600;
     font-size: 1.1rem;
-    transition: transform 0.3s, box-shadow 0.3s;
-    
+    cursor: pointer;
+    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.3s;
 }
 
 .btn-primary:hover {
-    transform: scale(1.1);
-    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.4);
+    transform: translateY(-3px);
+    box-shadow: 0 10px 25px rgba(56, 189, 248, 0.4);
 }
 
 .btn-secondary {
@@ -474,6 +503,11 @@ h2 {
     0% { transform: scale(1); }
     50% { transform: scale(1.2); }
     100% { transform: scale(1); }
+}
+
+@keyframes gradientShift {
+    0% { background-position: 0% 50%; }
+    100% { background-position: 200% 50%; }
 }
 
 @media (max-width: 768px) {
