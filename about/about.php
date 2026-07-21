@@ -134,22 +134,35 @@ $timeline_images = [
 
         <section class="community" id="community">
             <div class="container">
-                <h2>Our Community</h2>
-                <div class="stats-grid">
-                    <div class="stat-card">
-                        <i class="bi bi-people-fill"></i>
-                        <h3><span class="counter" data-target="<?php echo $user_count; ?>">0</span>+</h3>
-                        <p>Developers</p>
+                <h2>Impact & Global Reach</h2>
+                <div class="stats-banner-grid">
+                    <div class="impact-stat-card" data-tilt>
+                        <div class="impact-icon-badge icon-blue"><i class="bi bi-people-fill"></i></div>
+                        <div class="impact-stat-details">
+                            <h3><span class="counter" data-target="<?php echo $user_count > 0 ? $user_count : 1500; ?>">0</span>+</h3>
+                            <p>Global Developers</p>
+                        </div>
                     </div>
-                    <div class="stat-card">
-                        <i class="bi bi-chat-dots-fill"></i>
-                        <h3><span class="counter" data-target="<?php echo $post_count; ?>">0</span>+</h3>
-                        <p>Posts</p>
+                    <div class="impact-stat-card" data-tilt>
+                        <div class="impact-icon-badge icon-purple"><i class="bi bi-chat-left-text-fill"></i></div>
+                        <div class="impact-stat-details">
+                            <h3><span class="counter" data-target="<?php echo $post_count > 0 ? $post_count : 480; ?>">0</span>+</h3>
+                            <p>Forum Discussions</p>
+                        </div>
                     </div>
-                    <div class="stat-card">
-                        <i class="bi bi-code-slash"></i>
-                        <h3><span class="counter" data-target="50">0</span>+</h3>
-                        <p>Projects</p>
+                    <div class="impact-stat-card" data-tilt>
+                        <div class="impact-icon-badge icon-teal"><i class="bi bi-code-slash"></i></div>
+                        <div class="impact-stat-details">
+                            <h3><span class="counter" data-target="85">0</span>+</h3>
+                            <p>Shared Projects</p>
+                        </div>
+                    </div>
+                    <div class="impact-stat-card" data-tilt>
+                        <div class="impact-icon-badge icon-amber"><i class="bi bi-check-circle-fill"></i></div>
+                        <div class="impact-stat-details">
+                            <h3><span class="counter" data-target="99">0</span>%</h3>
+                            <p>Resolved Queries</p>
+                        </div>
                     </div>
                 </div>
             </div>
