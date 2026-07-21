@@ -88,10 +88,20 @@ canvas#particles {
     background: transparent;
 }
 
+/* Override style.css global 3-column grid bug for About page */
+main .container {
+    display: block !important;
+    width: 100% !important;
+    max-width: 1200px !important;
+    margin: 0 auto !important;
+    grid-template-columns: none !important;
+    position: relative !important;
+}
+
 .container {
-    max-width: 1300px;
+    max-width: 1200px;
     margin: 0 auto;
-    padding: 0;
+    padding: 0 1.5rem;
     border-radius: 24px;
 }
 
@@ -561,17 +571,13 @@ h2 {
 .cta {
     text-align: center;
     background: transparent;
-    padding: 6rem 1.5rem;
+    padding: 2.5rem 1.5rem;
 }
 
 .cta .container {
-    background: linear-gradient(135deg, var(--ui-blue), #4f46e5);
-    padding: 6rem 3rem;
-    border-radius: 32px;
-    color: #ffffff;
-    box-shadow: 0 20px 50px rgba(32, 104, 212, 0.25);
-    position: relative;
-    overflow: hidden;
+    background: transparent;
+    padding: 0;
+    box-shadow: none;
 }
 
 .cta h2 {
