@@ -12,9 +12,24 @@ $user_count = $pdo->query("SELECT COUNT(*) FROM users")->fetchColumn();
 $post_count = $pdo->query("SELECT COUNT(*) FROM posts")->fetchColumn();
 
 $team_members = [
-    ['name' => 'Alice Code', 'role' => 'Founder', 'photo' => 'Alice Code.jpg'],
-    ['name' => 'Bob Debug', 'role' => 'Lead Developer', 'photo' => 'Lead Developer.jpg'],
-    ['name' => 'Clara Script', 'role' => 'Community Manager', 'photo' => 'Community Manager.jpg']
+    [
+        'name' => 'Alice Code',
+        'role' => 'Founder & Visionary',
+        'photo' => 'Alice Code.jpg',
+        'bio' => 'Passionate about building inclusive developer ecosystems and collaborative platforms.'
+    ],
+    [
+        'name' => 'Bob Debug',
+        'role' => 'Lead Full-Stack Dev',
+        'photo' => 'Lead Developer.jpg',
+        'bio' => 'Architecting high-performance serverless backends and real-time community systems.'
+    ],
+    [
+        'name' => 'Clara Script',
+        'role' => 'Community Director',
+        'photo' => 'Community Manager.jpg',
+        'bio' => 'Empowering developers worldwide through events, open-source projects, and mentorship.'
+    ]
 ];
 $mission_image = 'Community Collaboration.jpg';
 $timeline_images = [
@@ -37,7 +52,7 @@ $timeline_images = [
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
 </head>
 <body>
-    <header class="navbar">
+ <header class="navbar">
     <div class="containers">
         <div class="logo">Debuglia</div>
         <button class="hamburger" aria-label="Toggle navigation">
@@ -123,9 +138,17 @@ $timeline_images = [
                 <div class="team-grid">
                     <?php foreach ($team_members as $member): ?>
                         <div class="team-card" data-tilt>
-                            <img src="<?php echo htmlspecialchars($member['photo']); ?>" alt="<?php echo htmlspecialchars($member['name']); ?>">
+                            <div class="team-img-box">
+                                <img src="<?php echo htmlspecialchars($member['photo']); ?>" alt="<?php echo htmlspecialchars($member['name']); ?>">
+                            </div>
                             <h3><?php echo htmlspecialchars($member['name']); ?></h3>
-                            <p><?php echo htmlspecialchars($member['role']); ?></p>
+                            <span class="role-badge"><?php echo htmlspecialchars($member['role']); ?></span>
+                            <p class="team-bio"><?php echo htmlspecialchars($member['bio']); ?></p>
+                            <div class="team-socials">
+                                <a href="#" aria-label="GitHub"><i class="bi bi-github"></i></a>
+                                <a href="#" aria-label="LinkedIn"><i class="bi bi-linkedin"></i></a>
+                                <a href="#" aria-label="Twitter"><i class="bi bi-twitter-x"></i></a>
+                            </div>
                         </div>
                     <?php endforeach; ?>
                 </div>
@@ -221,9 +244,14 @@ $timeline_images = [
 
         <section class="cta" id="cta">
             <div class="container">
-                <h2>Join Debuglia Today</h2>
-                <p>Be part of a thriving community of coders and innovators.</p>
-                <a href="../index.php" class="btn btn-primary">Get Started</a>
+                <div class="join-cta-card">
+                    <h2>Want to Build Debuglia With Us?</h2>
+                    <p>We are always looking for passionate developers, technical writers, and open-source contributors to grow our ecosystem.</p>
+                    <div class="join-cta-actions">
+                        <a href="../index.php" class="btn btn-primary"><i class="bi bi-person-plus-fill"></i> Join Community</a>
+                        <a href="mailto:careers@debuglia.com" class="btn btn-secondary-glass"><i class="bi bi-envelope-heart-fill"></i> Contact Team</a>
+                    </div>
+                </div>
             </div>
         </section>
     </main>
