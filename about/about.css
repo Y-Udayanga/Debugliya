@@ -79,12 +79,12 @@ canvas#particles {
 }
 
 .sections {
-    padding: 2rem 1.5rem;
+    padding: 1.5rem 1rem;
     background: var(--ui-bg);
 }
 
 .mission, .team, .community, .journey, .cta {
-    padding: 3rem 1.5rem;
+    padding: 2.2rem 1rem;
     background: transparent;
 }
 
@@ -101,17 +101,17 @@ main .container {
 .container {
     max-width: 1200px;
     margin: 0 auto;
-    padding: 0 1.5rem;
+    padding: 0 1rem;
     border-radius: 24px;
 }
 
 h2 {
-    font-size: 2.8rem;
+    font-size: 2.2rem;
     color: var(--color-dark);
     text-align: center;
-    margin-bottom: 3.5rem;
+    margin-bottom: 1.8rem;
     animation: fadeIn 1s ease-in;
-    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
 }
 
 .mission-content {
