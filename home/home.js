@@ -96,6 +96,22 @@ document.addEventListener('DOMContentLoaded', () => {
         animate();
         window.addEventListener('resize', resizeCanvas);
     }
+
+    // Help Center Modal Handler for Home page
+    const helpLinks = document.querySelectorAll('.help-link');
+    helpLinks.forEach(link => {
+        link.addEventListener('click', (e) => {
+            e.preventDefault();
+            let modal = document.getElementById('help-modal');
+            if (modal) {
+                modal.style.display = 'flex';
+            } else if (typeof window.initHelpModal === 'function') {
+                window.initHelpModal();
+                modal = document.getElementById('help-modal');
+                if (modal) modal.style.display = 'flex';
+            }
+        });
+    });
 });
 
 // Interactive terminal code copy helper
