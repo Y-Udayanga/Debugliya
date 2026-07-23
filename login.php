@@ -116,12 +116,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 </div>
 
                 <div class="social-auth-row">
-                    <button type="button" class="btn-social github" onclick="alert('GitHub Authentication is coming soon!')">
+                    <a href="auth_social.php?provider=github" class="btn-social github">
                         <i class="bi bi-github"></i> GitHub
-                    </button>
-                    <button type="button" class="btn-social google" onclick="alert('Google Authentication is coming soon!')">
+                    </a>
+                    <a href="auth_social.php?provider=google" class="btn-social google">
                         <i class="bi bi-google"></i> Google
-                    </button>
+                    </a>
                 </div>
 
                 <!-- Footer Sign Up Hint -->
