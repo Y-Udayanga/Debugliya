@@ -3,7 +3,7 @@ require_once __DIR__ . '/session_bootstrap.php';
 app_session_start();
 
 if (isset($_SESSION['user_id'])) {
-    header('Location: index.php');
+    header('Location: home/home.php');
     exit;
 }
 
@@ -40,7 +40,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 if ($user) {
                     app_persist_login($user);
                 }
-                header('Location: index.php');
+                header('Location: home/home.php');
                 exit;
             } else {
                 $error = "Account creation failed. Please try again.";

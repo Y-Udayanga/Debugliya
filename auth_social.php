@@ -32,7 +32,7 @@ try {
 
     if ($user) {
         app_persist_login($user);
-        header('Location: index.php');
+        header('Location: home/home.php');
         exit;
     } else {
         header('Location: login.php?error=auth_failed');
