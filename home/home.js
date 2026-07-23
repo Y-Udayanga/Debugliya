@@ -4,15 +4,17 @@ document.addEventListener('DOMContentLoaded', () => {
     if (themeToggle) {
         themeToggle.addEventListener('click', () => {
             document.body.classList.toggle('dark-theme');
+            document.body.classList.toggle('dark-mode');
             themeToggle.style.transform = 'rotate(360deg)';
             setTimeout(() => { themeToggle.style.transform = 'rotate(0deg)'; }, 300);
-            themeToggle.innerHTML = document.body.classList.contains('dark-theme') ?
-                '<i class="bi bi-sun"></i>' : '<i class="bi bi-moon-stars"></i>';
-            localStorage.setItem('theme', document.body.classList.contains('dark-theme') ? 'dark' : 'light');
+            const isDark = document.body.classList.contains('dark-theme') || document.body.classList.contains('dark-mode');
+            themeToggle.innerHTML = isDark ? '<i class="bi bi-sun"></i>' : '<i class="bi bi-moon-stars"></i>';
+            localStorage.setItem('theme', isDark ? 'dark' : 'light');
         });
 
         if (localStorage.getItem('theme') === 'dark') {
             document.body.classList.add('dark-theme');
+            document.body.classList.add('dark-mode');
             themeToggle.innerHTML = '<i class="bi bi-sun"></i>';
         }
     }
@@ -30,8 +32,14 @@ document.addEventListener('DOMContentLoaded', () => {
     // Smooth scroll
     document.querySelectorAll('a[href^="#"]').forEach(anchor => {
         anchor.addEventListener('click', (e) => {
-            e.preventDefault();
-            document.querySelector(anchor.getAttribute('href')).scrollIntoView({ behavior: 'smooth' });
+            const targetId = anchor.getAttribute('href');
+            if (targetId && targetId !== '#') {
+                const targetElement = document.querySelector(targetId);
+                if (targetElement) {
+                    e.preventDefault();
+                    targetElement.scrollIntoView({ behavior: 'smooth' });
+                }
+            }
         });
     });
 
@@ -39,11 +47,14 @@ document.addEventListener('DOMContentLoaded', () => {
     const canvas = document.getElementById('particles');
     if (canvas) {
         const ctx = canvas.getContext('2d');
-        canvas.width = window.innerWidth;
-        canvas.height = window.innerHeight;
+        const resizeCanvas = () => {
+            canvas.width = canvas.parentElement ? canvas.parentElement.clientWidth : window.innerWidth;
+            canvas.height = canvas.parentElement ? canvas.parentElement.clientHeight : 500;
+        };
+        resizeCanvas();
 
         const particles = [];
-        const particleCount = 80;
+        const particleCount = 60;
 
         class Particle {
             constructor() {
@@ -62,7 +73,7 @@ document.addEventListener('DOMContentLoaded', () => {
             }
 
             draw() {
-                ctx.fillStyle = 'rgba(255, 255, 255, 0.6)';
+                ctx.fillStyle = 'rgba(255, 255, 255, 0.4)';
                 ctx.beginPath();
                 ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
                 ctx.fill();
@@ -83,27 +94,38 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
         animate();
-        window.addEventListener('resize', () => {
-            canvas.width = window.innerWidth;
-            canvas.height = window.innerHeight;
-        });
+        window.addEventListener('resize', resizeCanvas);
     }
-
-    // 3D tilt effect
-    document.querySelectorAll('[data-tilt]').forEach(card => {
-        card.addEventListener('mousemove', (e) => {
-            const rect = card.getBoundingClientRect();
-            const x = e.clientX - rect.left;
-            const y = e.clientY - rect.top;
-            const centerX = rect.width / 2;
-            const centerY = rect.height / 2;
-            const tiltX = (y - centerY) / 12;
-            const tiltY = (centerX - x) / 12;
-            card.style.transform = `perspective(1000px) rotateX(${tiltX}deg) rotateY(${tiltY}deg)`;
-        });
-
-        card.addEventListener('mouseleave', () => {
-            card.style.transform = 'perspective(1000px) rotateX(0) rotateY(0)';
-        });
-    });
 });
+
+// Interactive terminal code copy helper
+window.copyTerminalCode = () => {
+    const codeText = `const debuglia = require('@debuglia/core');\n\nasync function startSession() {\n  const developer = await debuglia.authenticate();\n  console.log(\`🚀 Welcome \${developer.username}!\`);\n  return debuglia.fetchTrendingDiscussions();\n}\n\nstartSession();`;
+    navigator.clipboard.writeText(codeText).then(() => {
+        const btn = document.querySelector('#terminal-copy-btn');
+        if (btn) {
+            btn.innerHTML = '<i class="bi bi-check2"></i> Copied!';
+            btn.style.background = '#10b981';
+            setTimeout(() => {
+                btn.innerHTML = '<i class="bi bi-clipboard"></i> Copy';
+                btn.style.background = '';
+            }, 2200);
+        }
+    }).catch(() => {});
+};
+
+// Newsletter submission toast handler
+window.handleNewsletterSubmit = (e) => {
+    e.preventDefault();
+    const form = e.target;
+    const btn = form.querySelector('button[type="submit"]');
+    if (btn) {
+        btn.innerHTML = '<i class="bi bi-check-circle-fill"></i> Subscribed!';
+        btn.style.background = '#10b981';
+        form.reset();
+        setTimeout(() => {
+            btn.innerHTML = '<i class="bi bi-send-fill"></i> Subscribe';
+            btn.style.background = '';
+        }, 3000);
+    }
+};
