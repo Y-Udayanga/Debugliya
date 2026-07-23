@@ -442,6 +442,13 @@ form {
     color: var(--text-muted);
 }
 
+.form-match-hint {
+    font-size: 0.78rem;
+    font-weight: 600;
+    margin-top: 3px;
+    transition: all 0.2s ease;
+}
+
 .signup-highlight {
     color: #00d4ff;
     text-decoration: none;
