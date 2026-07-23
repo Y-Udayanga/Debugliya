@@ -891,8 +891,81 @@ document.addEventListener('DOMContentLoaded', () => {
 
     joinButtons.forEach(button => {
         button.addEventListener('click', () => {
-            button.textContent = button.textContent === 'Join' ? 'Joined' : 'Join';
+            button.textContent = button.textContent.trim() === 'Join' ? 'Joined' : 'Join';
             button.classList.toggle('joined');
         });
     });
+
+    // Forum Category Pills Filtering
+    const categoryPills = document.querySelectorAll('.category-pill');
+    const feedPosts = document.querySelectorAll('#forum-feeds-list .feed');
+
+    categoryPills.forEach(pill => {
+        pill.addEventListener('click', () => {
+            categoryPills.forEach(p => p.classList.remove('active'));
+            pill.classList.add('active');
+            const targetCategory = pill.dataset.category ? pill.dataset.category.toLowerCase().trim() : 'all';
+
+            feedPosts.forEach(post => {
+                const postCategory = post.dataset.category ? post.dataset.category.toLowerCase().trim() : '';
+                if (targetCategory === 'all' || postCategory.includes(targetCategory) || targetCategory.includes(postCategory)) {
+                    post.style.display = 'block';
+                } else {
+                    post.style.display = 'none';
+                }
+            });
+        });
+    });
+
+    // Feed Tabs Sorting
+    const feedTabBtns = document.querySelectorAll('.feed-tab-btn');
+    feedTabBtns.forEach(btn => {
+        btn.addEventListener('click', () => {
+            feedTabBtns.forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            const filterType = btn.dataset.filter;
+            const feedsContainer = document.querySelector('#forum-feeds-list');
+            if (!feedsContainer) return;
+
+            const postsArray = Array.from(feedPosts);
+            if (filterType === 'liked') {
+                postsArray.sort((a, b) => parseInt(b.dataset.likes || 0) - parseInt(a.dataset.likes || 0));
+            } else if (filterType === 'trending') {
+                postsArray.sort((a, b) => parseInt(b.dataset.likes || 0) - parseInt(a.dataset.likes || 0));
+            } else {
+                // Default Latest Feed
+                postsArray.sort((a, b) => parseInt(b.dataset.postId || 0) - parseInt(a.dataset.postId || 0));
+            }
+
+            postsArray.forEach(p => feedsContainer.appendChild(p));
+        });
+    });
 });
+
+// Global Helpers
+window.filterForumPosts = () => {
+    const query = (document.querySelector('#forum-feed-search')?.value || '').toLowerCase().trim();
+    const posts = document.querySelectorAll('#forum-feeds-list .feed');
+    posts.forEach(post => {
+        const text = post.textContent.toLowerCase();
+        if (text.includes(query)) {
+            post.style.display = 'block';
+        } else {
+            post.style.display = 'none';
+        }
+    });
+};
+
+window.toggleJoinCommunity = (btn) => {
+    if (btn) {
+        const isJoined = btn.classList.contains('joined');
+        if (isJoined) {
+            btn.textContent = 'Join';
+            btn.classList.remove('joined');
+        } else {
+            btn.textContent = 'Joined';
+            btn.classList.add('joined');
+        }
+    }
+};
+
