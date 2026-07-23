@@ -16,10 +16,27 @@ if (!isset($_SESSION['csrf_token'])) {
 
 $user = [
     'username' => $_SESSION['username'],
-    'profile_photo' => $_SESSION['profile_photo']
+    'profile_photo' => $_SESSION['profile_photo'] ?? null
 ];
 
-// get in posts with like, comment counts, author's profile photo, category name, and bookmark status
+// Helper to resolve forum profile photo paths
+function get_forum_avatar($photo) {
+    $photo = trim($photo ?? '');
+    if ($photo === '' || $photo === 'blank-profile-picture.webp') {
+        return 'blank-profile-picture.webp';
+    }
+    if (preg_match('~^https?://~i', $photo)) {
+        return $photo;
+    }
+    return 'uploads/' . $photo;
+}
+
+// Get all categories for filter pills and modal
+$stmt = $pdo->prepare("SELECT id, name FROM categories ORDER BY id ASC");
+$stmt->execute();
+$categories = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+// Get posts with like, comment counts, author profile photo, category name, and bookmark status
 $stmt = $pdo->prepare("
     SELECT p.id, p.user_id, p.content, p.created_at, p.category_id, c.name AS category,
            u.username, u.profile_photo,
@@ -47,8 +64,8 @@ foreach ($posts as $post) {
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Debuglia - Home</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Debuglia - Developer Forum</title>
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="ui-polish.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
@@ -65,10 +82,10 @@ foreach ($posts as $post) {
         </button>
         <nav class="nav-links">
             <ul>
-                <li><a href="home/home.php" class="active">Home</a></li>
+                <li><a href="home/home.php">Home</a></li>
                 <li><a href="about/about.php">About</a></li>
                 <li><a href="profile/profile.php">Profile</a></li>
-                <li><a href="index.php">Forum</a></li>
+                <li><a href="index.php" class="active">Forum</a></li>
                 <li><a href="resources/resources.php">Resources</a></li>
             </ul>
         </nav>
@@ -79,7 +96,7 @@ foreach ($posts as $post) {
                 <?php if (isset($_SESSION['user_id'])): ?>
                     <li><a href="logout.php" class="logout">Logout</a></li>
                 <?php else: ?>
-                    <li><a href="../login.php" class="login">Login</a></li>
+                    <li><a href="login.php" class="login">Login</a></li>
                 <?php endif; ?>
                 <li><button id="theme-toggle" aria-label="Toggle theme"><i class="bi bi-moon-stars"></i></button></li>
             </ul>
@@ -89,10 +106,11 @@ foreach ($posts as $post) {
 
 <main>
     <div class="container">
+        <!-- Left Sidebar -->
         <div class="left">
             <a class="profile" href="profile/profile.php">
                 <div class="profile-photo">
-                    <img src="<?php echo $user['profile_photo'] ? 'uploads/' . htmlspecialchars($user['profile_photo']) : 'blank-profile-picture.webp'; ?>" alt="Profile Photo">
+                    <img src="<?php echo htmlspecialchars(get_forum_avatar($user['profile_photo'])); ?>" alt="Profile Photo">
                 </div>
                 <div class="handle">
                     <h4><?php echo htmlspecialchars($user['username']); ?></h4>
@@ -127,152 +145,197 @@ foreach ($posts as $post) {
             </div>
         </div>
 
+        <!-- Middle Column: Forum Feed -->
         <div class="middle">
-            <div class="create-post">
-                <input type="text" placeholder="What's on your mind, <?php echo htmlspecialchars($user['username']); ?>?" id="create-post" onclick="openPostModal()">
-                <label for="create-post-modal" class="btn btn-primary">Post</label>
+            <!-- Modern Post Creation Card -->
+            <div class="create-post-card">
+                <div class="create-post-input-row">
+                    <div class="profile-photo">
+                        <img src="<?php echo htmlspecialchars(get_forum_avatar($user['profile_photo'])); ?>" alt="User Avatar">
+                    </div>
+                    <input type="text" placeholder="Share a code snippet, ask a question, or start a discussion, <?php echo htmlspecialchars($user['username']); ?>..." id="create-post" onclick="openPostModal()">
+                </div>
+                <div class="create-post-actions-row">
+                    <button class="post-action-btn" onclick="openPostModal()"><i class="bi bi-image"></i> Media</button>
+                    <button class="post-action-btn" onclick="openPostModal()"><i class="bi bi-code-square"></i> Code</button>
+                    <button class="post-action-btn" onclick="openPostModal()"><i class="bi bi-tag"></i> Category</button>
+                    <label for="create-post-modal" class="btn btn-primary create-post-submit-btn" onclick="openPostModal()"><i class="bi bi-send-fill"></i> Post</label>
+                </div>
             </div>
 
-            <div class="feeds">
-                <?php foreach ($posts as $post): ?>
-                    <div class="feed" data-post-id="<?php echo $post['id']; ?>">
-                        <div class="head">
-                            <div class="user">
-                                <div class="profile-photo">
-                                    <img src="<?php echo $post['profile_photo'] ? 'uploads/' . htmlspecialchars($post['profile_photo']) : 'blank-profile-picture.webp'; ?>">
-                                </div>
-                                <div class="info">
-                                    <h3><?php echo htmlspecialchars($post['username']); ?></h3>
-                                    <small><?php echo date('M d, Y H:i', strtotime($post['created_at'])); ?></small>
-                                </div>
-                            </div>
-                            <div class="category">
-                                <h3><?php echo !empty($post['category']) ? htmlspecialchars($post['category']) : 'No Category'; ?></h3>
-                            </div>
-                            <?php if ($post['user_id'] == $_SESSION['user_id']): ?>
-                                <span class="edit">
-                                    <div class="post-menu">
-                                        <button class="delete-post-btn" data-post-id="<?php echo $post['id']; ?>">Delete</button>
-                                    </div>
-                                </span>
-                            <?php endif; ?>
-                        </div>
-                        <div class="caption">
-                            <p><?php echo htmlspecialchars($post['content']); ?></p>
-                        </div>
-                        <?php if (!empty($post_images[$post['id']])): ?>
-                            <div class="photo-gallery <?php echo count($post_images[$post['id']]) === 1 ? 'single-image' : ''; ?>">
-                                <?php foreach ($post_images[$post['id']] as $image): ?>
-                                    <img src="uploads/<?php echo htmlspecialchars($image); ?>" alt="Post Image" class="post-image">
-                                <?php endforeach; ?>
-                            </div>
-                        <?php endif; ?>
-                        <div class="action-buttons">
-                            <div class="interaction-buttons">
-                                <span class="like-btn <?php echo $post['user_liked'] ? 'liked' : ''; ?>" data-post-id="<?php echo $post['id']; ?>">
-                                    <i class="bi <?php echo $post['user_liked'] ? 'bi-heart-fill' : 'bi-heart'; ?>"></i>
-                                    <span class="like-count"><?php echo $post['like_count']; ?></span>
-                                </span>
-                                <span class="comment-btn">
-                                    <i class="bi bi-chat-square-dots"></i>
-                                    <span class="comment-count"><?php echo $post['comment_count']; ?></span>
-                                </span>
-                                <span class="share-btn">
-                                    <i class="bi bi-share"></i>
-                                </span>
-                            </div>
-                            <div class="bookmark">
-                                <span class="bookmark-btn <?php echo $post['is_bookmarked'] ? 'bookmarked' : ''; ?>" data-post-id="<?php echo $post['id']; ?>">
-                                    <i class="bi <?php echo $post['is_bookmarked'] ? 'bi-bookmark-fill' : 'bi-bookmark'; ?>"></i>
-                                </span>
-                            </div>
-                        </div>
-                        <div class="comments-section" style="display: none;">
-                            <form class="comment-form">
-                                <input type="text" placeholder="Add a comment..." class="comment-input">
-                                <button type="submit" class="btn btn-primary">Comment</button>
-                            </form>
-                            <div class="comments-list">
-                                <!-- Comments will be loaded here -->
-                            </div>
-                        </div>
-                    </div>
+            <!-- Feed Filter Tabs & Search Bar -->
+            <div class="forum-filter-bar">
+                <div class="feed-tabs">
+                    <button class="feed-tab-btn active" data-filter="all"><i class="bi bi-fire"></i> Latest Feed</button>
+                    <button class="feed-tab-btn" data-filter="trending"><i class="bi bi-graph-up-arrow"></i> Popular</button>
+                    <button class="feed-tab-btn" data-filter="liked"><i class="bi bi-heart-fill"></i> Top Liked</button>
+                </div>
+                
+                <div class="forum-search-box">
+                    <i class="bi bi-search"></i>
+                    <input type="text" id="forum-feed-search" placeholder="Filter posts by keyword..." oninput="filterForumPosts()">
+                </div>
+            </div>
+
+            <!-- Category Filter Chips -->
+            <div class="forum-category-pills">
+                <span class="category-pill active" data-category="all"><i class="bi bi-grid-fill"></i> All Topics</span>
+                <?php foreach ($categories as $cat): ?>
+                    <span class="category-pill" data-category="<?php echo htmlspecialchars($cat['name']); ?>">
+                        <i class="bi bi-tag-fill"></i> <?php echo htmlspecialchars($cat['name']); ?>
+                    </span>
                 <?php endforeach; ?>
+            </div>
+
+            <!-- Posts List Feed -->
+            <div class="feeds" id="forum-feeds-list">
+                <?php if (empty($posts)): ?>
+                    <div class="empty-feed-card">
+                        <i class="bi bi-chat-left-dots empty-ico"></i>
+                        <h3>No Discussions Found</h3>
+                        <p>Be the first to share a coding challenge or question with the Debuglia community!</p>
+                    </div>
+                <?php else: ?>
+                    <?php foreach ($posts as $post): ?>
+                        <div class="feed" data-post-id="<?php echo $post['id']; ?>" data-category="<?php echo htmlspecialchars($post['category'] ?? 'General'); ?>" data-likes="<?php echo $post['like_count']; ?>">
+                            <div class="head">
+                                <div class="user">
+                                    <div class="profile-photo">
+                                        <img src="<?php echo htmlspecialchars(get_forum_avatar($post['profile_photo'])); ?>" alt="Author Avatar">
+                                    </div>
+                                    <div class="info">
+                                        <h3><?php echo htmlspecialchars($post['username']); ?> <i class="bi bi-patch-check-fill verified-badge" title="Verified Member"></i></h3>
+                                        <small>@<?php echo htmlspecialchars($post['username']); ?> • <?php echo date('M d, Y H:i', strtotime($post['created_at'])); ?></small>
+                                    </div>
+                                </div>
+                                <div class="category">
+                                    <span class="category-badge"><i class="bi bi-hash"></i> <?php echo !empty($post['category']) ? htmlspecialchars($post['category']) : 'General'; ?></span>
+                                </div>
+                                <?php if ($post['user_id'] == $_SESSION['user_id']): ?>
+                                    <span class="edit">
+                                        <button class="delete-post-btn" data-post-id="<?php echo $post['id']; ?>" title="Delete Post"><i class="bi bi-trash"></i></button>
+                                    </span>
+                                <?php endif; ?>
+                            </div>
+
+                            <div class="caption">
+                                <p><?php echo nl2br(htmlspecialchars($post['content'])); ?></p>
+                            </div>
+
+                            <?php if (!empty($post_images[$post['id']])): ?>
+                                <div class="photo-gallery <?php echo count($post_images[$post['id']]) === 1 ? 'single-image' : ''; ?>">
+                                    <?php foreach ($post_images[$post['id']] as $image): ?>
+                                        <img src="uploads/<?php echo htmlspecialchars($image); ?>" alt="Post Image" class="post-image">
+                                    <?php endforeach; ?>
+                                </div>
+                            <?php endif; ?>
+
+                            <div class="action-buttons">
+                                <div class="interaction-buttons">
+                                    <span class="like-btn <?php echo $post['user_liked'] ? 'liked' : ''; ?>" data-post-id="<?php echo $post['id']; ?>">
+                                        <i class="bi <?php echo $post['user_liked'] ? 'bi-heart-fill' : 'bi-heart'; ?>"></i>
+                                        <span class="like-count"><?php echo $post['like_count']; ?></span>
+                                    </span>
+                                    <span class="comment-btn">
+                                        <i class="bi bi-chat-square-dots"></i>
+                                        <span class="comment-count"><?php echo $post['comment_count']; ?></span>
+                                    </span>
+                                    <span class="share-btn">
+                                        <i class="bi bi-share"></i>
+                                    </span>
+                                </div>
+                                <div class="bookmark">
+                                    <span class="bookmark-btn <?php echo $post['is_bookmarked'] ? 'bookmarked' : ''; ?>" data-post-id="<?php echo $post['id']; ?>">
+                                        <i class="bi <?php echo $post['is_bookmarked'] ? 'bi-bookmark-fill' : 'bi-bookmark'; ?>"></i>
+                                    </span>
+                                </div>
+                            </div>
+
+                            <div class="comments-section" style="display: none;">
+                                <form class="comment-form">
+                                    <input type="text" placeholder="Add a comment..." class="comment-input">
+                                    <button type="submit" class="btn btn-primary">Comment</button>
+                                </form>
+                                <div class="comments-list"></div>
+                            </div>
+                        </div>
+                    <?php endforeach; ?>
+                <?php endif; ?>
             </div>
         </div>
 
+        <!-- Right Sidebar -->
         <div class="right">
             <div class="trending-topic">
                 <div class="heading">
-                    <h4>Trending Topics</h4>
-                    <i class="bi bi-pencil-square"></i>
+                    <h4><i class="bi bi-fire"></i> Trending Topics</h4>
                 </div>
                 <div class="search-bar">
                     <i class="bi bi-search"></i>
                     <input type="search" placeholder="Search Trending Topics" id="trending-topic">
                 </div>
                 <ul class="category">
-                    <li><a href="#" class="text-[var(--primary-color)] hover:underline">#Technology</a></li>
-                    <li><a href="#" class="text-[var(--primary-color)] hover:underline">#Programming</a></li>
-                    <li><a href="#" class="text-[var(--primary-color)] hover:underline">#WebDevelopment</a></li>
-                    <li><a href="#" class="text-[var(--primary-color)] hover:underline">#AI</a></li>
-                    <li><a href="#" class="text-[var(--primary-color)] hover:underline">#CloudComputing</a></li>
+                    <li><a href="#"><i class="bi bi-hash"></i> Technology</a></li>
+                    <li><a href="#"><i class="bi bi-hash"></i> Programming</a></li>
+                    <li><a href="#"><i class="bi bi-hash"></i> WebDevelopment</a></li>
+                    <li><a href="#"><i class="bi bi-hash"></i> AI</a></li>
+                    <li><a href="#"><i class="bi bi-hash"></i> CloudComputing</a></li>
                 </ul>
             </div>
 
             <div class="communities">
-                <h3 class="font-semibold mb-3">Communities</h3>
+                <h3 class="font-semibold mb-3"><i class="bi bi-people-fill"></i> Communities</h3>
                 <div class="community-item mb-4">
                     <div class="flex items-center gap-2">
-                        <span class="text-2xl">🏢</span>
+                        <span class="comm-icon">🏢</span>
                         <h4 class="font-semibold">Microsoft Azure</h4>
                     </div>
                     <p class="text-sm text-gray-500 mt-1">26 Members</p>
-                    <p class="text-sm mt-1">A collective for developers to engage, share, and learn about Microsoft Azure.</p>
-                    <button class="btn-join">Join</button>
+                    <p class="text-sm mt-1">A collective for developers to engage, share, and learn about Azure.</p>
+                    <button class="btn-join" onclick="toggleJoinCommunity(this)">Join</button>
                 </div>
                 <div class="community-item mb-4">
                     <div class="flex items-center gap-2">
-                        <span class="text-2xl">💻</span>
+                        <span class="comm-icon">💻</span>
                         <h4 class="font-semibold">React Developers</h4>
                     </div>
                     <p class="text-sm text-gray-500 mt-1">42 Members</p>
-                    <p class="text-sm mt-1">Join React enthusiasts to discuss components, hooks, and more.</p>
-                    <button class="btn-join">Join</button>
+                    <p class="text-sm mt-1">Join React enthusiasts to discuss components, hooks, and state management.</p>
+                    <button class="btn-join" onclick="toggleJoinCommunity(this)">Join</button>
                 </div>
             </div>
         </div>
     </div>
 </main>
 
+<!-- Create Post Modal -->
 <input type="checkbox" id="create-post-modal" style="display: none;">
 <div class="post-modal">
     <div class="modal-content">
-        <span class="close-modal">×</span>
-        <h2>Create Post</h2>
+        <span class="close-modal">&times;</span>
+        <h2><i class="bi bi-pencil-square"></i> Create New Discussion</h2>
         <form id="post-form" enctype="multipart/form-data">
             <input type="hidden" name="csrf_token" value="<?php echo htmlspecialchars($_SESSION['csrf_token']); ?>">
             <textarea placeholder="What's on your mind, <?php echo htmlspecialchars($user['username']); ?>?" required name="content"></textarea>
-            <select name="category_id" required class="category-select">
-                <option value="">Select a Category</option>
-                <option value="1">Algorithms and Data Structures</option>
-                <option value="2">Programming Languages</option>
-                <option value="3">Debugging and Error Handling</option>
-                <option value="4">System Design and Architecture</option>
-                <option value="5">Web Development</option>
-                <option value="6">Mobile App Development</option>
-                <option value="7">DevOps and Deployment</option>
-                <option value="8">Security and Cryptography</option>
-                <option value="9">Machine Learning and AI</option>
-                <option value="10">Competitive Programming</option>
-            </select>
+            
+            <div class="form-group margin-top-sm">
+                <label class="form-label"><i class="bi bi-tag"></i> Choose Category</label>
+                <select name="category_id" required class="category-select">
+                    <option value="">Select a Category</option>
+                    <?php foreach ($categories as $cat): ?>
+                        <option value="<?php echo $cat['id']; ?>"><?php echo htmlspecialchars($cat['name']); ?></option>
+                    <?php endforeach; ?>
+                </select>
+            </div>
+
             <div class="image-preview" style="display: none;">
                 <div id="image-preview-container"></div>
             </div>
+            
             <div class="post-options">
                 <label for="image-upload" class="post-option">
                     <i class="bi bi-paperclip"></i> Attach Photos
-                    <input type="file" id="image-upload" name="images[]" accept="image/jpeg,image/png,image/gif" multiple style="display: none;">
+                    <input type="file" id="image-upload" name="images[]" accept="image/jpeg,image/png,image/gif,image/webp" multiple style="display: none;">
                 </label>
                 <button type="button" class="post-option emoji-btn">
                     <i class="bi bi-emoji-smile"></i> Emoji
@@ -283,9 +346,12 @@ foreach ($posts as $post) {
                     <span class="emoji" data-emoji="❤️">❤️</span>
                     <span class="emoji" data-emoji="👍">👍</span>
                     <span class="emoji" data-emoji="🎉">🎉</span>
+                    <span class="emoji" data-emoji="🚀">🚀</span>
+                    <span class="emoji" data-emoji="🔥">🔥</span>
+                    <span class="emoji" data-emoji="💡">💡</span>
                 </div>
             </div>
-            <button type="submit" class="btn btn-primary">Post</button>
+            <button type="submit" class="btn btn-primary full-width-btn"><i class="bi bi-send-fill"></i> Publish Post</button>
         </form>
     </div>
 </div>
@@ -339,13 +405,8 @@ foreach ($posts as $post) {
 </div>
 
 <div id="image-modal" style="display: none;">
-    <span id="close-image-modal">×</span>
-    <img id="modal-image">
-</div>
-<div class="post-images">
-    <?php foreach ($post['images'] as $image): ?>
-        <img src="uploads/<?php echo htmlspecialchars($image); ?>" class="post-image">
-    <?php endforeach; ?>
+    <span id="close-image-modal">&times;</span>
+    <img id="modal-image" alt="Enlarged Image">
 </div>
 
 <footer class="footer">
