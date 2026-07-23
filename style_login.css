@@ -23,7 +23,11 @@
 }
 
 body.login-body {
-    background: linear-gradient(135deg, #0f172a 0%, #1e1b4b 50%, #312e81 100%);
+    background:
+        radial-gradient(circle at 50% 50%, rgba(15, 23, 42, 0.68) 0%, rgba(15, 23, 42, 0.90) 100%),
+        linear-gradient(135deg, rgba(15, 23, 42, 0.82) 0%, rgba(30, 27, 75, 0.78) 100%),
+        url('logoo.jpg') no-repeat center center / cover;
+    background-attachment: fixed;
     color: var(--text-main);
     min-height: 100vh;
     display: flex;
