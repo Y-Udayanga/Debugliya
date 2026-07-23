@@ -204,10 +204,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Helper to update all profile photos dynamically across page
     function updateProfilePhotos(newSrc) {
-        document.querySelectorAll('.profile-photo img, .profile-photo-large img').forEach(img => {
-            if (newSrc && !newSrc.includes('blank-profile-picture.webp')) {
-                img.src = newSrc + '?v=' + Date.now();
-            }
+        if (!newSrc) return;
+        const cacheBustSrc = newSrc + (newSrc.includes('?') ? '&' : '?') + 'v=' + Date.now();
+        document.querySelectorAll('.profile-photo img, .profile-photo-large img, #modal-photo-preview img').forEach(img => {
+            img.src = cacheBustSrc;
         });
     }
 
