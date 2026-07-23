@@ -73,7 +73,13 @@ $skills = trim($_POST['skills'] ?? '');
 $linkedin_url = trim($_POST['linkedin_url'] ?? '');
 $github_url = trim($_POST['github_url'] ?? '');
 $twitter_url = trim($_POST['twitter_url'] ?? '');
-$profile_photo = $_SESSION['profile_photo'];
+
+$profile_photo = $_SESSION['profile_photo'] ?? null;
+if (!$profile_photo) {
+    $stmt = $pdo->prepare("SELECT profile_photo FROM users WHERE id = ?");
+    $stmt->execute([$user_id]);
+    $profile_photo = $stmt->fetchColumn() ?: null;
+}
 
 try {
     // Validate upload directory
@@ -87,9 +93,6 @@ try {
         throw new Exception('uploads directory is not writable at ' . $upload_dir);
     }
 
-    // Debug: Log upload directory status
-    error_log('uploads directory: ' . $upload_dir . ', writable: ' . (is_writable($upload_dir) ? 'yes' : 'no'));
-
     // Handle profile photo upload
     if (isset($_FILES['profile_photo']) && $_FILES['profile_photo']['error'] === UPLOAD_ERR_OK) {
         $file = $_FILES['profile_photo'];
@@ -100,9 +103,6 @@ try {
             'image/webp' => 'webp',
         ];
         $max_size = 5 * 1024 * 1024; // 5MB
-
-        // Debug: Log file upload details
-        error_log('File upload attempt: name=' . $file['name'] . ', type=' . $file['type'] . ', size=' . $file['size']);
 
         $finfo = new finfo(FILEINFO_MIME_TYPE);
         $file_type = $finfo->file($file['tmp_name']);
@@ -134,7 +134,6 @@ try {
         throw new Exception('File upload error code: ' . $_FILES['profile_photo']['error']);
     }
 
-    
     // Update user in database
     $stmt = $pdo->prepare("UPDATE users SET bio = ?, location = ?, phone = ?, skills = ?, linkedin_url = ?, github_url = ?, twitter_url = ?, profile_photo = ? WHERE id = ?");
     if (!$stmt->execute([$bio, $location, $phone, $skills, $linkedin_url, $github_url, $twitter_url, $profile_photo, $user_id])) {
