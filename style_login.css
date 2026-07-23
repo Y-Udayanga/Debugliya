@@ -34,6 +34,39 @@ body.login-body {
     padding: 1.5rem 1rem;
 }
 
+body.login-body::before,
+body.login-body::after {
+    content: "";
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(90px);
+    z-index: 1;
+    pointer-events: none;
+    animation: floatGlow 12s infinite alternate cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+body.login-body::before {
+    top: 12%;
+    left: 18%;
+    width: 340px;
+    height: 340px;
+    background: rgba(99, 102, 241, 0.28);
+}
+
+body.login-body::after {
+    bottom: 12%;
+    right: 18%;
+    width: 380px;
+    height: 380px;
+    background: rgba(6, 182, 212, 0.25);
+    animation-delay: -6s;
+}
+
+@keyframes floatGlow {
+    0% { transform: translate(0, 0) scale(1); }
+    100% { transform: translate(50px, 35px) scale(1.18); }
+}
+
 #login-particles {
     position: absolute;
     inset: 0;
