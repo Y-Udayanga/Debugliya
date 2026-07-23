@@ -125,6 +125,23 @@ body.login-body::after {
     margin-bottom: 1.75rem;
 }
 
+.debuglia-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: rgba(99, 102, 241, 0.25);
+    border: 1px solid rgba(99, 102, 241, 0.45);
+    color: #00d4ff;
+    padding: 0.35rem 0.95rem;
+    border-radius: 20px;
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 0.6px;
+    margin-bottom: 0.85rem;
+    text-transform: uppercase;
+    box-shadow: 0 4px 14px rgba(0, 212, 255, 0.15);
+}
+
 .logo-badge {
     width: 56px;
     height: 56px;

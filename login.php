@@ -57,6 +57,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         <div class="login-card-glass">
             <!-- Brand Header -->
             <div class="brand-header">
+                <span class="debuglia-pill"><i class="bi bi-cpu-fill"></i> DEBUGLIA DEVELOPER HUB</span>
                 <div class="logo-badge">
                     <i class="bi bi-code-slash logo-ico"></i>
                 </div>
@@ -66,7 +67,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
             <!-- Login Form -->
             <div class="auth-box">
-                <h2>Sign In</h2>
+                <h2><i class="bi bi-shield-lock-fill"></i> Sign In to Your Account</h2>
 
                 <?php if ($error): ?>
                     <div class="alert alert-danger" role="alert">
