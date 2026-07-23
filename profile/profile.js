@@ -147,8 +147,16 @@ document.addEventListener('DOMContentLoaded', () => {
     // Profile form submission handler
     const editProfileForm = document.querySelector('#edit-profile-form');
     if (editProfileForm) {
-        editProfileForm.addEventListener('submit', async (e) => {
-            e.preventDefault();
+        const handleProfileSubmit = async (e) => {
+            if (e) e.preventDefault();
+            const submitBtn = editProfileForm.querySelector('#save-profile-submit-btn') || editProfileForm.querySelector('button[type="submit"]');
+            const originalBtnHTML = submitBtn ? submitBtn.innerHTML : 'Save Profile';
+
+            if (submitBtn) {
+                submitBtn.disabled = true;
+                submitBtn.innerHTML = '<i class="bi bi-arrow-repeat spin"></i> Saving...';
+            }
+
             const formData = new FormData(editProfileForm);
 
             try {
@@ -157,7 +165,15 @@ document.addEventListener('DOMContentLoaded', () => {
                     body: formData
                 });
 
-                const result = await response.json();
+                const text = await response.text();
+                let result;
+                try {
+                    result = JSON.parse(text);
+                } catch (jsonErr) {
+                    console.error('Invalid response from update_profile.php:', text);
+                    throw new Error('Server returned invalid data format.');
+                }
+
                 if (result.success) {
                     const editModal = document.querySelector('#edit-profile-modal');
                     if (editModal) editModal.style.display = 'none';
@@ -168,11 +184,30 @@ document.addEventListener('DOMContentLoaded', () => {
                     location.reload();
                 } else {
                     showError(result.message || 'Failed to update profile.');
+                    if (submitBtn) {
+                        submitBtn.disabled = false;
+                        submitBtn.innerHTML = originalBtnHTML;
+                    }
                 }
             } catch (error) {
+                console.error('Save Profile error:', error);
                 showError('Error updating profile: ' + error.message);
+                if (submitBtn) {
+                    submitBtn.disabled = false;
+                    submitBtn.innerHTML = originalBtnHTML;
+                }
             }
-        });
+        };
+
+        editProfileForm.addEventListener('submit', handleProfileSubmit);
+
+        const saveBtn = editProfileForm.querySelector('#save-profile-submit-btn');
+        if (saveBtn) {
+            saveBtn.addEventListener('click', (e) => {
+                e.preventDefault();
+                handleProfileSubmit(e);
+            });
+        }
     }
 
     // Helper to update all profile photos dynamically across page

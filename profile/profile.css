@@ -1273,11 +1273,14 @@ body.dark-mode .form-group textarea {
     top: 50%;
     transform: translateY(-50%);
     color: var(--color-gray);
-    font-size: 1rem;
+    font-size: 1.1rem;
+    z-index: 2;
+    pointer-events: none;
 }
 
+.form-group.input-with-icon input,
 .input-with-icon input {
-    padding-left: 2.75rem;
+    padding-left: 2.75rem !important;
 }
 
 .form-hint {

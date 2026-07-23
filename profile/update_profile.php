@@ -65,14 +65,27 @@ if (!isset($_POST['csrf_token']) || $_POST['csrf_token'] !== $_SESSION['csrf_tok
     exit;
 }
 
+function format_social_url($url, $domain) {
+    $url = trim($url);
+    if (empty($url)) return '';
+    if (!preg_match('~^https?://~i', $url)) {
+        if (strpos($url, $domain) === false) {
+            $url = 'https://' . $domain . '/' . ltrim($url, '/@');
+        } else {
+            $url = 'https://' . ltrim($url, '/');
+        }
+    }
+    return $url;
+}
+
 $user_id = $_SESSION['user_id'];
 $bio = trim($_POST['bio'] ?? '');
 $location = trim($_POST['location'] ?? '');
 $phone = trim($_POST['phone'] ?? '');
 $skills = trim($_POST['skills'] ?? '');
-$linkedin_url = trim($_POST['linkedin_url'] ?? '');
-$github_url = trim($_POST['github_url'] ?? '');
-$twitter_url = trim($_POST['twitter_url'] ?? '');
+$linkedin_url = format_social_url($_POST['linkedin_url'] ?? '', 'linkedin.com');
+$github_url = format_social_url($_POST['github_url'] ?? '', 'github.com');
+$twitter_url = format_social_url($_POST['twitter_url'] ?? '', 'twitter.com');
 
 $profile_photo = $_SESSION['profile_photo'] ?? null;
 if (!$profile_photo) {

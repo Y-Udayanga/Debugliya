@@ -590,7 +590,7 @@ ob_end_clean();
                 <h2><i class="bi bi-person-bounding-box"></i> Edit Profile</h2>
                 <span class="close-modal">&times;</span>
             </div>
-            <form id="edit-profile-form" enctype="multipart/form-data">
+            <form id="edit-profile-form" enctype="multipart/form-data" novalidate>
                 <input type="hidden" name="csrf_token" value="<?php echo htmlspecialchars($_SESSION['csrf_token']); ?>">
 
                 <div class="form-section">
@@ -635,21 +635,21 @@ ob_end_clean();
                     <label class="form-label"><i class="bi bi-link-45deg"></i> Social Profiles</label>
                     <div class="form-group input-with-icon">
                         <i class="bi bi-github"></i>
-                        <input type="url" name="github_url" placeholder="https://github.com/yourusername" value="<?php echo htmlspecialchars($user['github_url'] ?? ''); ?>">
+                        <input type="text" name="github_url" placeholder="https://github.com/yourusername" value="<?php echo htmlspecialchars($user['github_url'] ?? ''); ?>">
                     </div>
                     <div class="form-group input-with-icon">
                         <i class="bi bi-linkedin"></i>
-                        <input type="url" name="linkedin_url" placeholder="https://linkedin.com/in/yourusername" value="<?php echo htmlspecialchars($user['linkedin_url'] ?? ''); ?>">
+                        <input type="text" name="linkedin_url" placeholder="https://linkedin.com/in/yourusername" value="<?php echo htmlspecialchars($user['linkedin_url'] ?? ''); ?>">
                     </div>
                     <div class="form-group input-with-icon">
                         <i class="bi bi-twitter-x"></i>
-                        <input type="url" name="twitter_url" placeholder="https://twitter.com/yourusername" value="<?php echo htmlspecialchars($user['twitter_url'] ?? ''); ?>">
+                        <input type="text" name="twitter_url" placeholder="https://twitter.com/yourusername" value="<?php echo htmlspecialchars($user['twitter_url'] ?? ''); ?>">
                     </div>
                 </div>
 
                 <div class="modal-footer-actions">
                     <button type="button" class="btn btn-secondary close-modal">Cancel</button>
-                    <button type="submit" class="btn btn-primary"><i class="bi bi-check-circle-fill"></i> Save Profile</button>
+                    <button type="submit" class="btn btn-primary" id="save-profile-submit-btn"><i class="bi bi-check-circle-fill"></i> Save Profile</button>
                 </div>
             </form>
         </div>
