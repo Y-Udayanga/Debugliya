@@ -200,14 +200,6 @@ document.addEventListener('DOMContentLoaded', () => {
         };
 
         editProfileForm.addEventListener('submit', handleProfileSubmit);
-
-        const saveBtn = editProfileForm.querySelector('#save-profile-submit-btn');
-        if (saveBtn) {
-            saveBtn.addEventListener('click', (e) => {
-                e.preventDefault();
-                handleProfileSubmit(e);
-            });
-        }
     }
 
     // Helper to update all profile photos dynamically across page

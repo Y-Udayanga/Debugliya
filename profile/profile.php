@@ -109,6 +109,18 @@ if (!empty($user['github_url']) || !empty($user['linkedin_url']) || !empty($user
 // Parse skills array
 $skills_list = !empty($user['skills']) ? array_filter(array_map('trim', explode(',', $user['skills']))) : [];
 
+// Calculate profile completeness score
+function get_user_avatar($photo) {
+    $photo = trim($photo ?? '');
+    if ($photo === '' || $photo === 'blank-profile-picture.webp') {
+        return '../blank-profile-picture.webp';
+    }
+    if (preg_match('~^https?://~i', $photo)) {
+        return $photo;
+    }
+    return '../uploads/' . $photo;
+}
+
 ob_end_clean();
 ?>
 
@@ -162,7 +174,7 @@ ob_end_clean();
             <div class="left">
                 <a class="profile" href="profile.php">
                     <div class="profile-photo">
-                        <img src="<?php echo $user['profile_photo'] ? '../uploads/' . htmlspecialchars($user['profile_photo']) : '../blank-profile-picture.webp'; ?>" alt="Profile Photo">
+                        <img src="<?php echo htmlspecialchars(get_user_avatar($user['profile_photo'])); ?>" alt="Profile Photo">
                     </div>
                     <div class="handle">
                         <h4><?php echo htmlspecialchars($user['username']); ?></h4>
@@ -192,7 +204,7 @@ ob_end_clean();
                     <div class="profile-header-body">
                         <div class="avatar-wrapper">
                             <div class="profile-photo-large">
-                                <img src="<?php echo $user['profile_photo'] ? '../uploads/' . htmlspecialchars($user['profile_photo']) : '../blank-profile-picture.webp'; ?>" alt="<?php echo htmlspecialchars($user['username']); ?>'s Profile Photo" id="main-avatar-img">
+                                <img src="<?php echo htmlspecialchars(get_user_avatar($user['profile_photo'])); ?>" alt="<?php echo htmlspecialchars($user['username']); ?>'s Profile Photo" id="main-avatar-img">
                             </div>
                             <span class="online-status-dot" title="Active Now"></span>
                         </div>
@@ -597,7 +609,7 @@ ob_end_clean();
                     <label class="form-label">Profile Photo</label>
                     <div class="photo-upload-container">
                         <div class="current-photo-preview" id="modal-photo-preview">
-                            <img src="<?php echo $user['profile_photo'] ? '../uploads/' . htmlspecialchars($user['profile_photo']) : '../blank-profile-picture.webp'; ?>" alt="Current Avatar">
+                            <img src="<?php echo htmlspecialchars(get_user_avatar($user['profile_photo'])); ?>" alt="Current Avatar">
                         </div>
                         <div class="upload-controls">
                             <label for="profile-photo-upload" class="btn btn-outline upload-btn">

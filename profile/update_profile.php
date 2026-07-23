@@ -24,9 +24,6 @@ header('Content-Type: application/json');
 // Define JSON response constant for db_connect.php
 define('JSON_RESPONSE', true);
 
-// Debug: Log script start
-error_log('Starting update_profile.php for user_id: ' . ($_SESSION['user_id'] ?? 'not set'));
-
 // Include database connection
 try {
     $db_path = __DIR__ . '/../db_connect.php';
@@ -87,12 +84,11 @@ $linkedin_url = format_social_url($_POST['linkedin_url'] ?? '', 'linkedin.com');
 $github_url = format_social_url($_POST['github_url'] ?? '', 'github.com');
 $twitter_url = format_social_url($_POST['twitter_url'] ?? '', 'twitter.com');
 
-$profile_photo = $_SESSION['profile_photo'] ?? null;
-if (!$profile_photo) {
-    $stmt = $pdo->prepare("SELECT profile_photo FROM users WHERE id = ?");
-    $stmt->execute([$user_id]);
-    $profile_photo = $stmt->fetchColumn() ?: null;
-}
+// Always query fresh existing profile photo from database
+$stmt = $pdo->prepare("SELECT profile_photo FROM users WHERE id = ?");
+$stmt->execute([$user_id]);
+$current_photo = $stmt->fetchColumn() ?: null;
+$profile_photo = $current_photo;
 
 try {
     // Validate upload directory
@@ -135,12 +131,11 @@ try {
             throw new Exception('Failed to upload file to ' . $upload_path);
         }
 
-        // Delete old profile photo if exists
-        if ($profile_photo && file_exists($upload_dir . $profile_photo)) {
-            if (!unlink($upload_dir . $profile_photo)) {
-                error_log('Failed to delete old profile photo: ' . $upload_dir . $profile_photo);
-            }
+        // Delete old profile photo if exists and is custom upload
+        if ($current_photo && $current_photo !== 'blank-profile-picture.webp' && file_exists($upload_dir . $current_photo)) {
+            @unlink($upload_dir . $current_photo);
         }
+
         $profile_photo = $filename;
         $_SESSION['profile_photo'] = $filename;
     } elseif (isset($_FILES['profile_photo']) && $_FILES['profile_photo']['error'] !== UPLOAD_ERR_NO_FILE) {
@@ -153,11 +148,15 @@ try {
         throw new Exception('Database update failed for user_id: ' . $user_id);
     }
 
+    $photo_url = ($profile_photo && $profile_photo !== 'blank-profile-picture.webp')
+        ? '../uploads/' . $profile_photo
+        : '../blank-profile-picture.webp';
+
     ob_end_clean();
     echo json_encode([
         'success' => true,
         'message' => 'Profile updated successfully',
-        'profile_photo' => $profile_photo ? '../uploads/' . $profile_photo : '../blank-profile-picture.webp'
+        'profile_photo' => $photo_url
     ]);
 } catch (Exception $e) {
     ob_end_clean();
