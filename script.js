@@ -36,7 +36,8 @@ document.addEventListener('DOMContentLoaded', () => {
     if (themeToggle) {
         themeToggle.addEventListener('click', () => {
             document.body.classList.toggle('dark-mode');
-            const isDarkMode = document.body.classList.contains('dark-mode');
+            document.body.classList.toggle('dark-theme');
+            const isDarkMode = document.body.classList.contains('dark-mode') || document.body.classList.contains('dark-theme');
             themeToggle.innerHTML = isDarkMode ? '<i class="bi bi-sun"></i>' : '<i class="bi bi-moon-stars"></i>';
             localStorage.setItem('theme', isDarkMode ? 'dark' : 'light');
         });
@@ -45,6 +46,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const savedTheme = localStorage.getItem('theme');
         if (savedTheme === 'dark') {
             document.body.classList.add('dark-mode');
+            document.body.classList.add('dark-theme');
             themeToggle.innerHTML = '<i class="bi bi-sun"></i>';
         } else {
             themeToggle.innerHTML = '<i class="bi bi-moon-stars"></i>';
