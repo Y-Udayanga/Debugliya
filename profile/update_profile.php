@@ -1,7 +1,7 @@
 <?php
-// Start output buffering with callback to capture any output
+// Start output buffering with callback to capture any unexpected output
 ob_start(function ($buffer) {
-    if ($buffer !== '') {
+    if (trim($buffer) !== '') {
         error_log('Unexpected output captured in update_profile.php: ' . substr($buffer, 0, 1000));
     }
     return '';
@@ -12,7 +12,6 @@ ini_set('display_errors', 0);
 ini_set('display_startup_errors', 0);
 error_reporting(E_ALL);
 ini_set('log_errors', 1);
-ini_set('error_log', __DIR__ . '/../logs/php_errors.log');
 
 // Start session
 require_once __DIR__ . '/../session_bootstrap.php';
@@ -28,12 +27,11 @@ define('JSON_RESPONSE', true);
 try {
     $db_path = __DIR__ . '/../db_connect.php';
     if (!file_exists($db_path)) {
-        throw new Exception('db_connect.php not found at ' . $db_path);
+        throw new Exception('db_connect.php not found');
     }
     require $db_path;
 } catch (Exception $e) {
     ob_end_clean();
-    error_log('Database connection error: ' . $e->getMessage() . ' in ' . __FILE__ . ' on line ' . __LINE__);
     echo json_encode(['success' => false, 'message' => 'Database connection failed: ' . $e->getMessage()]);
     exit;
 }
@@ -41,7 +39,6 @@ try {
 // Check authentication
 if (!isset($_SESSION['user_id'])) {
     ob_end_clean();
-    error_log('Unauthorized access attempt in update_profile.php');
     echo json_encode(['success' => false, 'message' => 'Unauthorized']);
     exit;
 }
@@ -49,7 +46,6 @@ if (!isset($_SESSION['user_id'])) {
 // Validate request method
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
     ob_end_clean();
-    error_log('Invalid request method: ' . $_SERVER['REQUEST_METHOD']);
     echo json_encode(['success' => false, 'message' => 'Invalid request method']);
     exit;
 }
@@ -57,8 +53,7 @@ if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
 // Validate CSRF token
 if (!isset($_POST['csrf_token']) || $_POST['csrf_token'] !== $_SESSION['csrf_token']) {
     ob_end_clean();
-    error_log('Invalid CSRF token in update_profile.php');
-    echo json_encode(['success' => false, 'message' => 'Invalid CSRF token']);
+    echo json_encode(['success' => false, 'message' => 'Invalid CSRF token. Please refresh the page and try again.']);
     exit;
 }
 
@@ -84,7 +79,7 @@ $linkedin_url = format_social_url($_POST['linkedin_url'] ?? '', 'linkedin.com');
 $github_url = format_social_url($_POST['github_url'] ?? '', 'github.com');
 $twitter_url = format_social_url($_POST['twitter_url'] ?? '', 'twitter.com');
 
-// Always query fresh existing profile photo from database
+// Query fresh existing profile photo from database
 $stmt = $pdo->prepare("SELECT profile_photo FROM users WHERE id = ?");
 $stmt->execute([$user_id]);
 $current_photo = $stmt->fetchColumn() ?: null;
@@ -94,44 +89,42 @@ try {
     // Validate upload directory
     $upload_dir = __DIR__ . '/../uploads/';
     if (!is_dir($upload_dir)) {
-        if (!mkdir($upload_dir, 0755, true)) {
-            throw new Exception('Failed to create uploads directory');
-        }
-    }
-    if (!is_writable($upload_dir)) {
-        throw new Exception('uploads directory is not writable at ' . $upload_dir);
+        @mkdir($upload_dir, 0755, true);
     }
 
     // Handle profile photo upload
     if (isset($_FILES['profile_photo']) && $_FILES['profile_photo']['error'] === UPLOAD_ERR_OK) {
         $file = $_FILES['profile_photo'];
-        $allowed_types = [
-            'image/jpeg' => 'jpg',
-            'image/png' => 'png',
-            'image/gif' => 'gif',
-            'image/webp' => 'webp',
-        ];
         $max_size = 5 * 1024 * 1024; // 5MB
-
-        $finfo = new finfo(FILEINFO_MIME_TYPE);
-        $file_type = $finfo->file($file['tmp_name']);
-        if (!isset($allowed_types[$file_type])) {
-            throw new Exception('Invalid file type. Only JPEG, PNG, GIF, or WebP allowed.');
-        }
 
         if ($file['size'] > $max_size) {
             throw new Exception('File size exceeds 5MB limit.');
         }
 
-        $ext = $allowed_types[$file_type];
-        $filename = 'profile_' . $user_id . '_' . time() . '.' . $ext;
+        $orig_name = strtolower($file['name']);
+        $ext = pathinfo($orig_name, PATHINFO_EXTENSION);
+        $allowed_exts = ['jpg', 'jpeg', 'png', 'gif', 'webp'];
+
+        if (!in_array($ext, $allowed_exts)) {
+            throw new Exception('Invalid file format. Only JPG, PNG, GIF, or WebP allowed.');
+        }
+
+        // Verify image structure via getimagesize if available
+        if (function_exists('getimagesize')) {
+            $check = @getimagesize($file['tmp_name']);
+            if ($check === false) {
+                throw new Exception('Uploaded file is not a valid image.');
+            }
+        }
+
+        $filename = 'profile_' . $user_id . '_' . time() . '.' . ($ext === 'jpeg' ? 'jpg' : $ext);
         $upload_path = $upload_dir . $filename;
 
         if (!move_uploaded_file($file['tmp_name'], $upload_path)) {
-            throw new Exception('Failed to upload file to ' . $upload_path);
+            throw new Exception('Failed to save uploaded image. Check folder permissions.');
         }
 
-        // Delete old profile photo if exists and is custom upload
+        // Delete old custom profile photo
         if ($current_photo && $current_photo !== 'blank-profile-picture.webp' && file_exists($upload_dir . $current_photo)) {
             @unlink($upload_dir . $current_photo);
         }
@@ -142,7 +135,7 @@ try {
         throw new Exception('File upload error code: ' . $_FILES['profile_photo']['error']);
     }
 
-    // Update user in database
+    // Update database record
     $stmt = $pdo->prepare("UPDATE users SET bio = ?, location = ?, phone = ?, skills = ?, linkedin_url = ?, github_url = ?, twitter_url = ?, profile_photo = ? WHERE id = ?");
     if (!$stmt->execute([$bio, $location, $phone, $skills, $linkedin_url, $github_url, $twitter_url, $profile_photo, $user_id])) {
         throw new Exception('Database update failed for user_id: ' . $user_id);
@@ -156,11 +149,18 @@ try {
     echo json_encode([
         'success' => true,
         'message' => 'Profile updated successfully',
-        'profile_photo' => $photo_url
+        'profile_photo' => $photo_url,
+        'bio' => $bio,
+        'location' => $location,
+        'phone' => $phone,
+        'skills' => $skills,
+        'linkedin_url' => $linkedin_url,
+        'github_url' => $github_url,
+        'twitter_url' => $twitter_url
     ]);
 } catch (Exception $e) {
     ob_end_clean();
-    error_log('Profile update error: ' . $e->getMessage() . ' in ' . __FILE__ . ' on line ' . __LINE__);
+    error_log('Profile update error: ' . $e->getMessage() . ' in ' . __FILE__);
     echo json_encode(['success' => false, 'message' => 'Error: ' . $e->getMessage()]);
 }
 exit;
