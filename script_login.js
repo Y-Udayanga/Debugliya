@@ -12,6 +12,44 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
+    // Register page password toggle
+    const regToggleBtn = document.querySelector('#toggle-reg-password');
+    const regPasswordInput = document.querySelector('#reg-password');
+    const regToggleIcon = document.querySelector('#toggle-reg-icon');
+
+    if (regToggleBtn && regPasswordInput && regToggleIcon) {
+        regToggleBtn.addEventListener('click', () => {
+            const isPassword = regPasswordInput.type === 'password';
+            regPasswordInput.type = isPassword ? 'text' : 'password';
+            regToggleIcon.className = isPassword ? 'bi bi-eye-fill' : 'bi bi-eye-slash-fill';
+        });
+    }
+
+    // Password match indicator
+    const confirmInput = document.querySelector('#reg-confirm-password');
+    const matchMsg = document.querySelector('#password-match-msg');
+
+    if (regPasswordInput && confirmInput && matchMsg) {
+        const validateMatch = () => {
+            const pass = regPasswordInput.value;
+            const confirm = confirmInput.value;
+            if (!confirm) {
+                matchMsg.style.display = 'none';
+                return;
+            }
+            matchMsg.style.display = 'block';
+            if (pass === confirm) {
+                matchMsg.textContent = '✓ Passwords match';
+                matchMsg.style.color = '#10b981';
+            } else {
+                matchMsg.textContent = '✕ Passwords do not match';
+                matchMsg.style.color = '#ef4444';
+            }
+        };
+        regPasswordInput.addEventListener('input', validateMatch);
+        confirmInput.addEventListener('input', validateMatch);
+    }
+
     // Submit button loading animation
     const loginForm = document.querySelector('#login-form');
     const loginBtn = document.querySelector('#login-btn');
@@ -20,6 +58,16 @@ document.addEventListener('DOMContentLoaded', () => {
         loginForm.addEventListener('submit', () => {
             loginBtn.disabled = true;
             loginBtn.innerHTML = '<i class="bi bi-arrow-repeat spin"></i> Signing in...';
+        });
+    }
+
+    const registerForm = document.querySelector('#register-form');
+    const registerBtn = document.querySelector('#register-btn');
+
+    if (registerForm && registerBtn) {
+        registerForm.addEventListener('submit', () => {
+            registerBtn.disabled = true;
+            registerBtn.innerHTML = '<i class="bi bi-arrow-repeat spin"></i> Creating Account...';
         });
     }
 
