@@ -616,3 +616,149 @@ body.dark-mode .category-pill.active {
     color: var(--ui-text);
     margin: 0;
 }
+
+/* ==========================================================================
+   Comprehensive Dark Mode Styles for Forum & Site-Wide Components
+   ========================================================================== */
+
+body.dark-mode,
+body.dark-theme {
+    --ui-bg: #0f172a;
+    --ui-surface: #1e293b;
+    --ui-surface-2: #0f172a;
+    --ui-border: rgba(255, 255, 255, 0.1);
+    --ui-text: #f8fafc;
+    --ui-muted: #94a3b8;
+    background: linear-gradient(180deg, #0f172a 0%, #1e1b4b 100%) !important;
+    color: #f8fafc !important;
+}
+
+body.dark-mode .navbar,
+body.dark-theme .navbar {
+    background: rgba(15, 23, 42, 0.95);
+    border-bottom-color: rgba(255, 255, 255, 0.1);
+}
+
+body.dark-mode .left .profile,
+body.dark-theme .left .profile,
+body.dark-mode .left .sidebar,
+body.dark-theme .left .sidebar,
+body.dark-mode .right > *,
+body.dark-theme .right > *,
+body.dark-mode .trending-topic,
+body.dark-theme .trending-topic,
+body.dark-mode .trending-topics,
+body.dark-theme .trending-topics,
+body.dark-mode .communities,
+body.dark-theme .communities,
+body.dark-mode .create-post-card,
+body.dark-theme .create-post-card,
+body.dark-mode .feed,
+body.dark-theme .feed,
+body.dark-mode .empty-feed-card,
+body.dark-theme .empty-feed-card {
+    background: #1e293b !important;
+    border-color: rgba(255, 255, 255, 0.1) !important;
+    color: #f8fafc !important;
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.25) !important;
+}
+
+body.dark-mode .left .sidebar .menu-item,
+body.dark-theme .left .sidebar .menu-item,
+body.dark-mode .menu-item,
+body.dark-theme .menu-item {
+    color: #cbd5e1 !important;
+}
+
+body.dark-mode .left .sidebar .menu-item:hover,
+body.dark-theme .left .sidebar .menu-item:hover,
+body.dark-mode .menu-item:hover,
+body.dark-theme .menu-item:hover {
+    background: rgba(99, 102, 241, 0.2) !important;
+    color: #00d4ff !important;
+}
+
+body.dark-mode .create-post-input-row input,
+body.dark-theme .create-post-input-row input,
+body.dark-mode .forum-search-box input,
+body.dark-theme .forum-search-box input,
+body.dark-mode .comment-input,
+body.dark-theme .comment-input,
+body.dark-mode input[type="text"],
+body.dark-theme input[type="text"],
+body.dark-mode input[type="search"],
+body.dark-theme input[type="search"],
+body.dark-mode textarea,
+body.dark-theme textarea,
+body.dark-mode select,
+body.dark-theme select {
+    background: #0f172a !important;
+    color: #ffffff !important;
+    border-color: rgba(255, 255, 255, 0.15) !important;
+}
+
+body.dark-mode .feed-tabs,
+body.dark-theme .feed-tabs {
+    background: rgba(255, 255, 255, 0.05);
+    border-color: rgba(255, 255, 255, 0.1);
+}
+
+body.dark-mode .feed-tab-btn,
+body.dark-theme .feed-tab-btn {
+    color: #cbd5e1;
+}
+
+body.dark-mode .feed-tab-btn.active,
+body.dark-theme .feed-tab-btn.active {
+    background: #6366f1 !important;
+    color: #ffffff !important;
+}
+
+body.dark-mode .category-pill,
+body.dark-theme .category-pill {
+    background: rgba(255, 255, 255, 0.06);
+    color: #cbd5e1;
+    border-color: rgba(255, 255, 255, 0.1);
+}
+
+body.dark-mode .category-pill.active,
+body.dark-theme .category-pill.active {
+    background: #6366f1 !important;
+    color: #ffffff !important;
+    border-color: #6366f1 !important;
+}
+
+body.dark-mode .feed .head .info h3,
+body.dark-theme .feed .head .info h3,
+body.dark-mode .caption p,
+body.dark-theme .caption p,
+body.dark-mode h2,
+body.dark-theme h2,
+body.dark-mode h3,
+body.dark-theme h3,
+body.dark-mode h4,
+body.dark-theme h4 {
+    color: #f8fafc !important;
+}
+
+body.dark-mode .feed .head .info small,
+body.dark-theme .feed .head .info small,
+body.dark-mode .post-stats-mini,
+body.dark-theme .post-stats-mini,
+body.dark-mode .text-muted,
+body.dark-theme .text-muted {
+    color: #94a3b8 !important;
+}
+
+body.dark-mode .comments-section,
+body.dark-theme .comments-section {
+    background: #0f172a;
+    border-color: rgba(255, 255, 255, 0.1);
+}
+
+body.dark-mode .modal-content,
+body.dark-theme .modal-content {
+    background: #1e293b !important;
+    color: #f8fafc !important;
+    border-color: rgba(255, 255, 255, 0.15) !important;
+}
