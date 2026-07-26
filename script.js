@@ -35,21 +35,24 @@ document.addEventListener('DOMContentLoaded', () => {
     // Theme toggle functionality
     if (themeToggle) {
         themeToggle.addEventListener('click', () => {
-            document.body.classList.toggle('dark-mode');
-            document.body.classList.toggle('dark-theme');
             const isDarkMode = document.body.classList.contains('dark-mode') || document.body.classList.contains('dark-theme');
-            themeToggle.innerHTML = isDarkMode ? '<i class="bi bi-sun"></i>' : '<i class="bi bi-moon-stars"></i>';
-            localStorage.setItem('theme', isDarkMode ? 'dark' : 'light');
+            if (isDarkMode) {
+                changeBG('95%', '100%', '17%');
+            } else {
+                changeBG('20%', '28%', '95%');
+            }
         });
 
         // Load saved theme preference
         const savedTheme = localStorage.getItem('theme');
-        if (savedTheme === 'dark') {
-            document.body.classList.add('dark-mode');
-            document.body.classList.add('dark-theme');
-            themeToggle.innerHTML = '<i class="bi bi-sun"></i>';
+        const savedLight = localStorage.getItem('lightColorLightness');
+        const savedWhite = localStorage.getItem('whiteColorLightness');
+        const savedDark = localStorage.getItem('darkColorLightness');
+
+        if (savedTheme === 'dark' || (savedWhite && savedWhite !== '100%')) {
+            changeBG(savedLight || '20%', savedWhite || '28%', savedDark || '95%');
         } else {
-            themeToggle.innerHTML = '<i class="bi bi-moon-stars"></i>';
+            changeBG(savedLight || '95%', savedWhite || '100%', savedDark || '17%');
         }
     }
 
@@ -838,20 +841,36 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    const changeBG = (light, white, dark) => {
+    function changeBG(light, white, dark) {
         root.style.setProperty('--light-color-lightness', light);
         root.style.setProperty('--white-color-lightness', white);
         root.style.setProperty('--dark-color-lightness', dark);
-        if (dark <= '20%') {
+
+        const isDark = (white === '28%' || white === '17%' || light === '20%' || light === '10%');
+        if (isDark) {
             document.body.classList.add('dark-mode');
+            document.body.classList.add('dark-theme');
+            localStorage.setItem('theme', 'dark');
+            if (themeToggle) themeToggle.innerHTML = '<i class="bi bi-sun"></i>';
         } else {
             document.body.classList.remove('dark-mode');
+            document.body.classList.remove('dark-theme');
+            localStorage.setItem('theme', 'light');
+            if (themeToggle) themeToggle.innerHTML = '<i class="bi bi-moon-stars"></i>';
         }
         localStorage.setItem('lightColorLightness', light);
         localStorage.setItem('whiteColorLightness', white);
         localStorage.setItem('darkColorLightness', dark);
-    };
 
+        if (bgOptions && bgOptions.length > 0) {
+            bgOptions.forEach(bg => {
+                bg.classList.remove('active');
+                if (light === '95%' && bg.classList.contains('bg-1')) bg.classList.add('active');
+                else if (light === '20%' && bg.classList.contains('bg-2')) bg.classList.add('active');
+                else if (light === '10%' && bg.classList.contains('bg-3')) bg.classList.add('active');
+            });
+        }
+    }
 
     bgOptions.forEach(bg => {
         bg.addEventListener('click', () => {
@@ -865,17 +884,15 @@ document.addEventListener('DOMContentLoaded', () => {
             } else if (bg.classList.contains('bg-2')) {
                 light = '20%';
                 white = '28%';
-                dark = '10%';
+                dark = '95%';
             } else if (bg.classList.contains('bg-3')) {
                 light = '10%';
                 white = '17%';
-                dark = '5%';
+                dark = '95%';
             }
             changeBG(light, white, dark);
         });
     });
-    
-    
 
     // Load saved background
     const savedLight = localStorage.getItem('lightColorLightness');
@@ -883,12 +900,6 @@ document.addEventListener('DOMContentLoaded', () => {
     const savedDark = localStorage.getItem('darkColorLightness');
     if (savedLight && savedWhite && savedDark) {
         changeBG(savedLight, savedWhite, savedDark);
-        bgOptions.forEach(bg => {
-            bg.classList.remove('active');
-            if (savedLight === '95%' && bg.classList.contains('bg-1')) bg.classList.add('active');
-            else if (savedLight === '20%' && bg.classList.contains('bg-2')) bg.classList.add('active');
-            else if (savedLight === '10%' && bg.classList.contains('bg-3')) bg.classList.add('active');
-        });
     }
 
     joinButtons.forEach(button => {

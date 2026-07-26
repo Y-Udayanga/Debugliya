@@ -666,7 +666,15 @@ body.dark-theme .empty-feed-card {
 body.dark-mode .left .sidebar .menu-item,
 body.dark-theme .left .sidebar .menu-item,
 body.dark-mode .menu-item,
-body.dark-theme .menu-item {
+body.dark-theme .menu-item,
+body.dark-mode .left .sidebar .menu-item h3,
+body.dark-theme .left .sidebar .menu-item h3,
+body.dark-mode .left .sidebar .menu-item i,
+body.dark-theme .left .sidebar .menu-item i,
+body.dark-mode .menu-item h3,
+body.dark-theme .menu-item h3,
+body.dark-mode .menu-item i,
+body.dark-theme .menu-item i {
     color: #cbd5e1 !important;
 }
 
@@ -675,6 +683,21 @@ body.dark-theme .left .sidebar .menu-item:hover,
 body.dark-mode .menu-item:hover,
 body.dark-theme .menu-item:hover {
     background: rgba(99, 102, 241, 0.2) !important;
+    color: #00d4ff !important;
+}
+
+body.dark-mode .left .sidebar .menu-item:hover h3,
+body.dark-theme .left .sidebar .menu-item:hover h3,
+body.dark-mode .left .sidebar .menu-item:hover i,
+body.dark-theme .left .sidebar .menu-item:hover i,
+body.dark-mode .menu-item:hover h3,
+body.dark-theme .menu-item:hover h3,
+body.dark-mode .menu-item:hover i,
+body.dark-theme .menu-item:hover i,
+body.dark-mode .left .sidebar .menu-item.active h3,
+body.dark-theme .left .sidebar .menu-item.active h3,
+body.dark-mode .left .sidebar .menu-item.active i,
+body.dark-theme .left .sidebar .menu-item.active i {
     color: #00d4ff !important;
 }
 
@@ -695,6 +718,64 @@ body.dark-theme select {
     background: #0f172a !important;
     color: #ffffff !important;
     border-color: rgba(255, 255, 255, 0.15) !important;
+}
+
+body.dark-mode .community-item,
+body.dark-theme .community-item {
+    background: #0f172a !important;
+    border: 1px solid rgba(255, 255, 255, 0.1) !important;
+    border-radius: 0.75rem !important;
+    padding: 0.85rem !important;
+    color: #f8fafc !important;
+}
+
+body.dark-mode .community-item p,
+body.dark-theme .community-item p {
+    color: #94a3b8 !important;
+}
+
+body.dark-mode .right .category li a,
+body.dark-theme .right .category li a {
+    background: rgba(255, 255, 255, 0.06) !important;
+    color: #cbd5e1 !important;
+    border-radius: 0.5rem;
+}
+
+body.dark-mode .right .category li a:hover,
+body.dark-theme .right .category li a:hover {
+    background: #6366f1 !important;
+    color: #ffffff !important;
+}
+
+body.dark-mode .post-action-btn,
+body.dark-theme .post-action-btn {
+    background: rgba(255, 255, 255, 0.06) !important;
+    color: #cbd5e1 !important;
+    border: 1px solid rgba(255, 255, 255, 0.1) !important;
+}
+
+body.dark-mode .post-action-btn:hover,
+body.dark-theme .post-action-btn:hover {
+    background: rgba(255, 255, 255, 0.12) !important;
+    color: #ffffff !important;
+}
+
+body.dark-mode .interaction-buttons span,
+body.dark-theme .interaction-buttons span,
+body.dark-mode .bookmark-btn,
+body.dark-theme .bookmark-btn,
+body.dark-mode .delete-post-btn,
+body.dark-theme .delete-post-btn {
+    color: #cbd5e1 !important;
+}
+
+body.dark-mode .customize-theme .font-size > div,
+body.dark-theme .customize-theme .font-size > div,
+body.dark-mode .customize-theme .choose-color,
+body.dark-theme .customize-theme .choose-color {
+    background: #0f172a !important;
+    border: 1px solid rgba(255, 255, 255, 0.1) !important;
+    color: #f8fafc !important;
 }
 
 body.dark-mode .feed-tabs,
