@@ -243,49 +243,81 @@ body.dark-mode .logout:hover {
     color: #2a2a2a;
 }
 
-body.dark-mode #theme-toggle:hover {
+body.dark-theme .profile-link:hover,
+body.dark-mode .logout:hover,
+body.dark-theme .logout:hover {
+    background-color: #fff;
+    color: #2a2a2a;
+}
+
+body.dark-mode #theme-toggle:hover,
+body.dark-theme #theme-toggle:hover {
     background-color: #00d4ff;
     color: #2a2a2a;
     border-color: #00d4ff;
 }
 
-body.dark-mode .hamburger span {
+body.dark-mode .hamburger span,
+body.dark-theme .hamburger span {
     background-color: #fff;
 }
 
+body.dark-mode .left .profile,
+body.dark-theme .left .profile,
 body.dark-mode .sidebar,
+body.dark-theme .sidebar,
 body.dark-mode .create-post,
+body.dark-theme .create-post,
 body.dark-mode .feed,
+body.dark-theme .feed,
 body.dark-mode .trending-topic,
+body.dark-theme .trending-topic,
 body.dark-mode .communities,
+body.dark-theme .communities,
+body.dark-mode .community-item,
+body.dark-theme .community-item,
 body.dark-mode .post-modal .modal-content,
-body.dark-mode .customize-theme .card {
+body.dark-theme .post-modal .modal-content,
+body.dark-mode .customize-theme .card,
+body.dark-theme .customize-theme .card {
     background: var(--color-white);
 }
 
 body.dark-mode .text-muted,
+body.dark-theme .text-muted,
 body.dark-mode .footer .footer-logo p,
+body.dark-theme .footer .footer-logo p,
 body.dark-mode .footer .footer-links ul li a,
+body.dark-theme .footer .footer-links ul li a,
 body.dark-mode .footer .footer-social .social-icons a,
+body.dark-theme .footer .footer-social .social-icons a,
 body.dark-mode .footer .footer-contact p,
-body.dark-mode .footer .footer-bottom p {
+body.dark-theme .footer .footer-contact p,
+body.dark-mode .footer .footer-bottom p,
+body.dark-theme .footer .footer-bottom p {
     color: var(--color-gray);
 }
 
 /* sidebar menu item colors in dark mode */
 body.dark-mode .left .sidebar i,
+body.dark-theme .left .sidebar i,
 body.dark-mode .left .sidebar h3,
+body.dark-theme .left .sidebar h3,
 body.dark-mode .left .sidebar .active i,
-body.dark-mode .left .sidebar .active h3 {
+body.dark-theme .left .sidebar .active i,
+body.dark-mode .left .sidebar .active h3,
+body.dark-theme .left .sidebar .active h3 {
     color: var(--color-dark); 
 }
 
 /* trending topic category colors in dark mode */
-body.dark-mode .right .category li a {
+body.dark-mode .right .category li a,
+body.dark-theme .right .category li a {
     color: var(--color-dark); 
 }
 
-body.dark-mode .right .category li a:hover {
+body.dark-mode .right .category li a:hover,
+body.dark-theme .right .category li a:hover {
     background: var(--color-primary);
     color: #fff; 
 }
