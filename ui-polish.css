@@ -171,7 +171,7 @@ main .container,
     border: 1px solid rgba(255, 255, 255, 0.4);
     border-radius: 20px;
     box-shadow: 0 8px 30px rgba(0,0,0,0.04);
-    background: linear-gradient(145deg, rgba(255,255,255,1) 0%, rgba(248,250,252,0.95) 100%);
+    background: var(--color-white);
 }
 
 /* Modern Create Post Card */

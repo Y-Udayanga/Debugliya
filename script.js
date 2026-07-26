@@ -1,11 +1,13 @@
 document.addEventListener('DOMContentLoaded', () => {
     // Initialize variables
+    const root = document.documentElement;
     const hamburger = document.querySelector('.hamburger');
     const navLinks = document.querySelector('.nav-links');
     const themeToggle = document.querySelector('#theme-toggle');
     const footer = document.querySelector('.footer');
     const themeMenuItem = document.querySelector('#theme');
     const themeModal = document.querySelector('.customize-theme');
+    const bgOptions = document.querySelectorAll('.choose-bg > div');
     const escapeHTML = (value) => String(value ?? '').replace(/[&<>"']/g, (char) => ({
         '&': '&amp;',
         '<': '&lt;',
@@ -13,6 +15,37 @@ document.addEventListener('DOMContentLoaded', () => {
         '"': '&quot;',
         "'": '&#039;'
     }[char]));
+
+    function changeBG(light, white, dark) {
+        root.style.setProperty('--light-color-lightness', light);
+        root.style.setProperty('--white-color-lightness', white);
+        root.style.setProperty('--dark-color-lightness', dark);
+
+        const isDark = (light === '20%' || light === '10%' || (white !== '100%' && light !== '95%'));
+        if (isDark) {
+            document.body.classList.add('dark-mode');
+            document.body.classList.add('dark-theme');
+            localStorage.setItem('theme', 'dark');
+            if (themeToggle) themeToggle.innerHTML = '<i class="bi bi-sun"></i>';
+        } else {
+            document.body.classList.remove('dark-mode');
+            document.body.classList.remove('dark-theme');
+            localStorage.setItem('theme', 'light');
+            if (themeToggle) themeToggle.innerHTML = '<i class="bi bi-moon-stars"></i>';
+        }
+        localStorage.setItem('lightColorLightness', light);
+        localStorage.setItem('whiteColorLightness', white);
+        localStorage.setItem('darkColorLightness', dark);
+
+        if (bgOptions && bgOptions.length > 0) {
+            bgOptions.forEach(bg => {
+                bg.classList.remove('active');
+                if (light === '95%' && bg.classList.contains('bg-1')) bg.classList.add('active');
+                else if (light === '20%' && bg.classList.contains('bg-2')) bg.classList.add('active');
+                else if (light === '10%' && bg.classList.contains('bg-3')) bg.classList.add('active');
+            });
+        }
+    }
 
     // Hamburger menu toggle
     if (hamburger && navLinks) {
@@ -744,9 +777,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // Sidebar and theme customization
     const menuItems = document.querySelectorAll('.menu-item');
     const fontSizes = document.querySelectorAll('.choose-size span');
-    const root = document.documentElement;
     const colorPalette = document.querySelectorAll('.choose-color span');
-    const bgOptions = document.querySelectorAll('.choose-bg > div');
     const joinButtons = document.querySelectorAll('.btn-join');
 
     const changeActiveItem = () => {
@@ -839,37 +870,6 @@ document.addEventListener('DOMContentLoaded', () => {
             else if (savedHue == 152 && color.classList.contains('color-4')) color.classList.add('active');
             else if (savedHue == 202 && color.classList.contains('color-5')) color.classList.add('active');
         });
-    }
-
-    function changeBG(light, white, dark) {
-        root.style.setProperty('--light-color-lightness', light);
-        root.style.setProperty('--white-color-lightness', white);
-        root.style.setProperty('--dark-color-lightness', dark);
-
-        const isDark = (white === '28%' || white === '17%' || light === '20%' || light === '10%');
-        if (isDark) {
-            document.body.classList.add('dark-mode');
-            document.body.classList.add('dark-theme');
-            localStorage.setItem('theme', 'dark');
-            if (themeToggle) themeToggle.innerHTML = '<i class="bi bi-sun"></i>';
-        } else {
-            document.body.classList.remove('dark-mode');
-            document.body.classList.remove('dark-theme');
-            localStorage.setItem('theme', 'light');
-            if (themeToggle) themeToggle.innerHTML = '<i class="bi bi-moon-stars"></i>';
-        }
-        localStorage.setItem('lightColorLightness', light);
-        localStorage.setItem('whiteColorLightness', white);
-        localStorage.setItem('darkColorLightness', dark);
-
-        if (bgOptions && bgOptions.length > 0) {
-            bgOptions.forEach(bg => {
-                bg.classList.remove('active');
-                if (light === '95%' && bg.classList.contains('bg-1')) bg.classList.add('active');
-                else if (light === '20%' && bg.classList.contains('bg-2')) bg.classList.add('active');
-                else if (light === '10%' && bg.classList.contains('bg-3')) bg.classList.add('active');
-            });
-        }
     }
 
     bgOptions.forEach(bg => {
