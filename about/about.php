@@ -290,6 +290,7 @@ $timeline_images = [
         </div>
     </footer>
 
+    <script src="../script.js"></script>
     <script src="about.js"></script>
 </body>
 </html>
