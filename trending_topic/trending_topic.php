@@ -131,13 +131,52 @@ $posts = $stmt->fetchAll(PDO::FETCH_ASSOC);
             </div>
 
             <div class="middle">
+                <!-- Trending Topics Hero Card -->
+                <div class="trending-hero-card">
+                    <div class="hero-text-content">
+                        <span class="hero-badge"><i class="bi bi-fire"></i> Trending Topics</span>
+                        <h1>Explore Categorized Discussions</h1>
+                        <p>Browse technical threads by topic, system architecture, tools, and error debugging.</p>
+                    </div>
+                    <div class="hero-status-box">
+                        <span class="topics-count-pill"><i class="bi bi-tags-fill"></i> <?php echo count($categories); ?> Categories</span>
+                    </div>
+                </div>
+
+                <!-- Search Bar & Category Filter Pills Bar -->
+                <div class="trending-search-wrapper">
+                    <div class="search-bar">
+                        <i class="bi bi-search search-icon"></i>
+                        <input type="search" placeholder="Search posts or topic categories..." id="topic-search-input">
+                        <button class="clear-search-btn" id="clear-topic-search" style="display: none;" aria-label="Clear search">
+                            <i class="bi bi-x-lg"></i>
+                        </button>
+                    </div>
+                    <div class="category-pills" id="topic-pills-bar">
+                        <a href="trending_topic.php" class="cat-pill <?php echo !$category_id ? 'active' : ''; ?>"><i class="bi bi-grid-fill"></i> All Topics</a>
+                        <?php foreach ($categories as $cat): ?>
+                            <a href="?category_id=<?php echo $cat['id']; ?>" class="cat-pill <?php echo $category_id == $cat['id'] ? 'active' : ''; ?>" data-category-id="<?php echo $cat['id']; ?>">
+                                #<?php echo htmlspecialchars($cat['name']); ?>
+                            </a>
+                        <?php endforeach; ?>
+                    </div>
+                </div>
+
+                <!-- Feeds List -->
                 <div class="feeds" id="category-posts">
                     <?php if (empty($posts)): ?>
-                        <h2>No posts available. Select a category to view posts.</h2>
+                        <div class="topic-empty-card">
+                            <div class="empty-icon-box"><i class="bi bi-chat-left-dots"></i></div>
+                            <h3>No Discussions Found</h3>
+                            <p>There are no posts matching the selected topic category or search query.</p>
+                            <a href="trending_topic.php" class="btn btn-primary btn-sm"><i class="bi bi-arrow-counterclockwise"></i> View All Topics</a>
+                        </div>
                     <?php else: ?>
                         <?php foreach ($posts as $post): ?>
-                            <div class="feed">
-                                <div class="category-tag"><?php echo htmlspecialchars($post['category_name'] ?? 'Uncategorized'); ?></div>
+                            <div class="feed" data-category-id="<?php echo $post['category_id'] ?? ''; ?>">
+                                <div class="feed-header-top">
+                                    <span class="category-pill-badge"><i class="bi bi-tag-fill"></i> <?php echo htmlspecialchars($post['category_name'] ?? 'Uncategorized'); ?></span>
+                                </div>
                                 <div class="head">
                                     <div class="user">
                                         <div class="profile-photo">
@@ -145,7 +184,7 @@ $posts = $stmt->fetchAll(PDO::FETCH_ASSOC);
                                         </div>
                                         <div class="info">
                                             <h3><?php echo htmlspecialchars($post['username']); ?></h3>
-                                            <small><?php echo date('M d, Y H:i', strtotime($post['created_at'])); ?></small>
+                                            <small><i class="bi bi-clock"></i> <?php echo date('M d, Y • H:i', strtotime($post['created_at'])); ?></small>
                                         </div>
                                     </div>
                                 </div>
@@ -160,15 +199,15 @@ $posts = $stmt->fetchAll(PDO::FETCH_ASSOC);
                                 <div class="action-buttons">
                                     <div class="interaction-buttons">
                                         <span class="like-btn" data-post-id="<?php echo $post['id']; ?>"><i class="bi bi-heart"></i> <span class="like-count"><?php echo $post['likes'] ?? 0; ?></span></span>
-                                        <span><i class="bi bi-chat"></i> <span class="comment-count"><?php echo $post['comments'] ?? 0; ?></span></span>
+                                        <span class="comment-toggle-btn" data-post-id="<?php echo $post['id']; ?>"><i class="bi bi-chat-square-dots"></i> <span class="comment-count"><?php echo $post['comments'] ?? 0; ?></span></span>
                                     </div>
                                 </div>
-                                <div class="comments-section" id="comments-<?php echo $post['id']; ?>">
+                                <div class="comments-section" id="comments-<?php echo $post['id']; ?>" style="display: none;">
                                     <!-- Comments will be loaded via JavaScript -->
                                 </div>
                                 <div class="comment-form">
                                     <input type="text" class="comment-input" placeholder="Add a comment..." data-post-id="<?php echo $post['id']; ?>">
-                                    <button class="btn btn-primary comment-submit">Post</button>
+                                    <button class="btn btn-primary comment-submit" data-post-id="<?php echo $post['id']; ?>">Post</button>
                                 </div>
                             </div>
                         <?php endforeach; ?>
@@ -177,24 +216,26 @@ $posts = $stmt->fetchAll(PDO::FETCH_ASSOC);
             </div>
 
             <div class="right">
-                <div class="trending-topic">
-                    <div class="heading">
-                        <h4>Categories</h4>
+                <div class="sidebar-card categories-sidebar-card">
+                    <div class="card-header-box">
+                        <h3><i class="bi bi-folder2-open"></i> Categories</h3>
+                        <span class="badge-count"><?php echo count($categories); ?></span>
                     </div>
-                    <div class="search-bar">
+                    <div class="sidebar-search-box">
                         <i class="bi bi-search"></i>
-                        <input type="search" placeholder="Search Categories" id="category-search">
+                        <input type="search" placeholder="Search Categories..." id="category-search">
                     </div>
-                    <ul class="category">
+                    <div class="categories-list" id="sidebar-categories-list">
                         <?php foreach ($categories as $category): ?>
-                            <li>
-                                <a href="?category_id=<?php echo $category['id']; ?>" class="category-link" data-category-id="<?php echo $category['id']; ?>">
-                                    #<?php echo htmlspecialchars($category['name']); ?>
-                                    <span class="post-count"><?php echo $category['post_count']; ?> posts</span>
-                                </a>
-                            </li>
+                            <a href="?category_id=<?php echo $category['id']; ?>" class="category-item-link <?php echo $category_id == $category['id'] ? 'active' : ''; ?>" data-category-id="<?php echo $category['id']; ?>">
+                                <div class="cat-info">
+                                    <span class="cat-hashtag">#</span>
+                                    <span class="cat-name"><?php echo htmlspecialchars($category['name']); ?></span>
+                                </div>
+                                <span class="cat-count-badge"><?php echo $category['post_count']; ?> posts</span>
+                            </a>
                         <?php endforeach; ?>
-                    </ul>
+                    </div>
                 </div>
             </div>
         </div>
