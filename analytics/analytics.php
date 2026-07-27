@@ -338,47 +338,6 @@ $recent_activity = $stmt->fetchAll(PDO::FETCH_ASSOC);
                     </div>
                 </div>
             </div>
-
-            <div class="right">
-                <div class="trending-topic">
-                    <div class="heading">
-                        <h4>Trending Topics</h4>
-                        <i class="bi bi-pencil-square"></i>
-                    </div>
-                    <div class="search-bar">
-                        <i class="bi bi-search"></i>
-                        <input type="search" placeholder="Search Trending Topics" id="trending-topic">
-                    </div>
-                    <ul class="category">
-                        <li><a href="#" class="text-[var(--primary-color)] hover:underline">#Technology</a></li>
-                        <li><a href="#" class="text-[var(--primary-color)] hover:underline">#Programming</a></li>
-                        <li><a href="#" class="text-[var(--primary-color)] hover:underline">#WebDevelopment</a></li>
-                        <li><a href="#" class="text-[var(--primary-color)] hover:underline">#AI</a></li>
-                        <li><a href="#" class="text-[var(--primary-color)] hover:underline">#CloudComputing</a></li>
-                    </ul>
-                </div>
-                <div class="communities">
-                    <h3 class="font-semibold mb-3">Communities</h3>
-                    <div class="community-item mb-4">
-                        <div class="flex items-center gap-2">
-                            <span class="text-2xl">🏢</span>
-                            <h4 class="font-semibold">Microsoft Azure</h4>
-                        </div>
-                        <p class="text-sm text-gray-500 mt-1">26 Members</p>
-                        <p class="text-sm mt-1">A collective for developers to engage, share, and learn about Microsoft Azure.</p>
-                        <button class="btn-join">Join</button>
-                    </div>
-                    <div class="community-item mb-4">
-                        <div class="flex items-center gap-2">
-                            <span class="text-2xl">💻</span>
-                            <h4 class="font-semibold">React Developers</h4>
-                        </div>
-                        <p class="text-sm text-gray-500 mt-1">42 Members</p>
-                        <p class="text-sm mt-1">Join React enthusiasts to discuss components, hooks, and more.</p>
-                        <button class="btn-join">Join</button>
-                    </div>
-                </div>
-            </div>
         </div>
     </main>
 
