@@ -165,38 +165,175 @@ $recent_activity = $stmt->fetchAll(PDO::FETCH_ASSOC);
             </div>
 
             <div class="middle">
-                <div class="analytics-header">
-                    <h2>Your Analytics Dashboard</h2>
-                    <button id="refresh-data" class="btn btn-primary">Refresh Data</button>
-                </div>
-                <div class="analytics-cards">
-                    <div class="card">
-                        <h3>Total Posts</h3>
-                        <p class="count"><?php echo $analytics['post_count']; ?></p>
+                <div class="analytics-dashboard">
+                    <!-- Header Action Bar -->
+                    <div class="analytics-header">
+                        <div class="analytics-header-title">
+                            <h2><i class="bi bi-graph-up-arrow"></i> Analytics Dashboard</h2>
+                            <p>Track performance, audience engagement, and community growth.</p>
+                        </div>
+                        <div class="analytics-actions">
+                            <select id="timeframe-select" class="timeframe-select" aria-label="Select timeframe">
+                                <option value="7">Last 7 Days</option>
+                                <option value="30" selected>Last 30 Days</option>
+                                <option value="90">Last 90 Days</option>
+                                <option value="365">Last Year</option>
+                            </select>
+                            <button id="export-report" class="btn-analytics btn-analytics-secondary">
+                                <i class="bi bi-download"></i> Export
+                            </button>
+                            <button id="refresh-data" class="btn-analytics btn-analytics-primary">
+                                <i class="bi bi-arrow-clockwise"></i> Refresh
+                            </button>
+                        </div>
                     </div>
-                    <div class="card">
-                        <h3>Total Likes</h3>
-                        <p class="count"><?php echo $analytics['like_count']; ?></p>
+
+                    <!-- 5 KPI Stat Cards Grid -->
+                    <div class="analytics-cards-grid">
+                        <div class="analytics-stat-card" style="--card-accent-from:#3b82f6; --card-accent-to:#1d4ed8;">
+                            <div class="stat-card-header">
+                                <span class="stat-card-title">Total Posts</span>
+                                <div class="stat-card-icon icon-posts"><i class="bi bi-file-earmark-text-fill"></i></div>
+                            </div>
+                            <div class="stat-card-value" id="stat-posts"><?php echo (int)$analytics['post_count']; ?></div>
+                            <div class="stat-card-footer">
+                                <span class="badge-growth"><i class="bi bi-person-fill"></i> Author</span>
+                                <span>Published posts</span>
+                            </div>
+                        </div>
+
+                        <div class="analytics-stat-card" style="--card-accent-from:#ec4899; --card-accent-to:#be185d;">
+                            <div class="stat-card-header">
+                                <span class="stat-card-title">Total Likes</span>
+                                <div class="stat-card-icon icon-likes"><i class="bi bi-heart-fill"></i></div>
+                            </div>
+                            <div class="stat-card-value" id="stat-likes"><?php echo (int)$analytics['like_count']; ?></div>
+                            <div class="stat-card-footer">
+                                <span class="badge-growth"><i class="bi bi-hand-thumbs-up-fill"></i> Loved</span>
+                                <span>Likes received</span>
+                            </div>
+                        </div>
+
+                        <div class="analytics-stat-card" style="--card-accent-from:#10b981; --card-accent-to:#047857;">
+                            <div class="stat-card-header">
+                                <span class="stat-card-title">Total Comments</span>
+                                <div class="stat-card-icon icon-comments"><i class="bi bi-chat-left-dots-fill"></i></div>
+                            </div>
+                            <div class="stat-card-value" id="stat-comments"><?php echo (int)$analytics['comment_count']; ?></div>
+                            <div class="stat-card-footer">
+                                <span class="badge-growth"><i class="bi bi-chat-fill"></i> Active</span>
+                                <span>Discussion responses</span>
+                            </div>
+                        </div>
+
+                        <div class="analytics-stat-card" style="--card-accent-from:#f59e0b; --card-accent-to:#d97706;">
+                            <div class="stat-card-header">
+                                <span class="stat-card-title">Engagement Rate</span>
+                                <div class="stat-card-icon icon-engagement"><i class="bi bi-lightning-charge-fill"></i></div>
+                            </div>
+                            <div class="stat-card-value" id="stat-engagement"><?php echo $analytics['engagement_rate']; ?>%</div>
+                            <div class="stat-card-footer">
+                                <span class="badge-growth"><i class="bi bi-speedometer2"></i> Ratio</span>
+                                <span>Interactions / post</span>
+                            </div>
+                        </div>
+
+                        <div class="analytics-stat-card" style="--card-accent-from:#8b5cf6; --card-accent-to:#6d28d9;">
+                            <div class="stat-card-header">
+                                <span class="stat-card-title">Bookmarks Saved</span>
+                                <div class="stat-card-icon icon-bookmarks"><i class="bi bi-bookmark-star-fill"></i></div>
+                            </div>
+                            <div class="stat-card-value" id="stat-bookmarks"><?php echo (int)$analytics['bookmark_count']; ?></div>
+                            <div class="stat-card-footer">
+                                <span class="badge-growth"><i class="bi bi-star-fill"></i> Saved</span>
+                                <span>Community saves</span>
+                            </div>
+                        </div>
                     </div>
-                    <div class="card">
-                        <h3>Total Comments</h3>
-                        <p class="count"><?php echo $analytics['comment_count']; ?></p>
+
+                    <!-- Main Grid: Activity Chart & Category Breakdown -->
+                    <div class="analytics-main-grid">
+                        <div class="analytics-card-block">
+                            <div class="block-header">
+                                <h3><i class="bi bi-activity"></i> Post Activity Trend</h3>
+                                <span class="text-xs text-gray-500 font-medium" id="activity-period-label">Last 30 Days</span>
+                            </div>
+                            <div class="chart-wrapper">
+                                <canvas id="activityChart"></canvas>
+                            </div>
+                        </div>
+
+                        <div class="analytics-card-block">
+                            <div class="block-header">
+                                <h3><i class="bi bi-pie-chart-fill"></i> Posts by Category</h3>
+                            </div>
+                            <div style="height: 170px; position: relative; margin-bottom: 0.75rem;">
+                                <canvas id="categoryChart"></canvas>
+                            </div>
+                            <ul class="category-progress-list" id="category-progress-list">
+                                <?php 
+                                $totalPostSum = array_sum(array_column($categories, 'post_count')) ?: 1;
+                                foreach ($categories as $cat): 
+                                    $pct = round(($cat['post_count'] / $totalPostSum) * 100);
+                                ?>
+                                    <li class="category-progress-item">
+                                        <div class="category-info">
+                                            <span class="category-name-tag"><?php echo htmlspecialchars($cat['category']); ?></span>
+                                            <span class="category-count-badge"><?php echo (int)$cat['post_count']; ?> (<?php echo $pct; ?>%)</span>
+                                        </div>
+                                        <div class="progress-bar-bg">
+                                            <div class="progress-bar-fill" style="width: <?php echo $pct; ?>%;"></div>
+                                        </div>
+                                    </li>
+                                <?php endforeach; ?>
+                            </ul>
+                        </div>
                     </div>
-                </div>
-                <div class="analytics-chart">
-                    <h3>Post Activity (Last 30 Days)</h3>
-                    <canvas id="activityChart"></canvas>
-                </div>
-                <div class="analytics-categories">
-                    <h3>Posts by Category</h3>
-                    <ul class="category-list">
-                        <?php foreach ($categories as $category): ?>
-                            <li>
-                                <span class="category-name"><?php echo htmlspecialchars($category['category'] ?: 'No Category'); ?></span>
-                                <span class="category-count"><?php echo $category['post_count']; ?> posts</span>
-                            </li>
-                        <?php endforeach; ?>
-                    </ul>
+
+                    <!-- Bottom Grid: Top Performing Post & Recent Activity Stream -->
+                    <div class="analytics-bottom-grid">
+                        <div class="analytics-card-block spotlight-card">
+                            <span class="spotlight-badge"><i class="bi bi-trophy-fill"></i> Top Post</span>
+                            <div class="block-header">
+                                <h3><i class="bi bi-star-fill"></i> Most Liked Contribution</h3>
+                            </div>
+                            <div class="spotlight-body" id="spotlight-container">
+                                <?php if ($most_liked_post): ?>
+                                    <p class="spotlight-text">"<?php echo htmlspecialchars(mb_strimwidth($most_liked_post['content'], 0, 140, '...')); ?>"</p>
+                                    <div class="spotlight-stats">
+                                        <span class="spotlight-stat likes"><i class="bi bi-heart-fill"></i> <?php echo (int)$most_liked_post['like_count']; ?> likes</span>
+                                        <span class="spotlight-stat comments"><i class="bi bi-chat-dots-fill"></i> <?php echo (int)$most_liked_post['comment_count']; ?> comments</span>
+                                    </div>
+                                <?php else: ?>
+                                    <p class="spotlight-text text-gray-400">No posts published yet.</p>
+                                <?php endif; ?>
+                            </div>
+                        </div>
+
+                        <div class="analytics-card-block">
+                            <div class="block-header">
+                                <h3><i class="bi bi-clock-history"></i> Recent Activity Stream</h3>
+                            </div>
+                            <div class="timeline-stream" id="timeline-stream">
+                                <?php if (!empty($recent_activity)): ?>
+                                    <?php foreach ($recent_activity as $act): ?>
+                                        <div class="timeline-item">
+                                            <div class="timeline-icon <?php echo $act['type'] === 'post' ? 'type-post' : 'type-comment'; ?>">
+                                                <i class="bi <?php echo $act['type'] === 'post' ? 'bi-file-earmark-plus' : 'bi-chat-left-text'; ?>"></i>
+                                            </div>
+                                            <div class="timeline-content">
+                                                <span class="timeline-title"><?php echo $act['type'] === 'post' ? 'Published a new post' : 'Added a comment'; ?></span>
+                                                <span class="timeline-snippet"><?php echo htmlspecialchars(mb_strimwidth($act['content'], 0, 70, '...')); ?></span>
+                                                <span class="timeline-time"><?php echo date('M d, Y • g:i a', strtotime($act['created_at'])); ?></span>
+                                            </div>
+                                        </div>
+                                    <?php endforeach; ?>
+                                <?php else: ?>
+                                    <p class="text-sm text-gray-400">No recent activity recorded.</p>
+                                <?php endif; ?>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
 
