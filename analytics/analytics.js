@@ -200,7 +200,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     </div>
                 </li>
             `;
-        }).join('') || '<li class="text-xs text-gray-400">No categories found</li>';
+        }).join('') || '<li class="text-xs text-gray-400 text-center py-2" style="width: 100%; text-align: center; padding: 0.5rem 0;">No categories found</li>';
     };
 
     // Update Top Spotlight Post Card
