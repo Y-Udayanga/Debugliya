@@ -362,6 +362,7 @@ $resources = [
         </div>
     </div>
 
+    <script src="../script.js"></script>
     <script src="resources.js"></script>
 </body>
 </html>
