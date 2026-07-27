@@ -122,7 +122,7 @@ $images = $stmt->fetchAll(PDO::FETCH_ASSOC);
             </nav>
             <div style="display: flex; align-items: center; gap: 1rem;" class="nav-utils">
                 <span style="cursor: pointer; color: var(--color-gray);" role="button" aria-label="Toggle language">EN</span>
-                <a href="#" style="text-decoration: none; color: var(--primary-color);">Help</a>
+                <a href="#" class="help-link" style="text-decoration: none; color: var(--primary-color);">Help</a>
                 <a href="logout.php" style="text-decoration: none; color: var(--primary-color);">Logout</a>
                 <button id="theme-toggle" style="background: none; border: none; font-size: 1.2rem; cursor: pointer;" aria-label="Toggle theme"><i class="bi bi-moon-stars"></i></button>
             </div>
