@@ -204,6 +204,7 @@ $user = $stmt->fetch(PDO::FETCH_ASSOC);
         window.csrfToken = '<?php echo htmlspecialchars($_SESSION['csrf_token']); ?>';
         console.log('CSRF Token:', window.csrfToken);
     </script>
+    <script src="../script.js"></script>
     <script src="settings.js"></script>
 </body>
 </html>
