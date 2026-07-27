@@ -267,26 +267,28 @@ $recent_activity = $stmt->fetchAll(PDO::FETCH_ASSOC);
                             <div class="block-header">
                                 <h3><i class="bi bi-pie-chart-fill"></i> Posts by Category</h3>
                             </div>
-                            <div style="height: 170px; position: relative; margin-bottom: 0.75rem;">
-                                <canvas id="categoryChart"></canvas>
+                            <div class="category-card-body">
+                                <div class="category-chart-container">
+                                    <canvas id="categoryChart"></canvas>
+                                </div>
+                                <ul class="category-progress-list" id="category-progress-list">
+                                    <?php 
+                                    $totalPostSum = array_sum(array_column($categories, 'post_count')) ?: 1;
+                                    foreach ($categories as $cat): 
+                                        $pct = round(($cat['post_count'] / $totalPostSum) * 100);
+                                    ?>
+                                        <li class="category-progress-item">
+                                            <div class="category-info">
+                                                <span class="category-name-tag"><?php echo htmlspecialchars($cat['category']); ?></span>
+                                                <span class="category-count-badge"><?php echo (int)$cat['post_count']; ?> (<?php echo $pct; ?>%)</span>
+                                            </div>
+                                            <div class="progress-bar-bg">
+                                                <div class="progress-bar-fill" style="width: <?php echo $pct; ?>%;"></div>
+                                            </div>
+                                        </li>
+                                    <?php endforeach; ?>
+                                </ul>
                             </div>
-                            <ul class="category-progress-list" id="category-progress-list">
-                                <?php 
-                                $totalPostSum = array_sum(array_column($categories, 'post_count')) ?: 1;
-                                foreach ($categories as $cat): 
-                                    $pct = round(($cat['post_count'] / $totalPostSum) * 100);
-                                ?>
-                                    <li class="category-progress-item">
-                                        <div class="category-info">
-                                            <span class="category-name-tag"><?php echo htmlspecialchars($cat['category']); ?></span>
-                                            <span class="category-count-badge"><?php echo (int)$cat['post_count']; ?> (<?php echo $pct; ?>%)</span>
-                                        </div>
-                                        <div class="progress-bar-bg">
-                                            <div class="progress-bar-fill" style="width: <?php echo $pct; ?>%;"></div>
-                                        </div>
-                                    </li>
-                                <?php endforeach; ?>
-                            </ul>
                         </div>
                     </div>
 
