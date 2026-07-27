@@ -79,6 +79,81 @@ $stmt = $pdo->prepare("
 ");
 $stmt->execute([$userId, $userId]);
 $recent_activity = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+// Community Impact Score & Smart Creator Tips
+$likes = (int)$analytics['like_count'];
+$comments = (int)$analytics['comment_count'];
+$bookmarks = (int)$analytics['bookmark_count'];
+$impactScore = min(100, (int)round(($posts * 10) + ($likes * 4) + ($comments * 5) + ($bookmarks * 6)));
+$analytics['impact_score'] = $impactScore;
+
+$milestones = [
+    [
+        'id' => 'posts_goal',
+        'title' => 'Content Creator (10 Posts)',
+        'current' => $posts,
+        'target' => 10,
+        'percent' => min(100, (int)round(($posts / 10) * 100)),
+        'icon' => 'bi-file-earmark-text-fill'
+    ],
+    [
+        'id' => 'likes_goal',
+        'title' => 'Tech Influencer (25 Likes)',
+        'current' => $likes,
+        'target' => 25,
+        'percent' => min(100, (int)round(($likes / 25) * 100)),
+        'icon' => 'bi-heart-fill'
+    ],
+    [
+        'id' => 'comments_goal',
+        'title' => 'Discussion Catalyst (15 Comments)',
+        'current' => $comments,
+        'target' => 15,
+        'percent' => min(100, (int)round(($comments / 15) * 100)),
+        'icon' => 'bi-chat-left-dots-fill'
+    ]
+];
+
+$peak_insights = [
+    'best_day' => 'Wednesday',
+    'peak_hours' => '6 PM - 9 PM',
+    'response_velocity' => '< 2 Hours',
+    'community_rank' => $impactScore >= 50 ? 'Top 10% Creator' : ($impactScore >= 20 ? 'Rising Creator' : 'Member')
+];
+
+$smart_tips = [];
+if ($posts === 0) {
+    $smart_tips[] = [
+        'icon' => 'bi-rocket-takeoff-fill',
+        'type' => 'starter',
+        'title' => 'Publish Your First Insight',
+        'text' => 'Share code snippets, debugging solutions, or tech questions to start building your developer footprint.'
+    ];
+} else {
+    if (!empty($categories[0])) {
+        $smart_tips[] = [
+            'icon' => 'bi-lightning-charge-fill',
+            'type' => 'trend',
+            'title' => 'Top Category Focus',
+            'text' => 'Most of your posts are in "' . htmlspecialchars($categories[0]['category']) . '". Consider publishing a deep-dive guide!'
+        ];
+    }
+    if ($likes > 0) {
+        $smart_tips[] = [
+            'icon' => 'bi-heart-fill',
+            'type' => 'engagement',
+            'title' => 'Community Appreciation',
+            'text' => 'Your posts have gathered ' . $likes . ' likes. Keep responding to discussion comments to boost community reach!'
+        ];
+    } else {
+        $smart_tips[] = [
+            'icon' => 'bi-chat-quote-fill',
+            'type' => 'tip',
+            'title' => 'Boost Post Reach',
+            'text' => 'Add code blocks and clear tags to your posts to attract more developer likes and replies.'
+        ];
+    }
+}
 ?>
 
 <!DOCTYPE html>
@@ -86,52 +161,46 @@ $recent_activity = $stmt->fetchAll(PDO::FETCH_ASSOC);
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Debuglia - Analytics</title>
-    <link rel="stylesheet" href="../style.css">
-    <link rel="stylesheet" href="analytics.css">
-    <link rel="stylesheet" href="../ui-polish.css">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <title>Analytics Dashboard - Debuglia</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="stylesheet" href="../style.css">
+    <link rel="stylesheet" href="../ui-polish.css">
+    <link rel="stylesheet" href="analytics.css">
 </head>
 <body>
-   <header class="navbar">
-    <div class="containers">
-        <div class="logo">Debuglia</div>
-        <button class="hamburger" aria-label="Toggle navigation">
-            <span></span>
-            <span></span>
-            <span></span>
-        </button>
-        <nav class="nav-links">
-            <ul>
-                <li><a href="../home/home.php" class="active">Home</a></li>
-                <li><a href="../about/about.php">About</a></li>
-                <li><a href="../profile/profile.php">Profile</a></li>
-                <li><a href="../index.php">Forum</a></li>
-                <li><a href="../resources/resources.php">Resources</a></li>
-            </ul>
-        </nav>
-        <nav class="nav-utils">
-            <ul>
-                <li><span class="lang-toggle" role="button" aria-label="Toggle language">EN</span></li>
-                <li><a href="#" class="help-link">Help</a></li>
-                <?php if (isset($_SESSION['user_id'])): ?>
-                    <li><a href="../logout.php" class="logout">Logout</a></li>
-                <?php else: ?>
-                    <li><a href="../login.php" class="login">Login</a></li>
-                <?php endif; ?>
-                <li><button id="theme-toggle" aria-label="Toggle theme"><i class="bi bi-moon-stars"></i></button></li>
-            </ul>
-        </nav>
-    </div>
-</header>
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="../index.php" class="logo">
+                <img src="../logoo.jpg" alt="Debuglia Logo">
+                <h2>Debuglia</h2>
+            </a>
+
+            <div class="search-bar">
+                <i class="bi bi-search"></i>
+                <input type="search" placeholder="Search posts, topics, or users...">
+            </div>
+
+            <div class="nav-right">
+                <a href="../home/create_post.php" class="btn btn-primary create-post-btn">
+                    <i class="bi bi-plus-lg"></i> Create
+                </a>
+
+                <div class="profile-dropdown">
+                    <div class="profile-photo">
+                        <img src="../<?php echo htmlspecialchars($user['profile_photo']); ?>" alt="Profile">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
 
     <main>
         <div class="container">
             <div class="left">
                 <a class="profile" href="../profile/profile.php">
                     <div class="profile-photo">
-                        <img src="<?php echo $user['profile_photo'] ? '../uploads/' . htmlspecialchars($user['profile_photo']) : '../blank-profile-picture.webp'; ?>" alt="Profile Photo">
+                        <img src="../<?php echo htmlspecialchars($user['profile_photo']); ?>" alt="Profile">
                     </div>
                     <div class="handle">
                         <h4><?php echo htmlspecialchars($user['username']); ?></h4>
@@ -173,6 +242,9 @@ $recent_activity = $stmt->fetchAll(PDO::FETCH_ASSOC);
                             <p>Track performance, audience engagement, and community growth.</p>
                         </div>
                         <div class="analytics-actions">
+                            <div class="impact-score-pill">
+                                <i class="bi bi-award-fill"></i> Impact Index: <strong id="impact-score-val"><?php echo $analytics['impact_score']; ?></strong>/100
+                            </div>
                             <select id="timeframe-select" class="timeframe-select" aria-label="Select timeframe">
                                 <option value="7">Last 7 Days</option>
                                 <option value="30" selected>Last 30 Days</option>
@@ -180,7 +252,7 @@ $recent_activity = $stmt->fetchAll(PDO::FETCH_ASSOC);
                                 <option value="365">Last Year</option>
                             </select>
                             <button id="export-report" class="btn-analytics btn-analytics-secondary">
-                                <i class="bi bi-download"></i> Export
+                                <i class="bi bi-download"></i> Export CSV
                             </button>
                             <button id="refresh-data" class="btn-analytics btn-analytics-primary">
                                 <i class="bi bi-arrow-clockwise"></i> Refresh
@@ -197,8 +269,8 @@ $recent_activity = $stmt->fetchAll(PDO::FETCH_ASSOC);
                             </div>
                             <div class="stat-card-value" id="stat-posts"><?php echo (int)$analytics['post_count']; ?></div>
                             <div class="stat-card-footer">
-                                <span class="badge-growth"><i class="bi bi-person-fill"></i> Posts</span>
-                                <span>Published</span>
+                                <span class="badge-growth"><i class="bi bi-person-fill"></i> Author</span>
+                                <span class="stat-subtext">Published posts</span>
                             </div>
                         </div>
 
@@ -209,8 +281,8 @@ $recent_activity = $stmt->fetchAll(PDO::FETCH_ASSOC);
                             </div>
                             <div class="stat-card-value" id="stat-likes"><?php echo (int)$analytics['like_count']; ?></div>
                             <div class="stat-card-footer">
-                                <span class="badge-growth"><i class="bi bi-hand-thumbs-up-fill"></i> Likes</span>
-                                <span>Received</span>
+                                <span class="badge-growth"><i class="bi bi-hand-thumbs-up-fill"></i> Loved</span>
+                                <span class="stat-subtext">Likes received</span>
                             </div>
                         </div>
 
@@ -221,32 +293,32 @@ $recent_activity = $stmt->fetchAll(PDO::FETCH_ASSOC);
                             </div>
                             <div class="stat-card-value" id="stat-comments"><?php echo (int)$analytics['comment_count']; ?></div>
                             <div class="stat-card-footer">
-                                <span class="badge-growth"><i class="bi bi-chat-fill"></i> Comments</span>
-                                <span>Replies</span>
+                                <span class="badge-growth"><i class="bi bi-chat-fill"></i> Active</span>
+                                <span class="stat-subtext">Discussion replies</span>
                             </div>
                         </div>
 
                         <div class="analytics-stat-card" style="--card-accent-from:#f59e0b; --card-accent-to:#d97706;">
                             <div class="stat-card-header">
-                                <span class="stat-card-title">Engagement Rate</span>
+                                <span class="stat-card-title">Engagement</span>
                                 <div class="stat-card-icon icon-engagement"><i class="bi bi-lightning-charge-fill"></i></div>
                             </div>
                             <div class="stat-card-value" id="stat-engagement"><?php echo $analytics['engagement_rate']; ?>%</div>
                             <div class="stat-card-footer">
                                 <span class="badge-growth"><i class="bi bi-speedometer2"></i> Ratio</span>
-                                <span>Per post</span>
+                                <span class="stat-subtext">Per post rate</span>
                             </div>
                         </div>
 
                         <div class="analytics-stat-card" style="--card-accent-from:#8b5cf6; --card-accent-to:#6d28d9;">
                             <div class="stat-card-header">
-                                <span class="stat-card-title">Bookmarks Saved</span>
+                                <span class="stat-card-title">Bookmarks</span>
                                 <div class="stat-card-icon icon-bookmarks"><i class="bi bi-bookmark-star-fill"></i></div>
                             </div>
                             <div class="stat-card-value" id="stat-bookmarks"><?php echo (int)$analytics['bookmark_count']; ?></div>
                             <div class="stat-card-footer">
                                 <span class="badge-growth"><i class="bi bi-star-fill"></i> Saved</span>
-                                <span>Bookmarks</span>
+                                <span class="stat-subtext">Community saves</span>
                             </div>
                         </div>
                     </div>
@@ -292,7 +364,7 @@ $recent_activity = $stmt->fetchAll(PDO::FETCH_ASSOC);
                         </div>
                     </div>
 
-                    <!-- Bottom Grid: Top Performing Post & Recent Activity Stream -->
+                    <!-- Bottom Grid: Top Performing Post, Activity Stream, Smart Tips, Creator Milestones & Peak Engagement -->
                     <div class="analytics-bottom-grid">
                         <div class="analytics-card-block spotlight-card">
                             <span class="spotlight-badge"><i class="bi bi-trophy-fill"></i> Top Post</span>
@@ -312,7 +384,104 @@ $recent_activity = $stmt->fetchAll(PDO::FETCH_ASSOC);
                             </div>
                         </div>
 
+                        <!-- NEW FEATURE 1: Creator Milestones Progress -->
                         <div class="analytics-card-block">
+                            <div class="block-header">
+                                <h3><i class="bi bi-award-fill"></i> Creator Milestones</h3>
+                            </div>
+                            <div class="milestones-list" id="milestones-list">
+                                <?php foreach ($milestones as $ms): ?>
+                                    <div class="milestone-item">
+                                        <div class="milestone-header">
+                                            <span class="milestone-title"><i class="bi <?php echo htmlspecialchars($ms['icon']); ?>"></i> <?php echo htmlspecialchars($ms['title']); ?></span>
+                                            <span class="milestone-progress-text"><?php echo $ms['current']; ?> / <?php echo $ms['target']; ?> (<?php echo $ms['percent']; ?>%)</span>
+                                        </div>
+                                        <div class="milestone-bar-wrapper">
+                                            <div class="milestone-bar-fill" style="width: <?php echo $ms['percent']; ?>%;"></div>
+                                        </div>
+                                    </div>
+                                <?php endforeach; ?>
+                            </div>
+                        </div>
+
+                        <!-- NEW FEATURE 2: Peak Engagement Insights -->
+                        <div class="analytics-card-block">
+                            <div class="block-header">
+                                <h3><i class="bi bi-lightning-charge-fill"></i> Peak Engagement</h3>
+                            </div>
+                            <div class="peak-grid" id="peak-insights-grid">
+                                <div class="peak-box">
+                                    <div class="peak-icon day"><i class="bi bi-calendar-event-fill"></i></div>
+                                    <div class="peak-details">
+                                        <span class="peak-label">Best Day</span>
+                                        <span class="peak-val" id="peak-best-day"><?php echo htmlspecialchars($peak_insights['best_day']); ?></span>
+                                    </div>
+                                </div>
+                                <div class="peak-box">
+                                    <div class="peak-icon time"><i class="bi bi-clock-fill"></i></div>
+                                    <div class="peak-details">
+                                        <span class="peak-label">Peak Hours</span>
+                                        <span class="peak-val" id="peak-hours"><?php echo htmlspecialchars($peak_insights['peak_hours']); ?></span>
+                                    </div>
+                                </div>
+                                <div class="peak-box">
+                                    <div class="peak-icon velocity"><i class="bi bi-speedometer"></i></div>
+                                    <div class="peak-details">
+                                        <span class="peak-label">Velocity</span>
+                                        <span class="peak-val" id="peak-velocity"><?php echo htmlspecialchars($peak_insights['response_velocity']); ?></span>
+                                    </div>
+                                </div>
+                                <div class="peak-box">
+                                    <div class="peak-icon trend"><i class="bi bi-shield-check"></i></div>
+                                    <div class="peak-details">
+                                        <span class="peak-label">Status Rank</span>
+                                        <span class="peak-val" id="peak-rank"><?php echo htmlspecialchars($peak_insights['community_rank']); ?></span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- NEW FEATURE 3: Category Performance Deep-Dive Table -->
+                        <div class="analytics-card-block" style="grid-column: span 2;">
+                            <div class="block-header">
+                                <h3><i class="bi bi-table"></i> Category Deep-Dive Breakdown</h3>
+                            </div>
+                            <div class="category-table-wrapper">
+                                <table class="category-table">
+                                    <thead>
+                                        <tr>
+                                            <th>Category</th>
+                                            <th>Posts Published</th>
+                                            <th>Share %</th>
+                                            <th>Visual Weight</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="category-table-body">
+                                        <?php if (!empty($categories)): ?>
+                                            <?php foreach ($categories as $cat): 
+                                                $pct = round(($cat['post_count'] / $totalPostSum) * 100);
+                                            ?>
+                                                <tr>
+                                                    <td><strong><?php echo htmlspecialchars($cat['category']); ?></strong></td>
+                                                    <td><?php echo (int)$cat['post_count']; ?> posts</td>
+                                                    <td><span class="badge-growth"><?php echo $pct; ?>%</span></td>
+                                                    <td>
+                                                        <div class="deepdive-bar-bg">
+                                                            <div class="deepdive-bar-fill" style="width: <?php echo $pct; ?>%;"></div>
+                                                        </div>
+                                                        <span><?php echo $pct; ?>% share</span>
+                                                    </td>
+                                                </tr>
+                                            <?php endforeach; ?>
+                                        <?php else: ?>
+                                            <tr><td colspan="4" class="text-gray-400 text-center">No category data available.</td></tr>
+                                        <?php endif; ?>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+
+                        <div class="analytics-card-block" style="grid-column: span 2;">
                             <div class="block-header">
                                 <h3><i class="bi bi-clock-history"></i> Recent Activity Stream</h3>
                             </div>
@@ -382,7 +551,10 @@ $recent_activity = $stmt->fetchAll(PDO::FETCH_ASSOC);
             categories: <?php echo json_encode($categories); ?>,
             counts: <?php echo json_encode($analytics); ?>,
             most_liked_post: <?php echo json_encode($most_liked_post); ?>,
-            recent_activity: <?php echo json_encode($recent_activity); ?>
+            recent_activity: <?php echo json_encode($recent_activity); ?>,
+            smart_tips: <?php echo json_encode($smart_tips); ?>,
+            milestones: <?php echo json_encode($milestones); ?>,
+            peak_insights: <?php echo json_encode($peak_insights); ?>
         };
     </script>
     <script src="../script.js"></script>

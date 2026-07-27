@@ -251,9 +251,75 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     };
 
+    // Update Category Deep-Dive Breakdown Table
+    const updateCategoryTable = (categoriesData) => {
+        const tbody = document.getElementById('category-table-body');
+        if (!tbody) return;
+
+        const totalSum = (categoriesData || []).reduce((acc, curr) => acc + parseInt(curr.post_count, 10), 0) || 1;
+
+        if (categoriesData && categoriesData.length) {
+            tbody.innerHTML = categoriesData.map(cat => {
+                const count = parseInt(cat.post_count, 10);
+                const pct = Math.round((count / totalSum) * 100);
+                const catName = cat.category || 'Uncategorized';
+                return `
+                    <tr>
+                        <td><strong>${catName}</strong></td>
+                        <td>${count} posts</td>
+                        <td><span class="badge-growth">${pct}%</span></td>
+                        <td>
+                            <div class="deepdive-bar-bg">
+                                <div class="deepdive-bar-fill" style="width: ${pct}%;"></div>
+                            </div>
+                            <span>${pct}% share</span>
+                        </td>
+                    </tr>
+                `;
+            }).join('');
+        } else {
+            tbody.innerHTML = `<tr><td colspan="4" class="text-gray-400 text-center">No category data available.</td></tr>`;
+        }
+    };
+
+    // Update Creator Milestones List
+    const updateMilestones = (milestones) => {
+        const container = document.getElementById('milestones-list');
+        if (!container || !milestones) return;
+
+        container.innerHTML = milestones.map(ms => `
+            <div class="milestone-item">
+                <div class="milestone-header">
+                    <span class="milestone-title"><i class="bi ${ms.icon}"></i> ${ms.title}</span>
+                    <span class="milestone-progress-text">${ms.current} / ${ms.target} (${ms.percent}%)</span>
+                </div>
+                <div class="milestone-bar-wrapper">
+                    <div class="milestone-bar-fill" style="width: ${ms.percent}%;"></div>
+                </div>
+            </div>
+        `).join('');
+    };
+
+    // Update Peak Engagement Grid
+    const updatePeakInsights = (peakData) => {
+        if (!peakData) return;
+        const bestDayEl = document.getElementById('peak-best-day');
+        const peakHoursEl = document.getElementById('peak-hours');
+        const velocityEl = document.getElementById('peak-velocity');
+        const rankEl = document.getElementById('peak-rank');
+
+        if (bestDayEl) bestDayEl.textContent = peakData.best_day || 'N/A';
+        if (peakHoursEl) peakHoursEl.textContent = peakData.peak_hours || 'N/A';
+        if (velocityEl) velocityEl.textContent = peakData.response_velocity || 'N/A';
+        if (rankEl) rankEl.textContent = peakData.community_rank || 'N/A';
+    };
+
     // Update Entire Dashboard
     const updateDashboard = (data) => {
         if (!data) return;
+
+        // Store updated data globally for CSV export
+        window.analyticsData = data;
 
         const counts = data.counts || {};
         
@@ -263,12 +329,14 @@ document.addEventListener('DOMContentLoaded', () => {
         const commentsEl = document.getElementById('stat-comments');
         const engagementEl = document.getElementById('stat-engagement');
         const bookmarksEl = document.getElementById('stat-bookmarks');
+        const impactScoreVal = document.getElementById('impact-score-val');
 
         if (postsEl) animateValue(postsEl, 0, parseInt(counts.post_count || 0, 10));
         if (likesEl) animateValue(likesEl, 0, parseInt(counts.like_count || 0, 10));
         if (commentsEl) animateValue(commentsEl, 0, parseInt(counts.comment_count || 0, 10));
         if (engagementEl) animateValue(engagementEl, 0, parseFloat(counts.engagement_rate || 0), 800, '%');
         if (bookmarksEl) animateValue(bookmarksEl, 0, parseInt(counts.bookmark_count || 0, 10));
+        if (impactScoreVal) animateValue(impactScoreVal, 0, parseInt(counts.impact_score || 0, 10));
 
         // Update Period Label
         const periodLabel = document.getElementById('activity-period-label');
@@ -280,6 +348,9 @@ document.addEventListener('DOMContentLoaded', () => {
         initActivityChart(data.activity);
         initCategoryChart(data.categories);
         updateCategoryProgressList(data.categories);
+        updateCategoryTable(data.categories);
+        updateMilestones(data.milestones);
+        updatePeakInsights(data.peak_insights);
         updateSpotlightCard(data.most_liked_post);
         updateActivityStream(data.recent_activity);
     };
