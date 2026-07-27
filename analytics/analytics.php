@@ -161,46 +161,52 @@ if ($posts === 0) {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Analytics Dashboard - Debuglia</title>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <title>Debuglia - Analytics</title>
     <link rel="stylesheet" href="../style.css">
-    <link rel="stylesheet" href="../ui-polish.css">
     <link rel="stylesheet" href="analytics.css">
+    <link rel="stylesheet" href="../ui-polish.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 <body>
-    <nav class="navbar">
-        <div class="nav-container">
-            <a href="../index.php" class="logo">
-                <img src="../logoo.jpg" alt="Debuglia Logo">
-                <h2>Debuglia</h2>
-            </a>
-
-            <div class="search-bar">
-                <i class="bi bi-search"></i>
-                <input type="search" placeholder="Search posts, topics, or users...">
-            </div>
-
-            <div class="nav-right">
-                <a href="../home/create_post.php" class="btn btn-primary create-post-btn">
-                    <i class="bi bi-plus-lg"></i> Create
-                </a>
-
-                <div class="profile-dropdown">
-                    <div class="profile-photo">
-                        <img src="../<?php echo htmlspecialchars($user['profile_photo']); ?>" alt="Profile">
-                    </div>
-                </div>
-            </div>
-        </div>
-    </nav>
+   <header class="navbar">
+    <div class="containers">
+        <div class="logo">Debuglia</div>
+        <button class="hamburger" aria-label="Toggle navigation">
+            <span></span>
+            <span></span>
+            <span></span>
+        </button>
+        <nav class="nav-links">
+            <ul>
+                <li><a href="../home/home.php">Home</a></li>
+                <li><a href="../about/about.php">About</a></li>
+                <li><a href="../profile/profile.php">Profile</a></li>
+                <li><a href="../index.php">Forum</a></li>
+                <li><a href="../resources/resources.php">Resources</a></li>
+            </ul>
+        </nav>
+        <nav class="nav-utils">
+            <ul>
+                <li><span class="lang-toggle" role="button" aria-label="Toggle language">EN</span></li>
+                <li><a href="#" class="help-link">Help</a></li>
+                <?php if (isset($_SESSION['user_id'])): ?>
+                    <li><a href="../logout.php" class="logout">Logout</a></li>
+                <?php else: ?>
+                    <li><a href="../login.php" class="login">Login</a></li>
+                <?php endif; ?>
+                <li><button id="theme-toggle" aria-label="Toggle theme"><i class="bi bi-moon-stars"></i></button></li>
+            </ul>
+        </nav>
+    </div>
+</header>
 
     <main>
         <div class="container">
             <div class="left">
                 <a class="profile" href="../profile/profile.php">
                     <div class="profile-photo">
-                        <img src="../<?php echo htmlspecialchars($user['profile_photo']); ?>" alt="Profile">
+                        <img src="<?php echo $user['profile_photo'] ? '../uploads/' . htmlspecialchars($user['profile_photo']) : '../blank-profile-picture.webp'; ?>" alt="Profile Photo">
                     </div>
                     <div class="handle">
                         <h4><?php echo htmlspecialchars($user['username']); ?></h4>
@@ -384,7 +390,25 @@ if ($posts === 0) {
                             </div>
                         </div>
 
-                        <!-- NEW FEATURE 1: Creator Milestones Progress -->
+                        <div class="analytics-card-block smart-tips-card">
+                            <div class="block-header">
+                                <h3><i class="bi bi-lightbulb-fill"></i> Smart Creator Insights</h3>
+                            </div>
+                            <div class="smart-tips-list" id="smart-tips-list">
+                                <?php if (!empty($smart_tips)): ?>
+                                    <?php foreach ($smart_tips as $tip): ?>
+                                        <div class="smart-tip-item">
+                                            <div class="smart-tip-icon"><i class="bi <?php echo htmlspecialchars($tip['icon']); ?>"></i></div>
+                                            <div class="smart-tip-content">
+                                                <span class="smart-tip-title"><?php echo htmlspecialchars($tip['title']); ?></span>
+                                                <p class="smart-tip-text"><?php echo htmlspecialchars($tip['text']); ?></p>
+                                            </div>
+                                        </div>
+                                    <?php endforeach; ?>
+                                <?php endif; ?>
+                            </div>
+                        </div>
+
                         <div class="analytics-card-block">
                             <div class="block-header">
                                 <h3><i class="bi bi-award-fill"></i> Creator Milestones</h3>
@@ -404,7 +428,6 @@ if ($posts === 0) {
                             </div>
                         </div>
 
-                        <!-- NEW FEATURE 2: Peak Engagement Insights -->
                         <div class="analytics-card-block">
                             <div class="block-header">
                                 <h3><i class="bi bi-lightning-charge-fill"></i> Peak Engagement</h3>
@@ -441,46 +464,6 @@ if ($posts === 0) {
                             </div>
                         </div>
 
-                        <!-- NEW FEATURE 3: Category Performance Deep-Dive Table -->
-                        <div class="analytics-card-block" style="grid-column: span 2;">
-                            <div class="block-header">
-                                <h3><i class="bi bi-table"></i> Category Deep-Dive Breakdown</h3>
-                            </div>
-                            <div class="category-table-wrapper">
-                                <table class="category-table">
-                                    <thead>
-                                        <tr>
-                                            <th>Category</th>
-                                            <th>Posts Published</th>
-                                            <th>Share %</th>
-                                            <th>Visual Weight</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody id="category-table-body">
-                                        <?php if (!empty($categories)): ?>
-                                            <?php foreach ($categories as $cat): 
-                                                $pct = round(($cat['post_count'] / $totalPostSum) * 100);
-                                            ?>
-                                                <tr>
-                                                    <td><strong><?php echo htmlspecialchars($cat['category']); ?></strong></td>
-                                                    <td><?php echo (int)$cat['post_count']; ?> posts</td>
-                                                    <td><span class="badge-growth"><?php echo $pct; ?>%</span></td>
-                                                    <td>
-                                                        <div class="deepdive-bar-bg">
-                                                            <div class="deepdive-bar-fill" style="width: <?php echo $pct; ?>%;"></div>
-                                                        </div>
-                                                        <span><?php echo $pct; ?>% share</span>
-                                                    </td>
-                                                </tr>
-                                            <?php endforeach; ?>
-                                        <?php else: ?>
-                                            <tr><td colspan="4" class="text-gray-400 text-center">No category data available.</td></tr>
-                                        <?php endif; ?>
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
-
                         <div class="analytics-card-block" style="grid-column: span 2;">
                             <div class="block-header">
                                 <h3><i class="bi bi-clock-history"></i> Recent Activity Stream</h3>
@@ -504,6 +487,47 @@ if ($posts === 0) {
                                 <?php endif; ?>
                             </div>
                         </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="right">
+                <div class="trending-topic">
+                    <div class="heading">
+                        <h4>Trending Topics</h4>
+                        <i class="bi bi-pencil-square"></i>
+                    </div>
+                    <div class="search-bar">
+                        <i class="bi bi-search"></i>
+                        <input type="search" placeholder="Search Trending Topics" id="trending-topic">
+                    </div>
+                    <ul class="category">
+                        <li><a href="#" class="text-[var(--primary-color)] hover:underline">#Technology</a></li>
+                        <li><a href="#" class="text-[var(--primary-color)] hover:underline">#Programming</a></li>
+                        <li><a href="#" class="text-[var(--primary-color)] hover:underline">#WebDevelopment</a></li>
+                        <li><a href="#" class="text-[var(--primary-color)] hover:underline">#AI</a></li>
+                        <li><a href="#" class="text-[var(--primary-color)] hover:underline">#CloudComputing</a></li>
+                    </ul>
+                </div>
+                <div class="communities">
+                    <h3 class="font-semibold mb-3">Communities</h3>
+                    <div class="community-item mb-4">
+                        <div class="flex items-center gap-2">
+                            <span class="text-2xl">🏢</span>
+                            <h4 class="font-semibold">Microsoft Azure</h4>
+                        </div>
+                        <p class="text-sm text-gray-500 mt-1">26 Members</p>
+                        <p class="text-sm mt-1">A collective for developers to engage, share, and learn about Microsoft Azure.</p>
+                        <button class="btn-join">Join</button>
+                    </div>
+                    <div class="community-item mb-4">
+                        <div class="flex items-center gap-2">
+                            <span class="text-2xl">💻</span>
+                            <h4 class="font-semibold">React Developers</h4>
+                        </div>
+                        <p class="text-sm text-gray-500 mt-1">42 Members</p>
+                        <p class="text-sm mt-1">Join React enthusiasts to discuss components, hooks, and more.</p>
+                        <button class="btn-join">Join</button>
                     </div>
                 </div>
             </div>

@@ -1,4 +1,4 @@
-/* Debuglia Modern Analytics Dashboard Styling (Full Horizontal Layout) */
+/* Debuglia Modern Analytics Dashboard Styling */
 
 :root {
     --analytics-card-bg-light: rgba(255, 255, 255, 0.9);
@@ -7,26 +7,6 @@
     --analytics-glass-border-dark: rgba(255, 255, 255, 0.08);
     --analytics-card-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.05), 0 8px 10px -6px rgba(0, 0, 0, 0.03);
     --analytics-card-shadow-hover: 0 18px 32px -8px rgba(0, 0, 0, 0.12);
-}
-
-/* 2-Column Full Width Container Layout for Analytics Page */
-main .container {
-    display: grid !important;
-    grid-template-columns: 17rem 1fr !important;
-    gap: 1.75rem !important;
-    max-width: 1400px !important;
-    width: 95% !important;
-    margin: 1.5rem auto !important;
-}
-
-main .container .right {
-    display: none !important;
-}
-
-main .container .middle {
-    width: 100% !important;
-    min-width: 0 !important;
-    overflow: visible !important;
 }
 
 .analytics-dashboard {
@@ -138,16 +118,16 @@ main .container .middle {
     transform: translateY(-2px);
 }
 
-/* 5 KPI Stat Cards Grid - Responsive & Spacious */
+/* 5 KPI Stat Cards Grid - Responsive inside middle column */
 .analytics-cards-grid {
     display: grid;
     grid-template-columns: repeat(5, minmax(0, 1fr));
-    gap: 1rem;
+    gap: 0.5rem;
 }
 
-@media screen and (max-width: 1200px) {
+@media screen and (max-width: 1300px) {
     .analytics-cards-grid {
-        grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+        grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
     }
 }
 
@@ -159,7 +139,7 @@ main .container .middle {
 
 .analytics-stat-card {
     background: var(--color-white);
-    padding: 1.1rem 1rem;
+    padding: 0.75rem 0.6rem;
     border-radius: var(--card-border-radius);
     box-shadow: var(--analytics-card-shadow);
     border: 1px solid var(--analytics-glass-border-light);
@@ -178,13 +158,13 @@ main .container .middle {
     top: 0;
     left: 0;
     width: 100%;
-    height: 4px;
+    height: 3px;
     background: linear-gradient(90deg, var(--card-accent-from, #6b4ce6), var(--card-accent-to, #9d4ce6));
     opacity: 0.85;
 }
 
 .analytics-stat-card:hover {
-    transform: translateY(-3px);
+    transform: translateY(-2px);
     box-shadow: var(--analytics-card-shadow-hover);
 }
 
@@ -192,19 +172,19 @@ main .container .middle {
     display: flex;
     justify-content: space-between;
     align-items: flex-start;
-    gap: 0.4rem;
-    margin-bottom: 0.4rem;
+    gap: 0.25rem;
+    margin-bottom: 0.25rem;
     width: 100%;
     min-width: 0;
 }
 
 .stat-card-title {
-    font-size: 0.7rem;
+    font-size: 0.62rem;
     font-weight: 700;
     color: var(--color-gray);
     text-transform: uppercase;
-    letter-spacing: 0.02em;
-    line-height: 1.25;
+    letter-spacing: 0;
+    line-height: 1.15;
     flex: 1;
     min-width: 0;
     overflow-wrap: break-word;
@@ -212,16 +192,16 @@ main .container .middle {
 }
 
 .stat-card-icon {
-    width: 2.1rem;
-    height: 2.1rem;
-    border-radius: 0.6rem;
+    width: 1.75rem;
+    height: 1.75rem;
+    border-radius: 0.45rem;
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 1.05rem;
+    font-size: 0.85rem;
     color: #fff;
     flex-shrink: 0;
-    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    box-shadow: 0 2px 6px rgba(0,0,0,0.1);
 }
 
 .icon-posts { background: linear-gradient(135deg, #3b82f6, #1d4ed8); }
@@ -231,22 +211,22 @@ main .container .middle {
 .icon-bookmarks { background: linear-gradient(135deg, #8b5cf6, #6d28d9); }
 
 .stat-card-value {
-    font-size: 1.8rem;
+    font-size: 1.45rem;
     font-weight: 800;
     color: var(--color-dark);
     line-height: 1.1;
     letter-spacing: -0.03em;
-    margin: 0.25rem 0;
+    margin: 0.15rem 0;
 }
 
 .stat-card-footer {
     display: flex;
     align-items: center;
-    gap: 0.35rem;
-    font-size: 0.72rem;
+    gap: 0.2rem;
+    font-size: 0.62rem;
     color: var(--color-gray);
-    margin-top: 0.45rem;
-    line-height: 1.2;
+    margin-top: 0.25rem;
+    line-height: 1.15;
     min-width: 0;
     flex-wrap: nowrap;
 }
@@ -254,10 +234,10 @@ main .container .middle {
 .stat-card-footer .badge-growth {
     display: inline-flex;
     align-items: center;
-    gap: 0.2rem;
-    padding: 0.12rem 0.42rem;
+    gap: 0.15rem;
+    padding: 0.08rem 0.35rem;
     border-radius: 1rem;
-    font-size: 0.68rem;
+    font-size: 0.6rem;
     font-weight: 700;
     background: rgba(16, 185, 129, 0.12);
     color: #10b981;
@@ -268,7 +248,7 @@ main .container .middle {
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
-    font-size: 0.72rem;
+    font-size: 0.62rem;
     color: var(--color-gray);
 }
 
