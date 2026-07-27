@@ -953,101 +953,83 @@ document.addEventListener('DOMContentLoaded', () => {
             postsArray.forEach(p => feedsContainer.appendChild(p));
         });
     });
+
+    // Auto initialize Help Modal on DOM load
+    if (typeof window.initHelpModal === 'function') {
+        window.initHelpModal();
+    }
 });
 
-// Global Helpers
-window.filterForumPosts = () => {
-    const query = (document.querySelector('#forum-feed-search')?.value || '').toLowerCase().trim();
-    const posts = document.querySelectorAll('#forum-feeds-list .feed');
-    posts.forEach(post => {
-        const text = post.textContent.toLowerCase();
-        if (text.includes(query)) {
-            post.style.display = 'block';
-        } else {
-        };
-
-        // Initialize Help Modal
-        initHelpModal();
-    });
-
-    // Help Center Modal Handler
-    function initHelpModal() {
-        let helpModal = document.getElementById('help-modal');
-        if (!helpModal) {
-            helpModal = document.createElement('div');
-            helpModal.id = 'help-modal';
-            helpModal.className = 'modal help-modal-wrapper';
-            helpModal.style.display = 'none';
-            helpModal.innerHTML = `
-            <div class="modal-content help-modal-content">
-                <div class="modal-header">
-                    <h2><i class="bi bi-question-circle-fill"></i> Help & Support Center</h2>
-                    <span class="close-modal" onclick="closeHelpModal()">&times;</span>
+// Global Helpers & Help Center Modal Handler
+window.initHelpModal = function() {
+    let helpModal = document.getElementById('help-modal');
+    if (!helpModal) {
+        helpModal = document.createElement('div');
+        helpModal.id = 'help-modal';
+        helpModal.className = 'modal help-modal-wrapper';
+        helpModal.style.display = 'none';
+        helpModal.innerHTML = `
+        <div class="modal-content help-modal-content">
+            <div class="modal-header">
+                <h2><i class="bi bi-question-circle-fill"></i> Help & Support Center</h2>
+                <span class="close-modal" onclick="closeHelpModal()">&times;</span>
+            </div>
+            <div class="modal-body">
+                <div class="help-search-box">
+                    <i class="bi bi-search"></i>
+                    <input type="text" id="help-search-input" placeholder="Search FAQs or help topics..." oninput="filterFaqs()">
                 </div>
-                <div class="modal-body">
-                    <div class="help-search-box">
-                        <i class="bi bi-search"></i>
-                        <input type="text" id="help-search-input" placeholder="Search FAQs or help topics..." oninput="filterFaqs()">
-                    </div>
 
-                    <div class="faq-accordion-list">
-                        <div class="faq-item">
-                            <button class="faq-question" onclick="toggleFaq(this)">
-                                <span><i class="bi bi-code-square"></i> How do I post code snippets on Debuglia?</span>
-                                <i class="bi bi-chevron-down faq-chevron"></i>
-                            </button>
-                            <div class="faq-answer">
-                                <p>Click the <strong>Post</strong> button on the Forum or Home page, choose a category, attach photos or code, and publish your discussion.</p>
-                            </div>
-                        </div>
-
-                        <div class="faq-item">
-                            <button class="faq-question" onclick="toggleFaq(this)">
-                                <span><i class="bi bi-person-gear"></i> How do I update my profile avatar and skills?</span>
-                                <i class="bi bi-chevron-down faq-chevron"></i>
-                            </button>
-                            <div class="faq-answer">
-                                <p>Go to your Profile page, click <strong>Edit Profile</strong>, select a new avatar image, add your skills, and click <strong>Save Profile</strong>.</p>
-                            </div>
-                        </div>
-
-                        <div class="faq-item">
-                            <button class="faq-question" onclick="toggleFaq(this)">
-                                <span><i class="bi bi-bookmark-star"></i> How do Bookmarks work?</span>
-                                <i class="bi bi-chevron-down faq-chevron"></i>
-                            </button>
-                            <div class="faq-answer">
-                                <p>Click the bookmark icon on any forum post to save it for quick reference. Access all saved items under your Bookmarks tab.</p>
-                            </div>
-                        </div>
-
-                        <div class="faq-item">
-                            <button class="faq-question" onclick="toggleFaq(this)">
-                                <span><i class="bi bi-shield-check"></i> Is my account secure on Debuglia?</span>
-                                <i class="bi bi-chevron-down faq-chevron"></i>
-                            </button>
-                            <div class="faq-answer">
-                                <p>Yes, all passwords are encrypted with bcrypt, sessions are signed with secure tokens, and database calls use parameterized queries.</p>
-                            </div>
+                <div class="faq-accordion-list">
+                    <div class="faq-item">
+                        <button class="faq-question" onclick="toggleFaq(this)">
+                            <span><i class="bi bi-code-square"></i> How do I post code snippets on Debuglia?</span>
+                            <i class="bi bi-chevron-down faq-chevron"></i>
+                        </button>
+                        <div class="faq-answer">
+                            <p>Click the <strong>Post</strong> button on the Forum or Home page, choose a category, attach photos or code, and publish your discussion.</p>
                         </div>
                     </div>
 
-                    <div class="help-contact-box">
-                        <p><i class="bi bi-headset"></i> Need further assistance?</p>
-                        <a href="mailto:support@debuglia.com" class="btn btn-primary btn-sm"><i class="bi bi-envelope-fill"></i> Contact Support Team</a>
+                    <div class="faq-item">
+                        <button class="faq-question" onclick="toggleFaq(this)">
+                            <span><i class="bi bi-person-gear"></i> How do I update my profile avatar and skills?</span>
+                            <i class="bi bi-chevron-down faq-chevron"></i>
+                        </button>
+                        <div class="faq-answer">
+                            <p>Go to your Profile page, click <strong>Edit Profile</strong>, select a new avatar image, add your skills, and click <strong>Save Profile</strong>.</p>
+                        </div>
                     </div>
+
+                    <div class="faq-item">
+                        <button class="faq-question" onclick="toggleFaq(this)">
+                            <span><i class="bi bi-bookmark-star"></i> How do Bookmarks work?</span>
+                            <i class="bi bi-chevron-down faq-chevron"></i>
+                        </button>
+                        <div class="faq-answer">
+                            <p>Click the bookmark icon on any forum post to save it for quick reference. Access all saved items under your Bookmarks tab.</p>
+                        </div>
+                    </div>
+
+                    <div class="faq-item">
+                        <button class="faq-question" onclick="toggleFaq(this)">
+                            <span><i class="bi bi-shield-check"></i> Is my account secure on Debuglia?</span>
+                            <i class="bi bi-chevron-down faq-chevron"></i>
+                        </button>
+                        <div class="faq-answer">
+                            <p>Yes, all passwords are encrypted with bcrypt, sessions are signed with secure tokens, and database calls use parameterized queries.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="help-contact-box">
+                    <p><i class="bi bi-headset"></i> Need further assistance?</p>
+                    <a href="mailto:support@debuglia.com" class="btn btn-primary btn-sm"><i class="bi bi-envelope-fill"></i> Contact Support Team</a>
                 </div>
             </div>
-        `;
-            document.body.appendChild(helpModal);
-        }
-
-        document.querySelectorAll('.help-link').forEach(link => {
-            link.addEventListener('click', (e) => {
-                e.preventDefault();
-                helpModal.style.display = 'flex';
-            });
-        });
+        </div>
+    `;
+        document.body.appendChild(helpModal);
 
         helpModal.addEventListener('click', (e) => {
             if (e.target === helpModal) {
@@ -1056,51 +1038,76 @@ window.filterForumPosts = () => {
         });
     }
 
-    window.closeHelpModal = () => {
+    document.querySelectorAll('.help-link').forEach(link => {
+        if (!link.dataset.helpBound) {
+            link.dataset.helpBound = "true";
+            link.addEventListener('click', (e) => {
+                e.preventDefault();
+                helpModal.style.display = 'flex';
+            });
+        }
+    });
+};
+
+// Global click event listener for .help-link as fallback delegation
+document.addEventListener('click', (e) => {
+    const helpBtn = e.target.closest('.help-link');
+    if (helpBtn) {
+        e.preventDefault();
+        if (typeof window.initHelpModal === 'function') {
+            window.initHelpModal();
+        }
         const modal = document.getElementById('help-modal');
-        if (modal) modal.style.display = 'none';
-    };
-
-    window.toggleFaq = (btn) => {
-        const item = btn.closest('.faq-item');
-        if (item) {
-            item.classList.toggle('open');
+        if (modal) {
+            modal.style.display = 'flex';
         }
-    };
+    }
+});
 
-    window.filterFaqs = () => {
-        const input = document.getElementById('help-search-input');
-        if (!input) return;
-        const q = input.value.toLowerCase().trim();
-        document.querySelectorAll('.faq-item').forEach(item => {
-            const text = item.textContent.toLowerCase();
-            item.style.display = text.includes(q) ? 'block' : 'none';
-        });
-    };
+window.closeHelpModal = () => {
+    const modal = document.getElementById('help-modal');
+    if (modal) modal.style.display = 'none';
+};
 
-    // Global Helpers
-    window.filterForumPosts = () => {
-        const query = (document.querySelector('#forum-feed-search')?.value || '').toLowerCase().trim();
-        const posts = document.querySelectorAll('#forum-feeds-list .feed');
-        posts.forEach(post => {
-            const text = post.textContent.toLowerCase();
-            if (text.includes(query)) {
-                post.style.display = 'block';
-            } else {
-                post.style.display = 'none';
-            }
-        });
-    };
+window.toggleFaq = (btn) => {
+    const item = btn.closest('.faq-item');
+    if (item) {
+        item.classList.toggle('open');
+    }
+};
 
-    window.toggleJoinCommunity = (btn) => {
-        if (btn) {
-            const isJoined = btn.classList.contains('joined');
-            if (isJoined) {
-                btn.textContent = 'Join';
-                btn.classList.remove('joined');
-            } else {
-                btn.textContent = 'Joined';
-                btn.classList.add('joined');
-            }
+window.filterFaqs = () => {
+    const input = document.getElementById('help-search-input');
+    if (!input) return;
+    const q = input.value.toLowerCase().trim();
+    document.querySelectorAll('.faq-item').forEach(item => {
+        const text = item.textContent.toLowerCase();
+        item.style.display = text.includes(q) ? 'block' : 'none';
+    });
+};
+
+window.filterForumPosts = () => {
+    const query = (document.querySelector('#forum-feed-search')?.value || '').toLowerCase().trim();
+    const posts = document.querySelectorAll('#forum-feeds-list .feed');
+    posts.forEach(post => {
+        const text = post.textContent.toLowerCase();
+        if (text.includes(query)) {
+            post.style.display = 'block';
+        } else {
+            post.style.display = 'none';
         }
-    };
+    });
+};
+
+window.toggleJoinCommunity = (btn) => {
+    if (btn) {
+        const isJoined = btn.classList.contains('joined');
+        if (isJoined) {
+            btn.textContent = 'Join';
+            btn.classList.remove('joined');
+        } else {
+            btn.textContent = 'Joined';
+            btn.classList.add('joined');
+        }
+    }
+};
