@@ -138,17 +138,11 @@ main .container .middle {
     transform: translateY(-2px);
 }
 
-/* 5 KPI Stat Cards Grid - Full Horizontal Width */
+/* 5 KPI Stat Cards Grid - Responsive & Spacious */
 .analytics-cards-grid {
     display: grid;
-    grid-template-columns: repeat(5, 1fr);
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
     gap: 1rem;
-}
-
-@media screen and (max-width: 1100px) {
-    .analytics-cards-grid {
-        grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-    }
 }
 
 .analytics-stat-card {
@@ -185,17 +179,21 @@ main .container .middle {
 .stat-card-header {
     display: flex;
     justify-content: space-between;
-    align-items: center;
+    align-items: flex-start;
+    gap: 0.5rem;
     margin-bottom: 0.5rem;
 }
 
 .stat-card-title {
-    font-size: 0.78rem;
-    font-weight: 600;
+    font-size: 0.72rem;
+    font-weight: 700;
     color: var(--color-gray);
     text-transform: uppercase;
-    letter-spacing: 0.04em;
-    white-space: nowrap;
+    letter-spacing: 0.03em;
+    line-height: 1.25;
+    flex: 1;
+    min-width: 0;
+    word-break: break-word;
 }
 
 .stat-card-icon {
@@ -223,22 +221,24 @@ main .container .middle {
     color: var(--color-dark);
     line-height: 1.1;
     letter-spacing: -0.03em;
+    margin: 0.2rem 0;
 }
 
 .stat-card-footer {
     display: flex;
     align-items: center;
+    flex-wrap: wrap;
     gap: 0.35rem;
     font-size: 0.75rem;
     color: var(--color-gray);
     margin-top: 0.45rem;
-    white-space: nowrap;
+    line-height: 1.25;
 }
 
 .stat-card-footer .badge-growth {
     display: inline-flex;
     align-items: center;
-    padding: 0.12rem 0.4rem;
+    padding: 0.12rem 0.45rem;
     border-radius: 1rem;
     font-size: 0.7rem;
     font-weight: 700;

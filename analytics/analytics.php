@@ -197,8 +197,8 @@ $recent_activity = $stmt->fetchAll(PDO::FETCH_ASSOC);
                             </div>
                             <div class="stat-card-value" id="stat-posts"><?php echo (int)$analytics['post_count']; ?></div>
                             <div class="stat-card-footer">
-                                <span class="badge-growth"><i class="bi bi-person-fill"></i> Author</span>
-                                <span>Published posts</span>
+                                <span class="badge-growth"><i class="bi bi-person-fill"></i> Posts</span>
+                                <span>Published</span>
                             </div>
                         </div>
 
@@ -209,8 +209,8 @@ $recent_activity = $stmt->fetchAll(PDO::FETCH_ASSOC);
                             </div>
                             <div class="stat-card-value" id="stat-likes"><?php echo (int)$analytics['like_count']; ?></div>
                             <div class="stat-card-footer">
-                                <span class="badge-growth"><i class="bi bi-hand-thumbs-up-fill"></i> Loved</span>
-                                <span>Likes received</span>
+                                <span class="badge-growth"><i class="bi bi-hand-thumbs-up-fill"></i> Likes</span>
+                                <span>Received</span>
                             </div>
                         </div>
 
@@ -221,8 +221,8 @@ $recent_activity = $stmt->fetchAll(PDO::FETCH_ASSOC);
                             </div>
                             <div class="stat-card-value" id="stat-comments"><?php echo (int)$analytics['comment_count']; ?></div>
                             <div class="stat-card-footer">
-                                <span class="badge-growth"><i class="bi bi-chat-fill"></i> Active</span>
-                                <span>Discussion responses</span>
+                                <span class="badge-growth"><i class="bi bi-chat-fill"></i> Comments</span>
+                                <span>Replies</span>
                             </div>
                         </div>
 
@@ -234,7 +234,7 @@ $recent_activity = $stmt->fetchAll(PDO::FETCH_ASSOC);
                             <div class="stat-card-value" id="stat-engagement"><?php echo $analytics['engagement_rate']; ?>%</div>
                             <div class="stat-card-footer">
                                 <span class="badge-growth"><i class="bi bi-speedometer2"></i> Ratio</span>
-                                <span>Interactions / post</span>
+                                <span>Per post</span>
                             </div>
                         </div>
 
@@ -246,7 +246,7 @@ $recent_activity = $stmt->fetchAll(PDO::FETCH_ASSOC);
                             <div class="stat-card-value" id="stat-bookmarks"><?php echo (int)$analytics['bookmark_count']; ?></div>
                             <div class="stat-card-footer">
                                 <span class="badge-growth"><i class="bi bi-star-fill"></i> Saved</span>
-                                <span>Community saves</span>
+                                <span>Bookmarks</span>
                             </div>
                         </div>
                     </div>
