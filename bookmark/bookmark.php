@@ -129,30 +129,60 @@ foreach ($posts as $post) {
             </div>
 
             <div class="middle">
-                <h2 class="bookmark-title">Your Bookmarks</h2>
-                <?php if (empty($posts)): ?>
-                    <p class="no-bookmarks">You haven't bookmarked any posts yet.</p>
-                <?php else: ?>
-                    <div class="feeds">
+                <!-- Bookmarks Hero Card -->
+                <div class="bookmark-hero-card">
+                    <div class="hero-text-content">
+                        <span class="hero-badge"><i class="bi bi-bookmark-star-fill"></i> Saved Archive</span>
+                        <h1>Your Saved Bookmarks</h1>
+                        <p>Access and review your saved technical posts, code snippets, and discussion guides.</p>
+                    </div>
+                    <div class="hero-status-box">
+                        <span class="bookmarks-count-pill" id="saved-count-pill"><i class="bi bi-bookmarks-fill"></i> <?php echo count($posts); ?> Saved Items</span>
+                    </div>
+                </div>
+
+                <!-- Search Bar -->
+                <div class="bookmark-search-wrapper">
+                    <div class="search-bar">
+                        <i class="bi bi-search search-icon"></i>
+                        <input type="search" placeholder="Search saved bookmarks by keyword or user..." id="bookmark-search-input">
+                        <button class="clear-search-btn" id="clear-bookmark-search" style="display: none;" aria-label="Clear search">
+                            <i class="bi bi-x-lg"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Feeds Container -->
+                <div class="feeds" id="bookmark-feeds-list">
+                    <?php if (empty($posts)): ?>
+                        <div class="bookmark-empty-card" id="bookmark-empty-state">
+                            <div class="empty-icon-box"><i class="bi bi-bookmark-dash"></i></div>
+                            <h3>No Bookmarks Saved</h3>
+                            <p>Click the bookmark ribbon on any forum post to save it here for easy reference anytime.</p>
+                            <a href="../index.php" class="btn btn-primary btn-sm"><i class="bi bi-compass"></i> Explore Forum Posts</a>
+                        </div>
+                    <?php else: ?>
                         <?php foreach ($posts as $post): ?>
-                            <div class="feed" data-post-id="<?php echo $post['id']; ?>">
+                            <div class="feed" data-post-id="<?php echo $post['id']; ?>" data-category="<?php echo htmlspecialchars($post['category'] ?? ''); ?>">
+                                <div class="feed-header-top">
+                                    <span class="category-pill-badge"><i class="bi bi-tag-fill"></i> <?php echo !empty($post['category']) ? htmlspecialchars($post['category']) : 'General'; ?></span>
+                                    <span class="saved-ribbon-tag"><i class="bi bi-bookmark-check-fill"></i> Saved</span>
+                                </div>
+
                                 <div class="head">
                                     <div class="user">
                                         <div class="profile-photo">
-                                            <img src="<?php echo $post['profile_photo'] ? '../uploads/' . htmlspecialchars($post['profile_photo']) : '../blank-profile-picture.webp'; ?>">
+                                            <img src="<?php echo $post['profile_photo'] ? '../uploads/' . htmlspecialchars($post['profile_photo']) : '../blank-profile-picture.webp'; ?>" alt="User Photo">
                                         </div>
                                         <div class="info">
                                             <h3><?php echo htmlspecialchars($post['username']); ?></h3>
-                                            <small><?php echo date('M d, Y H:i', strtotime($post['created_at'])); ?></small>
+                                            <small><i class="bi bi-clock"></i> <?php echo date('M d, Y • H:i', strtotime($post['created_at'])); ?></small>
                                         </div>
-                                    </div>
-                                    <div class="category">
-                                        <h3><?php echo !empty($post['category']) ? htmlspecialchars($post['category']) : 'No Category'; ?></h3>
                                     </div>
                                     <?php if ($post['user_id'] == $_SESSION['user_id']): ?>
                                         <span class="edit">
                                             <div class="post-menu">
-                                                <button class="delete-post-btn" data-post-id="<?php echo $post['id']; ?>">Delete</button>
+                                                <button class="delete-post-btn" data-post-id="<?php echo $post['id']; ?>"><i class="bi bi-trash"></i> Delete</button>
                                             </div>
                                         </span>
                                     <?php endif; ?>
@@ -182,9 +212,9 @@ foreach ($posts as $post) {
                                         </span>
                                     </div>
                                     <div class="bookmark">
-                                        <span class="bookmark-btn <?php echo $post['is_bookmarked'] ? 'bookmarked' : ''; ?>" data-post-id="<?php echo $post['id']; ?>">
-                                            <i class="bi <?php echo $post['is_bookmarked'] ? 'bi-bookmark-fill' : 'bi-bookmark'; ?>"></i>
-                                        </span>
+                                        <button class="btn-remove-bookmark bookmark-btn bookmarked" data-post-id="<?php echo $post['id']; ?>" title="Remove Bookmark">
+                                            <i class="bi bi-bookmark-x-fill"></i> Remove
+                                        </button>
                                     </div>
                                 </div>
                                 <div class="comments-section" style="display: none;">
@@ -198,48 +228,64 @@ foreach ($posts as $post) {
                                 </div>
                             </div>
                         <?php endforeach; ?>
-                    </div>
-                <?php endif; ?>
+                        
+                        <div class="bookmark-empty-card" id="bookmark-empty-state" style="display: none;">
+                            <div class="empty-icon-box"><i class="bi bi-bookmark-dash"></i></div>
+                            <h3>No Bookmarks Saved</h3>
+                            <p>Click the bookmark ribbon on any forum post to save it here for easy reference anytime.</p>
+                            <a href="../index.php" class="btn btn-primary btn-sm"><i class="bi bi-compass"></i> Explore Forum Posts</a>
+                        </div>
+                    <?php endif; ?>
+                </div>
             </div>
 
             <div class="right">
-                <div class="trending-topic">
-                    <div class="heading">
-                        <h4>Trending Topics</h4>
-                        <i class="bi bi-pencil-square"></i>
+                <div class="sidebar-card trending-sidebar-card mb-4">
+                    <div class="card-header-box">
+                        <h3><i class="bi bi-hash"></i> Trending Topics</h3>
+                        <i class="bi bi-fire text-coral"></i>
                     </div>
-                    <div class="search-bar">
+                    <div class="sidebar-search-box">
                         <i class="bi bi-search"></i>
-                        <input type="search" placeholder="Search Trending Topics" id="trending-topic">
+                        <input type="search" placeholder="Search Topics..." id="trending-topic-search">
                     </div>
-                    <ul class="category">
-                        <li><a href="#" class="text-[var(--primary-color)] hover:underline">#Technology</a></li>
-                        <li><a href="#" class="text-[var(--primary-color)] hover:underline">#Programming</a></li>
-                        <li><a href="#" class="text-[var(--primary-color)] hover:underline">#WebDevelopment</a></li>
-                        <li><a href="#" class="text-[var(--primary-color)] hover:underline">#AI</a></li>
-                        <li><a href="#" class="text-[var(--primary-color)] hover:underline">#CloudComputing</a></li>
-                    </ul>
+                    <div class="topic-tags-list" id="topic-tags-list">
+                        <a href="../trending_topic/trending_topic.php" class="topic-tag">#Technology</a>
+                        <a href="../trending_topic/trending_topic.php" class="topic-tag">#Programming</a>
+                        <a href="../trending_topic/trending_topic.php" class="topic-tag">#WebDevelopment</a>
+                        <a href="../trending_topic/trending_topic.php" class="topic-tag">#AI</a>
+                        <a href="../trending_topic/trending_topic.php" class="topic-tag">#CloudComputing</a>
+                    </div>
                 </div>
 
-                <div class="communities">
-                    <h3 class="font-semibold mb-3">Communities</h3>
-                    <div class="community-item mb-4">
-                        <div class="flex items-center gap-2">
-                            <span class="text-2xl">🏢</span>
-                            <h4 class="font-semibold">Microsoft Azure</h4>
-                        </div>
-                        <p class="text-sm text-gray-500 mt-1">26 Members</p>
-                        <p class="text-sm mt-1">A collective for developers to engage, share, and learn about Microsoft Azure.</p>
-                        <button class="btn-join">Join</button>
+                <div class="sidebar-card communities-sidebar-card">
+                    <div class="card-header-box">
+                        <h3><i class="bi bi-people-fill"></i> Communities</h3>
+                        <span class="badge-count">Featured</span>
                     </div>
-                    <div class="community-item mb-4">
-                        <div class="flex items-center gap-2">
-                            <span class="text-2xl">💻</span>
-                            <h4 class="font-semibold">React Developers</h4>
+                    <div class="communities-list">
+                        <div class="community-item-card">
+                            <div class="community-header">
+                                <span class="community-emoji">🏢</span>
+                                <div class="community-meta">
+                                    <h4>Microsoft Azure</h4>
+                                    <span class="community-members"><i class="bi bi-people"></i> 26 Members</span>
+                                </div>
+                            </div>
+                            <p class="community-desc">A collective for developers to engage, share, and learn about Microsoft Azure.</p>
+                            <button class="btn-community-join" onclick="toggleJoinCommunity(this)"><i class="bi bi-plus-lg"></i> Join</button>
                         </div>
-                        <p class="text-sm text-gray-500 mt-1">42 Members</p>
-                        <p class="text-sm mt-1">Join React enthusiasts to discuss components, hooks, and more.</p>
-                        <button class="btn-join">Join</button>
+                        <div class="community-item-card">
+                            <div class="community-header">
+                                <span class="community-emoji">💻</span>
+                                <div class="community-meta">
+                                    <h4>React Developers</h4>
+                                    <span class="community-members"><i class="bi bi-people"></i> 42 Members</span>
+                                </div>
+                            </div>
+                            <p class="community-desc">Join React enthusiasts to discuss components, hooks, and performance.</p>
+                            <button class="btn-community-join" onclick="toggleJoinCommunity(this)"><i class="bi bi-plus-lg"></i> Join</button>
+                        </div>
                     </div>
                 </div>
             </div>
