@@ -126,49 +126,87 @@ $pdo->prepare("UPDATE notifications SET is_read = {$readTrue} WHERE user_id = ? 
             </div>
 
             <div class="middle">
-                <div class="notifications-list" style="background: var(--color-white); padding: var(--card-padding); border-radius: var(--card-border-radius);">
-                    <h2>Notifications</h2>
-                    <?php if (empty($notifications)): ?>
-                        <p>No notifications yet.</p>
-                    <?php else: ?>
+                <!-- Notification Hero Card -->
+                <div class="notification-hero-card">
+                    <div class="hero-text-content">
+                        <span class="hero-badge"><i class="bi bi-bell-fill"></i> Activity Feed</span>
+                        <h1>Notifications & Activity</h1>
+                        <p>Track likes, comments, and interactions on your discussions in real-time.</p>
+                    </div>
+                    <div class="hero-status-box">
+                        <?php if ($unread_count > 0): ?>
+                            <span class="unread-pill"><i class="bi bi-envelope-fill"></i> <?php echo $unread_count; ?> New</span>
+                        <?php else: ?>
+                            <span class="caught-up-pill"><i class="bi bi-check-all"></i> All Caught Up</span>
+                        <?php endif; ?>
+                    </div>
+                </div>
+
+                <!-- Notification Filter Tabs -->
+                <div class="notif-filter-bar">
+                    <div class="filter-tabs">
+                        <button class="notif-tab active" data-filter="all"><i class="bi bi-grid-fill"></i> All</button>
+                        <button class="notif-tab" data-filter="like"><i class="bi bi-heart-fill text-coral"></i> Likes</button>
+                        <button class="notif-tab" data-filter="comment"><i class="bi bi-chat-square-dots-fill text-blue"></i> Comments</button>
+                    </div>
+                </div>
+
+                <!-- Notifications List -->
+                <div class="notifications-wrapper" id="notifications-wrapper">
+                    <?php if (!empty($notifications)): ?>
                         <?php foreach ($notifications as $notification): ?>
-                            <div class="notification <?php echo $notification['is_read'] ? '' : 'unread'; ?>" data-post-id="<?php echo $notification['post_id']; ?>">
-                                <div class="profile-photo">
-                                    <img src="<?php echo $notification['actor_photo'] ? '../uploads/' . htmlspecialchars($notification['actor_photo']) : '../blank-profile-picture.webp'; ?>" alt="Actor Photo">
+                            <div class="notification-item <?php echo $notification['is_read'] ? '' : 'unread'; ?>" data-post-id="<?php echo $notification['post_id']; ?>" data-type="<?php echo htmlspecialchars($notification['type']); ?>">
+                                <div class="avatar-box">
+                                    <img src="<?php echo $notification['actor_photo'] ? '../uploads/' . htmlspecialchars($notification['actor_photo']) : '../blank-profile-picture.webp'; ?>" alt="Actor Photo" class="actor-avatar">
+                                    <div class="type-icon-badge <?php echo $notification['type'] === 'like' ? 'like-badge' : 'comment-badge'; ?>">
+                                        <i class="bi <?php echo $notification['type'] === 'like' ? 'bi-heart-fill' : 'bi-chat-quote-fill'; ?>"></i>
+                                    </div>
                                 </div>
                                 <div class="notification-content">
-                                    <p>
-                                        <strong><?php echo htmlspecialchars($notification['username']); ?></strong>
-                                        <?php echo $notification['type'] === 'like' ? 'liked your post' : 'commented on your post'; ?>
-                                        <?php if ($notification['type'] === 'comment'): ?>
-                                            : "<?php echo htmlspecialchars($notification['content']); ?>"
+                                    <p class="notif-text">
+                                        <strong class="actor-name"><?php echo htmlspecialchars($notification['username']); ?></strong>
+                                        <span class="action-desc">
+                                            <?php echo $notification['type'] === 'like' ? 'liked your discussion post' : 'commented on your post'; ?>
+                                        </span>
+                                        <?php if ($notification['type'] === 'comment' && !empty($notification['content'])): ?>
+                                            <span class="comment-preview">"<?php echo htmlspecialchars($notification['content']); ?>"</span>
                                         <?php endif; ?>
                                     </p>
-                                    <small><?php echo date('M d, Y H:i', strtotime($notification['created_at'])); ?></small>
+                                    <small class="notif-time"><i class="bi bi-clock"></i> <?php echo date('M d, Y • H:i', strtotime($notification['created_at'])); ?></small>
+                                </div>
+                                <div class="notif-action-icon">
+                                    <i class="bi bi-chevron-right"></i>
                                 </div>
                             </div>
                         <?php endforeach; ?>
                     <?php endif; ?>
+
+                    <!-- Empty State Box -->
+                    <div class="notif-empty-card" id="notif-empty-state" style="<?php echo empty($notifications) ? 'display: flex;' : 'display: none;'; ?>">
+                        <div class="empty-icon-box"><i class="bi bi-bell-slash"></i></div>
+                        <h3>No Notifications Yet</h3>
+                        <p>When other developers like or comment on your code posts, you'll see them right here.</p>
+                    </div>
                 </div>
             </div>
 
             <div class="right">
-                <div class="trending-topic">
-                    <div class="heading">
-                        <h4>Trending Topics</h4>
-                        <i class="bi bi-pencil-square"></i>
+                <div class="sidebar-card trending-sidebar-card">
+                    <div class="card-header-box">
+                        <h3><i class="bi bi-hash"></i> Trending Topics</h3>
+                        <i class="bi bi-fire text-coral"></i>
                     </div>
-                    <div class="search-bar">
+                    <div class="sidebar-search-box">
                         <i class="bi bi-search"></i>
-                        <input type="search" placeholder="Search Trending Topics" id="trending-topic">
+                        <input type="search" placeholder="Search Topics..." id="trending-topic-search">
                     </div>
-                    <ul class="category">
-                        <li><a href="#" class="text-[var(--primary-color)] hover:underline">#Technology</a></li>
-                        <li><a href="#" class="text-[var(--primary-color)] hover:underline">#Programming</a></li>
-                        <li><a href="#" class="text-[var(--primary-color)] hover:underline">#WebDevelopment</a></li>
-                        <li><a href="#" class="text-[var(--primary-color)] hover:underline">#AI</a></li>
-                        <li><a href="#" class="text-[var(--primary-color)] hover:underline">#CloudComputing</a></li>
-                    </ul>
+                    <div class="topic-tags-list" id="topic-tags-list">
+                        <a href="../trending_topic/trending_topic.php" class="topic-tag">#Technology</a>
+                        <a href="../trending_topic/trending_topic.php" class="topic-tag">#Programming</a>
+                        <a href="../trending_topic/trending_topic.php" class="topic-tag">#WebDevelopment</a>
+                        <a href="../trending_topic/trending_topic.php" class="topic-tag">#AI</a>
+                        <a href="../trending_topic/trending_topic.php" class="topic-tag">#CloudComputing</a>
+                    </div>
                 </div>
             </div>
         </div>
