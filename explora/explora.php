@@ -137,33 +137,70 @@ $suggested_communities = [
             </div>
 
             <div class="middle">
-                <div class="search-bar">
-                    <i class="bi bi-search"></i>
-                    <input type="search" placeholder="Search posts, users, or topics..." id="explore-search">
+                <!-- Explore Hero Card -->
+                <div class="explore-hero-card">
+                    <div class="explore-hero-content">
+                        <span class="explore-hero-badge"><i class="bi bi-compass-fill"></i> Explore Discussions</span>
+                        <h1>Discover Trending Developer Topics</h1>
+                        <p>Explore hot discussions, code solutions, and thriving tech communities.</p>
+                    </div>
+                    <div class="explore-hero-stats">
+                        <div class="stat-pill"><i class="bi bi-fire text-coral"></i> Hot Topics</div>
+                        <div class="stat-pill"><i class="bi bi-people-fill text-blue"></i> Active Devs</div>
+                    </div>
+                </div>
+
+                <!-- Modern Search Bar & Category Filter Pills -->
+                <div class="explore-search-wrapper">
+                    <div class="search-bar">
+                        <i class="bi bi-search search-icon"></i>
+                        <input type="search" placeholder="Search posts, users, tags, or topics..." id="explore-search">
+                        <button class="clear-search-btn" id="clear-search" style="display: none;" aria-label="Clear search">
+                            <i class="bi bi-x-lg"></i>
+                        </button>
+                    </div>
+                    <div class="category-pills" id="category-pills">
+                        <button class="cat-pill active" data-category="all"><i class="bi bi-grid-fill"></i> All</button>
+                        <button class="cat-pill" data-category="Python"><i class="bi bi-code-slash"></i> Python</button>
+                        <button class="cat-pill" data-category="Web Development"><i class="bi bi-globe"></i> Web Dev</button>
+                        <button class="cat-pill" data-category="Cloud"><i class="bi bi-cloud-fill"></i> Cloud</button>
+                        <button class="cat-pill" data-category="AI & ML"><i class="bi bi-robot"></i> AI & ML</button>
+                        <button class="cat-pill" data-category="Security"><i class="bi bi-shield-lock-fill"></i> Security</button>
+                    </div>
                 </div>
 
                 <div class="trending-posts">
-                    <h2>Trending Posts</h2>
-                    <div class="feeds">
-                        <?php foreach ($trending_posts as $post): ?>
-                            <div class="feed" data-post-id="<?php echo $post['id']; ?>">
+                    <div class="section-title-box">
+                        <h2><i class="bi bi-graph-up-arrow"></i> Trending Discussions</h2>
+                        <span class="trending-subtitle">Updated live based on community engagement</span>
+                    </div>
+
+                    <div class="feeds" id="explore-feeds-list">
+                        <?php 
+                        $rank = 0;
+                        foreach ($trending_posts as $post): 
+                            $rank++;
+                        ?>
+                            <div class="feed" data-post-id="<?php echo $post['id']; ?>" data-category="<?php echo htmlspecialchars($post['category'] ?? ''); ?>">
+                                <div class="trending-badge-top">
+                                    <span class="rank-tag"><i class="bi bi-fire"></i> #<?php echo $rank; ?> Trending</span>
+                                    <span class="category-tag"><i class="bi bi-tag-fill"></i> <?php echo !empty($post['category']) ? htmlspecialchars($post['category']) : 'General'; ?></span>
+                                </div>
+
                                 <div class="head">
                                     <div class="user">
                                         <div class="profile-photo">
-                                            <img src="<?php echo $post['profile_photo'] ? '../uploads/' . htmlspecialchars($post['profile_photo']) : '../blank-profile-picture.webp'; ?>">
+                                            <img src="<?php echo $post['profile_photo'] ? '../uploads/' . htmlspecialchars($post['profile_photo']) : '../blank-profile-picture.webp'; ?>" alt="User photo">
                                         </div>
                                         <div class="info">
                                             <h3><?php echo htmlspecialchars($post['username']); ?></h3>
-                                            <small><?php echo date('M d, Y H:i', strtotime($post['created_at'])); ?></small>
+                                            <small><i class="bi bi-clock-history"></i> <?php echo date('M d, Y • H:i', strtotime($post['created_at'])); ?></small>
                                         </div>
-                                    </div>
-                                    <div class="category">
-                                        <h3><?php echo !empty($post['category']) ? htmlspecialchars($post['category']) : 'No Category'; ?></h3>
                                     </div>
                                     <?php if ($post['user_id'] == $_SESSION['user_id']): ?>
                                         <span class="edit">
                                             <div class="post-menu">
-                                                <button class="delete-post-btn" data-post-id="<?php echo $post['id']; ?>">Delete</button>
+                                                <button class="delete-post-btn" data-post-id="<?php echo $post['id']; ?>"><i class="bi bi-trash"></i> Delete</button>
                                             </div>
                                         </span>
                                     <?php endif; ?>
@@ -210,23 +247,40 @@ $suggested_communities = [
                             </div>
                         <?php endforeach; ?>
                     </div>
+
+                    <!-- Empty state when search or filter matches nothing -->
+                    <div class="explore-empty-state" id="explore-empty" style="display: none;">
+                        <div class="empty-icon"><i class="bi bi-search-heart"></i></div>
+                        <h3>No Discussions Found</h3>
+                        <p>We couldn't find any trending posts matching your search query or selected topic filter.</p>
+                        <button class="btn btn-primary btn-sm" id="reset-explore-btn"><i class="bi bi-arrow-counterclockwise"></i> Reset Filters</button>
+                    </div>
                 </div>
             </div>
 
             <div class="right">
-                <div class="suggested-communities">
-                    <h3 class="font-semibold mb-3">Suggested Communities</h3>
-                    <?php foreach ($suggested_communities as $community): ?>
-                        <div class="community-item mb-4">
-                            <div class="flex items-center gap-2">
-                                <span class="text-2xl"><?php echo $community['emoji']; ?></span>
-                                <h4 class="font-semibold"><?php echo htmlspecialchars($community['name']); ?></h4>
+                <div class="suggested-communities-card">
+                    <div class="card-header-box">
+                        <h3><i class="bi bi-people-fill"></i> Suggested Communities</h3>
+                        <span class="badge-count"><?php echo count($suggested_communities); ?> Featured</span>
+                    </div>
+                    <div class="communities-list">
+                        <?php foreach ($suggested_communities as $community): ?>
+                            <div class="community-item-card">
+                                <div class="community-header">
+                                    <span class="community-emoji"><?php echo $community['emoji']; ?></span>
+                                    <div class="community-meta">
+                                        <h4><?php echo htmlspecialchars($community['name']); ?></h4>
+                                        <span class="community-members"><i class="bi bi-people"></i> <?php echo $community['members']; ?> Members</span>
+                                    </div>
+                                </div>
+                                <p class="community-desc"><?php echo htmlspecialchars($community['description']); ?></p>
+                                <button class="btn-community-join" onclick="toggleJoinCommunity(this)">
+                                    <i class="bi bi-plus-lg"></i> Join
+                                </button>
                             </div>
-                            <p class="text-sm text-gray-500 mt-1"><?php echo $community['members']; ?> Members</p>
-                            <p class="text-sm mt-1"><?php echo htmlspecialchars($community['description']); ?></p>
-                            <button class="btn-join">Join</button>
-                        </div>
-                    <?php endforeach; ?>
+                        <?php endforeach; ?>
+                    </div>
                 </div>
             </div>
         </div>
