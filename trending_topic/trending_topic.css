@@ -1,245 +1,518 @@
-.trending-topic {
-    box-shadow: var(--box-shadow);
-    transition: all 0.3s ease;
-    padding: var(--padding-1);
-    border-radius: var(--border-radius);
-}
+/* ==========================================================================
+   Trending Topics Page Modern Styling System
+   ========================================================================== */
 
-.trending-topic .heading {
+/* Hero Banner Card */
+.trending-hero-card {
+    background: linear-gradient(135deg, rgba(32, 104, 212, 0.12) 0%, rgba(239, 106, 74, 0.12) 100%), var(--ui-surface, #ffffff);
+    border: 1px solid var(--ui-border, rgba(0, 0, 0, 0.08));
+    border-radius: 20px;
+    padding: 1.75rem 2rem;
     margin-bottom: 1.5rem;
-}
-
-.trending-topic .heading h4 {
-    color: var(--color-dark);
-    font-size: 1.2rem;
-}
-
-.trending-topic .search-bar {
-    margin-bottom: 1rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1.5rem;
+    box-shadow: var(--ui-shadow, 0 8px 30px rgba(0, 0, 0, 0.04));
     position: relative;
+    overflow: hidden;
 }
 
-.trending-topic .search-bar i {
-    position: absolute;
-    top: 50%;
-    left: 10px;
-    transform: translateY(-50%);
-    color: var(--color-gray);
+.hero-text-content {
+    max-width: 480px;
 }
 
-.trending-topic .search-bar input {
-    width: 100%;
-    padding: 0.5rem 0.5rem 0.5rem 2rem;
-    border: 1px solid var(--color-light);
-    border-radius: var(--border-radius);
-    font-size: 0.9rem;
-}
-
-.trending-topic .category {
-    margin: 0;
-    list-style: none;
-    max-height: 300px;
-    overflow-y: auto;
-}
-
-.category-link {
-    display: inline-block;
-    background-color: #6f42c1;
-    color: white;
-    padding: 5px 10px;
-    border-radius: 15px;
-    text-decoration: none;
-    font-size: 14px;
-    margin: 5px 0;
-}
-
-.category-link:hover {
-    background-color: #5a32a3;
-    color: white;
-}
-
-.trending-topic .category li {
+.hero-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: rgba(239, 106, 74, 0.15);
+    color: var(--ui-coral, #ef6a4a);
+    font-size: 0.8rem;
+    font-weight: 700;
+    padding: 0.35rem 0.85rem;
+    border-radius: 20px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
     margin-bottom: 0.75rem;
 }
 
-.trending-topic .category a {
+.hero-text-content h1 {
+    font-size: 1.55rem;
+    font-weight: 800;
+    color: var(--ui-text, #1d2730);
+    margin-bottom: 0.4rem;
+    line-height: 1.25;
+}
+
+.hero-text-content p {
+    font-size: 0.92rem;
+    color: var(--ui-muted, #667684);
+    line-height: 1.5;
+    margin: 0;
+}
+
+.hero-status-box {
     display: flex;
-    justify-content: space-between;
     align-items: center;
-    text-decoration: none;
-    color: var(--primary-color);
-    font-size: 0.9rem;
+}
+
+.topics-count-pill {
+    background: var(--ui-blue, #2068d4);
+    color: #ffffff;
+    padding: 0.5rem 1.1rem;
+    border-radius: 30px;
+    font-size: 0.85rem;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    box-shadow: 0 4px 14px rgba(32, 104, 212, 0.35);
+}
+
+/* Search Bar & Category Filter Pills Bar */
+.trending-search-wrapper {
+    margin-bottom: 1.75rem;
+}
+
+.search-bar {
+    position: relative;
+    display: flex;
+    align-items: center;
+    background: var(--ui-surface, #ffffff);
+    border: 1px solid var(--ui-border, rgba(0, 0, 0, 0.08));
+    padding: 0.75rem 1.25rem;
+    border-radius: 30px;
+    box-shadow: var(--ui-shadow, 0 8px 30px rgba(0, 0, 0, 0.04));
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    margin-bottom: 1rem;
+}
+
+.search-bar:focus-within {
+    border-color: var(--ui-blue, #2068d4);
+    box-shadow: 0 0 0 4px rgba(32, 104, 212, 0.15);
+}
+
+.search-bar i.search-icon {
+    font-size: 1.15rem;
+    color: var(--ui-muted, #667684);
+    margin-right: 0.75rem;
+}
+
+.search-bar input {
+    flex: 1;
+    border: none;
+    background: transparent;
+    font-size: 0.98rem;
+    color: var(--ui-text, #1d2730);
+    outline: none;
+}
+
+.clear-search-btn {
+    background: none;
+    border: none;
+    color: var(--ui-muted, #667684);
+    font-size: 1.1rem;
+    cursor: pointer;
+    padding: 0 4px;
     transition: color 0.2s ease;
 }
 
-.trending-topic .category a:hover {
-    color: hsl(var(--primary-color-hue), 75%, 50%);
+.clear-search-btn:hover {
+    color: var(--ui-coral, #ef6a4a);
 }
 
-.trending-topic .category a.active {
+/* Category Filter Pills */
+.category-pills {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    overflow-x: auto;
+    padding-bottom: 0.4rem;
+    scrollbar-width: none;
+}
+
+.category-pills::-webkit-scrollbar {
+    display: none;
+}
+
+.cat-pill {
+    background: var(--ui-surface, #ffffff);
+    color: var(--ui-muted, #667684);
+    border: 1px solid var(--ui-border, rgba(0, 0, 0, 0.08));
+    padding: 0.5rem 1.1rem;
+    border-radius: 25px;
+    font-size: 0.88rem;
     font-weight: 600;
-    color: var(--color-dark);
+    cursor: pointer;
+    white-space: nowrap;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    text-decoration: none;
+    transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-.trending-topic .category .post-count {
-    color: var(--color-gray);
-    font-size: 0.85rem;
+.cat-pill:hover {
+    color: var(--ui-text, #1d2730);
+    border-color: rgba(32, 104, 212, 0.4);
+    transform: translateY(-1px);
 }
 
-.feeds h2 {
-    color: var(--color-dark);
-    font-size: 1.8rem;
-    font-weight: 600;
-    text-align: center;
-    margin: 2rem 0;
-    transition: color 0.3s ease;
+.cat-pill.active {
+    background: var(--ui-blue, #2068d4);
+    color: #ffffff;
+    border-color: var(--ui-blue, #2068d4);
+    box-shadow: 0 6px 16px rgba(32, 104, 212, 0.3);
 }
 
 /* Individual Feed Card */
 .feed {
-    background: var(--color-white);
-    padding: var(--card-padding);
-    margin: 1rem 0;
-    border-radius: var(--card-border-radius);
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
     position: relative;
+    background: var(--ui-surface, #ffffff);
+    border: 1px solid var(--ui-border, rgba(0, 0, 0, 0.08));
+    border-radius: var(--ui-radius, 16px);
+    box-shadow: var(--ui-shadow, 0 8px 30px rgba(0, 0, 0, 0.04));
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    margin-bottom: 1.5rem;
+    overflow: hidden;
+    padding: 1.25rem;
 }
 
 .feed:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
+    box-shadow: var(--ui-shadow-hover, 0 14px 40px rgba(0, 0, 0, 0.08));
 }
 
-.feed .category-tag {
-    position: absolute;
-    top: 10px;
-    right: 10px;
-    background-color: #6f42c1;
-    color: white;
-    padding: 6px 12px;
-    border-radius: 15px;
-    font-size: 0.9rem;
-    font-weight: 500;
-    z-index: 10;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+.feed-header-top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 0.85rem;
 }
 
-/* Post Images */
-.feed .post-images {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
-    gap: 0.5rem;
-    margin: 0.7rem 0;
+.category-pill-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 0.8rem;
+    font-weight: 700;
+    color: var(--ui-blue, #2068d4);
+    background: rgba(32, 104, 212, 0.1);
+    padding: 0.3rem 0.8rem;
+    border-radius: 14px;
+    border: 1px solid rgba(32, 104, 212, 0.15);
 }
 
-.feed .post-images.single-image {
-    display: block;
+.feed .head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 0.85rem;
 }
 
-.feed .post-images img {
+.feed .head .user {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+.feed .head .profile-photo {
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    overflow: hidden;
+    flex-shrink: 0;
+}
+
+.feed .head .profile-photo img {
     width: 100%;
-    max-height: 300px;
+    height: 100%;
     object-fit: cover;
-    border-radius: var(--card-border-radius);
-    transition: transform 0.3s ease;
 }
 
-.feed .post-images img:hover {
+.feed .head .info h3 {
+    font-size: 0.98rem;
+    font-weight: 700;
+    color: var(--ui-text, #1d2730);
+    margin: 0;
+}
+
+.feed .head .info small {
+    font-size: 0.78rem;
+    color: var(--ui-muted, #667684);
+}
+
+.post-content p {
+    font-size: 0.95rem;
+    color: var(--ui-text, #1d2730);
+    line-height: 1.5;
+    margin-bottom: 0.85rem;
+}
+
+/* Action Buttons */
+.action-buttons {
+    margin-top: 1rem;
+    padding-top: 0.75rem;
+    border-top: 1px solid var(--ui-border, rgba(0, 0, 0, 0.06));
+}
+
+.interaction-buttons {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+}
+
+.like-btn, .comment-toggle-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: var(--ui-muted, #667684);
+    cursor: pointer;
+    transition: color 0.2s ease, transform 0.2s ease;
+}
+
+.like-btn:hover, .comment-toggle-btn:hover {
+    color: var(--ui-blue, #2068d4);
     transform: scale(1.05);
 }
 
-.feed .post-images.single-image img {
-    max-height: 400px;
-    object-fit: contain;
+.like-btn.liked {
+    color: var(--ui-coral, #ef6a4a);
 }
 
-.feed .action-buttons {
-    margin-top: 0.5rem;
+.like-btn.liked i {
+    color: var(--ui-coral, #ef6a4a);
 }
 
-.feed .interaction-buttons span {
-    margin-right: 1rem;
-    cursor: pointer;
-}
-
-.feed .like-btn.liked {
-    color: var(--primary-color);
-}
-
-.feed .comments-section {
+/* Comment Form & Section */
+.comment-form {
+    display: flex;
+    gap: 0.6rem;
     margin-top: 1rem;
 }
 
-.feed .comment-form {
+.comment-input {
+    flex: 1;
+    padding: 0.55rem 1rem;
+    border-radius: 20px;
+    border: 1px solid var(--ui-border, rgba(0, 0, 0, 0.08));
+    background: var(--ui-surface-2, #f8fafc);
+    font-size: 0.88rem;
+    color: var(--ui-text, #1d2730);
+    outline: none;
+}
+
+.comment-input:focus {
+    border-color: var(--ui-blue, #2068d4);
+}
+
+/* Empty State Card */
+.topic-empty-card {
+    text-align: center;
+    padding: 3.5rem 2rem;
+    background: var(--ui-surface, #ffffff);
+    border: 1px dashed var(--ui-border, rgba(0, 0, 0, 0.12));
+    border-radius: 20px;
     display: flex;
-    gap: 0.5rem;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.topic-empty-card .empty-icon-box {
+    font-size: 3rem;
+    color: var(--ui-muted, #667684);
+    margin-bottom: 1rem;
+    opacity: 0.6;
+}
+
+.topic-empty-card h3 {
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: var(--ui-text, #1d2730);
     margin-bottom: 0.5rem;
 }
 
-.feed .comment-input {
-    flex: 1;
-    padding: 0.5rem;
-    border: 1px solid var(--color-light);
-    border-radius: var(--border-radius);
+.topic-empty-card p {
+    font-size: 0.9rem;
+    color: var(--ui-muted, #667684);
+    max-width: 380px;
+    margin: 0 0 1.25rem 0;
+    line-height: 1.5;
 }
 
-.dark-mode .trending-topic {
-    background: var(--color-dark);
-    box-shadow: none;
-    border: 1px solid var(--color-light);
+/* Right Sidebar Categories Card */
+.sidebar-card {
+    background: var(--ui-surface, #ffffff);
+    border: 1px solid var(--ui-border, rgba(0, 0, 0, 0.08));
+    border-radius: 20px;
+    padding: 1.25rem;
+    box-shadow: var(--ui-shadow, 0 8px 30px rgba(0, 0, 0, 0.04));
+    position: sticky;
+    top: var(--sticky-top-right, 6rem);
 }
 
-.dark-mode .trending-topic .category {
-    color: var(--color-white);
+.card-header-box {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 1rem;
+    padding-bottom: 0.75rem;
+    border-bottom: 1px solid var(--ui-border, rgba(0, 0, 0, 0.08));
 }
 
-.dark-mode .trending-topic .heading h4,
-.dark-mode .feeds h2,
-.dark-mode .feed {
-    color: var(--color-white);
-    background: var(--color-dark);
+.card-header-box h3 {
+    font-size: 1.05rem;
+    font-weight: 700;
+    color: var(--ui-text, #1d2730);
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    margin: 0;
 }
 
-.dark-mode .trending-topic .category a.active {
-    color: var(--color-white);
+.card-header-box h3 i {
+    color: var(--ui-blue, #2068d4);
 }
 
-.dark-mode .feed .category-tag {
-    background-color: #9b7de5;
-    color: white;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+.badge-count {
+    font-size: 0.75rem;
+    font-weight: 600;
+    background: var(--ui-surface-2, #e8eef2);
+    color: var(--ui-muted, #667684);
+    padding: 0.2rem 0.6rem;
+    border-radius: 12px;
 }
 
-.dark-mode .feed .comment-input {
-    background: var(--color-dark);
-    color: var(--color-white);
-    border-color: var(--color-gray);
+.sidebar-search-box {
+    position: relative;
+    margin-bottom: 1rem;
 }
 
-@media (max-width: 768px) {
-    .trending-topic {
-        padding: var(--padding-2);
-    }
+.sidebar-search-box i {
+    position: absolute;
+    left: 0.85rem;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--ui-muted, #667684);
+    font-size: 0.9rem;
+}
 
-    .trending-topic .category a {
-        font-size: 0.85rem;
-    }
+.sidebar-search-box input {
+    width: 100%;
+    padding: 0.55rem 0.85rem 0.55rem 2.2rem;
+    border-radius: 20px;
+    border: 1px solid var(--ui-border, rgba(0, 0, 0, 0.08));
+    background: var(--ui-surface-2, #f8fafc);
+    font-size: 0.88rem;
+    color: var(--ui-text, #1d2730);
+    outline: none;
+}
 
-    .trending-topic .category .post-count {
-        font-size: 0.8rem;
-    }
+.categories-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    max-height: 420px;
+    overflow-y: auto;
+    padding-right: 4px;
+}
 
-    .feeds h2 {
-        font-size: 1.2rem;
-    }
+.category-item-link {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: var(--ui-surface-2, #f8fafc);
+    border: 1px solid var(--ui-border, rgba(0, 0, 0, 0.04));
+    padding: 0.65rem 0.9rem;
+    border-radius: 12px;
+    text-decoration: none;
+    transition: all 0.2s ease;
+}
 
-    .feed {
-        padding: var(--padding-2);
-    }
+.category-item-link:hover {
+    border-color: rgba(32, 104, 212, 0.3);
+    transform: translateX(2px);
+    background: var(--ui-surface, #ffffff);
+}
 
-    .feed .category-tag {
-        font-size: 0.8rem;
-        padding: 4px 10px;
+.category-item-link.active {
+    background: var(--ui-blue, #2068d4);
+    border-color: var(--ui-blue, #2068d4);
+}
+
+.category-item-link.active .cat-hashtag,
+.category-item-link.active .cat-name,
+.category-item-link.active .cat-count-badge {
+    color: #ffffff !important;
+}
+
+.cat-info {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.cat-hashtag {
+    font-weight: 700;
+    color: var(--ui-blue, #2068d4);
+}
+
+.cat-name {
+    font-size: 0.88rem;
+    font-weight: 600;
+    color: var(--ui-text, #1d2730);
+}
+
+.cat-count-badge {
+    font-size: 0.78rem;
+    color: var(--ui-muted, #667684);
+}
+
+/* Dark Mode Overrides */
+body.dark-mode .trending-hero-card,
+body.dark-theme .trending-hero-card {
+    background: linear-gradient(135deg, rgba(30, 41, 59, 0.9) 0%, rgba(15, 23, 42, 0.95) 100%);
+    border-color: rgba(255, 255, 255, 0.08);
+}
+
+body.dark-mode .feed,
+body.dark-theme .feed {
+    background: rgba(30, 41, 59, 0.7);
+    border-color: rgba(255, 255, 255, 0.08);
+}
+
+body.dark-mode .category-pill-badge,
+body.dark-theme .category-pill-badge {
+    background: rgba(32, 104, 212, 0.2);
+    color: #60a5fa;
+    border-color: rgba(96, 165, 250, 0.3);
+}
+
+body.dark-mode .sidebar-card,
+body.dark-theme .sidebar-card {
+    background: rgba(30, 41, 59, 0.7);
+    border-color: rgba(255, 255, 255, 0.08);
+}
+
+body.dark-mode .category-item-link,
+body.dark-theme .category-item-link {
+    background: rgba(255, 255, 255, 0.03);
+    border-color: rgba(255, 255, 255, 0.06);
+}
+
+body.dark-mode .category-item-link .cat-name,
+body.dark-theme .category-item-link .cat-name {
+    color: #f1f5f9;
+}
+
+/* Mobile Responsiveness */
+@media screen and (max-width: 768px) {
+    .trending-hero-card {
+        flex-direction: column;
+        align-items: flex-start;
+        padding: 1.25rem;
     }
 }
