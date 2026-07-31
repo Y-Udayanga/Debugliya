@@ -621,16 +621,39 @@ body.dark-mode .category-pill.active {
    Comprehensive Dark Mode Styles for Forum & Site-Wide Components
    ========================================================================== */
 
+html.dark-mode,
+html.dark-theme,
 body.dark-mode,
 body.dark-theme {
-    --ui-bg: #0f172a;
-    --ui-surface: #1e293b;
-    --ui-surface-2: #0f172a;
-    --ui-border: rgba(255, 255, 255, 0.1);
-    --ui-text: #f8fafc;
-    --ui-muted: #94a3b8;
+    --ui-bg: #0f172a !important;
+    --ui-surface: #1e293b !important;
+    --ui-surface-2: #0f172a !important;
+    --ui-border: rgba(255, 255, 255, 0.1) !important;
+    --ui-text: #f8fafc !important;
+    --ui-muted: #94a3b8 !important;
+    --color-white: #1e293b !important;
+    --color-light: #0f172a !important;
+    --color-dark: #f8fafc !important;
+    --color-gray: #94a3b8 !important;
+    --light-color-lightness: 20% !important;
+    --white-color-lightness: 28% !important;
+    --dark-color-lightness: 95% !important;
     background: linear-gradient(180deg, #0f172a 0%, #1e1b4b 100%) !important;
     color: #f8fafc !important;
+}
+
+html:not(.dark-mode):not(.dark-theme),
+body:not(.dark-mode):not(.dark-theme) {
+    --ui-bg: #f8fafc;
+    --ui-surface: #ffffff;
+    --ui-surface-2: #f1f5f9;
+    --ui-border: rgba(0, 0, 0, 0.08);
+    --ui-text: #0f172a;
+    --ui-muted: #64748b;
+    --color-white: #ffffff;
+    --color-light: #f8fafc;
+    --color-dark: #0f172a;
+    --color-gray: #64748b;
 }
 
 body.dark-mode .navbar,
@@ -835,6 +858,69 @@ body.dark-mode .comments-section,
 body.dark-theme .comments-section {
     background: #0f172a;
     border-color: rgba(255, 255, 255, 0.1);
+}
+
+/* Home & Page Specific Dark Mode Card Overrides */
+html.dark-mode .communities-section,
+html.dark-theme .communities-section,
+body.dark-mode .communities-section,
+body.dark-theme .communities-section,
+html.dark-mode .featured-dev-card,
+html.dark-theme .featured-dev-card,
+body.dark-mode .featured-dev-card,
+body.dark-theme .featured-dev-card,
+html.dark-mode .about-card,
+html.dark-theme .about-card,
+body.dark-mode .about-card,
+body.dark-theme .about-card,
+html.dark-mode .team-card,
+html.dark-theme .team-card,
+body.dark-mode .team-card,
+body.dark-theme .team-card,
+html.dark-mode .resources-card,
+html.dark-theme .resources-card,
+body.dark-mode .resources-card,
+body.dark-theme .resources-card,
+html.dark-mode .resource-card,
+html.dark-theme .resource-card,
+body.dark-mode .resource-card,
+body.dark-theme .resource-card,
+html.dark-mode .setting-card,
+html.dark-theme .setting-card,
+body.dark-mode .setting-card,
+body.dark-theme .setting-card,
+html.dark-mode .settings-card,
+html.dark-theme .settings-card,
+body.dark-mode .settings-card,
+body.dark-theme .settings-card,
+html.dark-mode .card,
+html.dark-theme .card,
+body.dark-mode .card,
+body.dark-theme .card {
+    background: #1e293b !important;
+    color: #f8fafc !important;
+    border-color: rgba(255, 255, 255, 0.1) !important;
+}
+
+html.dark-mode .community-card-modern,
+html.dark-theme .community-card-modern,
+body.dark-mode .community-card-modern,
+body.dark-theme .community-card-modern,
+html.dark-mode .recent-posts-section,
+html.dark-theme .recent-posts-section,
+body.dark-mode .recent-posts-section,
+body.dark-theme .recent-posts-section,
+html.dark-mode .value-card,
+html.dark-theme .value-card,
+body.dark-mode .value-card,
+body.dark-theme .value-card,
+html.dark-mode .stat-card,
+html.dark-theme .stat-card,
+body.dark-mode .stat-card,
+body.dark-theme .stat-card {
+    background: #0f172a !important;
+    color: #f8fafc !important;
+    border-color: rgba(255, 255, 255, 0.1) !important;
 }
 
 body.dark-mode .modal-content,
