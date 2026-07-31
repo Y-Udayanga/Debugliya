@@ -881,9 +881,6 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     // Load saved background
-    const savedLight = localStorage.getItem('lightColorLightness');
-    const savedWhite = localStorage.getItem('whiteColorLightness');
-    const savedDark = localStorage.getItem('darkColorLightness');
     if (savedLight && savedWhite && savedDark) {
         changeBG(savedLight, savedWhite, savedDark);
     }
