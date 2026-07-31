@@ -1,24 +1,4 @@
 document.addEventListener('DOMContentLoaded', () => {
-    // Theme toggle
-    const themeToggle = document.querySelector('#theme-toggle');
-    if (themeToggle) {
-        themeToggle.addEventListener('click', () => {
-            document.body.classList.toggle('dark-theme');
-            document.body.classList.toggle('dark-mode');
-            themeToggle.style.transform = 'rotate(360deg)';
-            setTimeout(() => { themeToggle.style.transform = 'rotate(0deg)'; }, 300);
-            const isDark = document.body.classList.contains('dark-theme') || document.body.classList.contains('dark-mode');
-            themeToggle.innerHTML = isDark ? '<i class="bi bi-sun"></i>' : '<i class="bi bi-moon-stars"></i>';
-            localStorage.setItem('theme', isDark ? 'dark' : 'light');
-        });
-
-        if (localStorage.getItem('theme') === 'dark') {
-            document.body.classList.add('dark-theme');
-            document.body.classList.add('dark-mode');
-            themeToggle.innerHTML = '<i class="bi bi-sun"></i>';
-        }
-    }
-
     // Hamburger menu toggle
     const hamburger = document.querySelector('.hamburger');
     const navLinks = document.querySelector('.nav-links');

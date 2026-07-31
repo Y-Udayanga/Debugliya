@@ -69,6 +69,14 @@ function get_home_avatar($photo) {
     <link rel="stylesheet" href="../ui-polish.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet">
+    <script>
+        (function() {
+            const savedTheme = localStorage.getItem('theme');
+            if (savedTheme === 'dark') {
+                document.documentElement.classList.add('dark-theme', 'dark-mode');
+            }
+        })();
+    </script>
 </head>
 <body>
     <header class="navbar">
