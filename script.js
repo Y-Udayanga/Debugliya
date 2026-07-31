@@ -22,16 +22,17 @@ document.addEventListener('DOMContentLoaded', () => {
         root.style.setProperty('--dark-color-lightness', dark);
 
         const isDark = (light === '20%' || light === '10%' || (white !== '100%' && light !== '95%'));
+        const allThemeToggles = document.querySelectorAll('#theme-toggle');
         if (isDark) {
             document.body.classList.add('dark-mode', 'dark-theme');
             root.classList.add('dark-mode', 'dark-theme');
             localStorage.setItem('theme', 'dark');
-            if (themeToggle) themeToggle.innerHTML = '<i class="bi bi-sun"></i>';
+            allThemeToggles.forEach(btn => btn.innerHTML = '<i class="bi bi-sun"></i>');
         } else {
             document.body.classList.remove('dark-mode', 'dark-theme');
             root.classList.remove('dark-mode', 'dark-theme');
             localStorage.setItem('theme', 'light');
-            if (themeToggle) themeToggle.innerHTML = '<i class="bi bi-moon-stars"></i>';
+            allThemeToggles.forEach(btn => btn.innerHTML = '<i class="bi bi-moon-stars"></i>');
         }
         localStorage.setItem('lightColorLightness', light);
         localStorage.setItem('whiteColorLightness', white);
