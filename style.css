@@ -47,7 +47,8 @@ body {
 
 /* General contain styles */
 .container {
-    width: 90%;
+    width: 95%;
+    max-width: 1560px;
     margin: 0 auto;
 }
 
@@ -63,7 +64,8 @@ body {
 }
 
 .navbar .containers {
-    max-width: 1200px;
+    max-width: 1560px;
+    width: 95%;
     margin: 0 auto;
     padding: 0 20px;
     display: flex;

@@ -88,15 +88,16 @@ canvas#particles {
 /* Override style.css global 3-column grid bug for About page */
 main .container {
     display: block !important;
-    width: 100% !important;
-    max-width: 1200px !important;
+    width: 95% !important;
+    max-width: 1560px !important;
     margin: 0 auto !important;
     grid-template-columns: none !important;
     position: relative !important;
 }
 
 .container {
-    max-width: 1200px;
+    max-width: 1560px;
+    width: 95%;
     margin: 0 auto;
     padding: 0 1rem;
     border-radius: 24px;

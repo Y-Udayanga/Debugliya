@@ -39,6 +39,8 @@ body {
 
 .navbar .containers,
 .navbar .container {
+    max-width: 1560px !important;
+    width: min(1560px, calc(100% - 2.5rem)) !important;
     gap: 1.5rem;
 }
 
@@ -139,9 +141,10 @@ main {
 
 main .container,
 .container:has(.left):has(.middle) {
-    width: min(1180px, calc(100% - 2rem));
-    grid-template-columns: minmax(210px, 250px) minmax(0, 1fr) minmax(230px, 280px);
-    column-gap: 1.25rem;
+    width: min(1560px, calc(100% - 2.5rem)) !important;
+    max-width: 1560px !important;
+    grid-template-columns: 260px minmax(0, 1fr) 340px !important;
+    column-gap: 1.5rem !important;
     align-items: start;
 }
 
