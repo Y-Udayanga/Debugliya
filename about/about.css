@@ -1,10 +1,6 @@
 :root {
-    --color-primary: var(--ui-blue);
-    --color-secondary: var(--ui-teal);
-    --color-dark: var(--ui-text);
-    --color-white: #ffffff;
-    --color-light: var(--ui-bg);
-    --color-gray: var(--ui-muted);
+    --color-primary: var(--ui-blue, #6366f1);
+    --color-secondary: var(--ui-teal, #06b6d4);
 }
 
 .hero {
