@@ -23,13 +23,13 @@ document.addEventListener('DOMContentLoaded', () => {
 
         const isDark = (light === '20%' || light === '10%' || (white !== '100%' && light !== '95%'));
         if (isDark) {
-            document.body.classList.add('dark-mode');
-            document.body.classList.add('dark-theme');
+            document.body.classList.add('dark-mode', 'dark-theme');
+            root.classList.add('dark-mode', 'dark-theme');
             localStorage.setItem('theme', 'dark');
             if (themeToggle) themeToggle.innerHTML = '<i class="bi bi-sun"></i>';
         } else {
-            document.body.classList.remove('dark-mode');
-            document.body.classList.remove('dark-theme');
+            document.body.classList.remove('dark-mode', 'dark-theme');
+            root.classList.remove('dark-mode', 'dark-theme');
             localStorage.setItem('theme', 'light');
             if (themeToggle) themeToggle.innerHTML = '<i class="bi bi-moon-stars"></i>';
         }
@@ -47,25 +47,22 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    // Hamburger menu toggle
-    if (hamburger && navLinks) {
-        hamburger.addEventListener('click', () => {
-            hamburger.classList.toggle('active');
-            navLinks.classList.toggle('active');
-        });
+    // Expose changeBG globally if needed
+    window.changeThemeBG = changeBG;
+
+    // Load saved theme preference on all pages
+    const savedTheme = localStorage.getItem('theme');
+    const savedLight = localStorage.getItem('lightColorLightness');
+    const savedWhite = localStorage.getItem('whiteColorLightness');
+    const savedDark = localStorage.getItem('darkColorLightness');
+
+    if (savedTheme === 'dark' || (savedWhite && savedWhite !== '100%')) {
+        changeBG(savedLight || '20%', savedWhite || '28%', savedDark || '95%');
+    } else {
+        changeBG(savedLight || '95%', savedWhite || '100%', savedDark || '17%');
     }
 
-    // Close mobile menu on nav link click
-    document.querySelectorAll('.nav-links a').forEach(link => {
-        link.addEventListener('click', () => {
-            if (hamburger && navLinks) {
-                hamburger.classList.remove('active');
-                navLinks.classList.remove('active');
-            }
-        });
-    });
-
-    // Theme toggle functionality
+    // Theme toggle button functionality
     if (themeToggle) {
         themeToggle.addEventListener('click', () => {
             const isDarkMode = document.body.classList.contains('dark-mode') || document.body.classList.contains('dark-theme');
@@ -75,18 +72,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 changeBG('20%', '28%', '95%');
             }
         });
-
-        // Load saved theme preference
-        const savedTheme = localStorage.getItem('theme');
-        const savedLight = localStorage.getItem('lightColorLightness');
-        const savedWhite = localStorage.getItem('whiteColorLightness');
-        const savedDark = localStorage.getItem('darkColorLightness');
-
-        if (savedTheme === 'dark' || (savedWhite && savedWhite !== '100%')) {
-            changeBG(savedLight || '20%', savedWhite || '28%', savedDark || '95%');
-        } else {
-            changeBG(savedLight || '95%', savedWhite || '100%', savedDark || '17%');
-        }
     }
 
 
