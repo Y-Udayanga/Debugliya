@@ -11,22 +11,6 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // Theme toggle
-    if (themeToggle) {
-        themeToggle.addEventListener('click', () => {
-            document.body.classList.toggle('dark-mode');
-            const isDarkMode = document.body.classList.contains('dark-mode');
-            themeToggle.innerHTML = isDarkMode ? '<i class="bi bi-sun"></i>' : '<i class="bi bi-moon-stars"></i>';
-            localStorage.setItem('theme', isDarkMode ? 'dark' : 'light');
-        });
-
-        const savedTheme = localStorage.getItem('theme');
-        if (savedTheme === 'dark') {
-            document.body.classList.add('dark-mode');
-            themeToggle.innerHTML = '<i class="bi bi-sun"></i>';
-        }
-    }
-
     // Tab switching
     const tabButtons = document.querySelectorAll('.tab-btn');
     const tabContents = document.querySelectorAll('.tab-content');

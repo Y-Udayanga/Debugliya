@@ -24,9 +24,18 @@ $user = $stmt->fetch(PDO::FETCH_ASSOC);
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Debuglia - Settings</title>
+    <link rel="stylesheet" href="../style.css">
     <link rel="stylesheet" href="settings.css">
     <link rel="stylesheet" href="../ui-polish.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <script>
+        (function() {
+            const savedTheme = localStorage.getItem('theme');
+            if (savedTheme === 'dark') {
+                document.documentElement.classList.add('dark-theme', 'dark-mode');
+            }
+        })();
+    </script>
 </head>
 <body>
     <header class="navbar">
