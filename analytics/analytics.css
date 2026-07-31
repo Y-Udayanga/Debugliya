@@ -47,6 +47,7 @@
 .analytics-header-title h2 i {
     background: linear-gradient(135deg, hsl(var(--primary-color-hue), 85%, 60%), hsl(var(--primary-color-hue), 95%, 45%));
     -webkit-background-clip: text;
+    background-clip: text;
     -webkit-text-fill-color: transparent;
     font-size: 1.65rem;
 }

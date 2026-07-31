@@ -57,6 +57,7 @@ canvas#particles {
     background: linear-gradient(to right, #38bdf8, #a855f7, #38bdf8);
     background-size: 200% auto;
     -webkit-background-clip: text;
+    background-clip: text;
     -webkit-text-fill-color: transparent;
     letter-spacing: -1.5px;
     animation: gradientShift 6s linear infinite;
@@ -392,6 +393,7 @@ h2 {
     margin-bottom: 1rem;
     background: linear-gradient(to right, #38bdf8, #a855f7);
     -webkit-background-clip: text;
+    background-clip: text;
     -webkit-text-fill-color: transparent;
 }
 
