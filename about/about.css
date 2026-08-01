@@ -835,6 +835,60 @@ h2 {
     color: #94a3b8 !important;
 }
 
+/* Impact & Global Reach Stat Cards Dark Mode Fix */
+.dark-theme .impact-stat-card,
+.dark-mode .impact-stat-card {
+    background: #1e293b !important;
+    border: 1px solid rgba(255, 255, 255, 0.1) !important;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3) !important;
+}
+
+.dark-theme .impact-stat-details h3,
+.dark-mode .impact-stat-details h3 {
+    color: #f8fafc !important;
+}
+
+.dark-theme .impact-stat-details p,
+.dark-mode .impact-stat-details p {
+    color: #94a3b8 !important;
+}
+
+/* Team & Timeline Cards Dark Mode Fix */
+.dark-theme .team-card,
+.dark-mode .team-card,
+.dark-theme .timeline-content,
+.dark-mode .timeline-content {
+    background: #1e293b !important;
+    border: 1px solid rgba(255, 255, 255, 0.1) !important;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3) !important;
+}
+
+.dark-theme .team-card h3,
+.dark-mode .team-card h3,
+.dark-theme .timeline-header h3,
+.dark-mode .timeline-header h3 {
+    color: #f8fafc !important;
+}
+
+.dark-theme .team-bio,
+.dark-mode .team-bio,
+.dark-theme .timeline-content p,
+.dark-mode .timeline-content p {
+    color: #94a3b8 !important;
+}
+
+.dark-theme .team-socials a,
+.dark-mode .team-socials a {
+    background: rgba(255, 255, 255, 0.08) !important;
+    color: #f8fafc !important;
+}
+
+.dark-theme .team-socials a:hover,
+.dark-mode .team-socials a:hover {
+    background: #38bdf8 !important;
+    color: #0f172a !important;
+}
+
 .dark-theme h2, .dark-mode h2,
 .dark-theme h3, .dark-mode h3 {
     color: #f8fafc !important;
@@ -870,5 +924,6 @@ h2 {
 .dark-theme .social-icon:hover, .dark-mode .social-icon:hover {
     color: #38bdf8;
 }
+
 
 
