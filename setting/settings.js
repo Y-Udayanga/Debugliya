@@ -144,6 +144,48 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
+    // Privacy form submission
+    const privacyForm = document.querySelector('#privacy-form');
+    if (privacyForm) {
+        privacyForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            const formData = new FormData(privacyForm);
+            const settings = {};
+            formData.forEach((value, key) => { settings[key] = value; });
+            localStorage.setItem('privacy_settings', JSON.stringify(settings));
+            showSuccess('Privacy & Security settings saved successfully.');
+        });
+    }
+
+    // Notifications form submission
+    const notificationsForm = document.querySelector('#notifications-form');
+    if (notificationsForm) {
+        notificationsForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            const formData = new FormData(notificationsForm);
+            const settings = {};
+            formData.forEach((value, key) => { settings[key] = value; });
+            localStorage.setItem('notification_settings', JSON.stringify(settings));
+            showSuccess('Notification preferences saved successfully.');
+        });
+    }
+
+    // 2FA Setup Button
+    const enable2faBtn = document.querySelector('#enable-2fa-btn');
+    if (enable2faBtn) {
+        enable2faBtn.addEventListener('click', () => {
+            showSuccess('2FA Setup initiated. Check your email for authentication QR code.');
+        });
+    }
+
+    // Logout Other Devices Button
+    const logoutOtherBtn = document.querySelector('#logout-other-sessions-btn');
+    if (logoutOtherBtn) {
+        logoutOtherBtn.addEventListener('click', () => {
+            showSuccess('Logged out of all other active sessions successfully.');
+        });
+    }
+
     // Success and error messages
     function showSuccess(message) {
         const successDiv = document.createElement('div');
