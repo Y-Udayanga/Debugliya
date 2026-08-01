@@ -97,9 +97,9 @@ $user = $stmt->fetch(PDO::FETCH_ASSOC);
                 <div class="settings-card">
                     <h2>Settings</h2>
                     <div class="tabs">
-                        <button class="tab-btn active" data-tab="account">Account</button>
-                        <button class="tab-btn" data-tab="privacy">Privacy</button>
-                        <button class="tab-btn" data-tab="notifications">Notifications</button>
+                        <button class="tab-btn active" data-tab="account"><i class="bi bi-person-gear"></i> Account</button>
+                        <button class="tab-btn" data-tab="privacy"><i class="bi bi-shield-lock"></i> Privacy</button>
+                        <button class="tab-btn" data-tab="notifications"><i class="bi bi-bell"></i> Notifications</button>
                     </div>
                     <div class="tab-content" id="account">
                         <form id="settings-form" enctype="multipart/form-data">
