@@ -764,93 +764,111 @@ h2 {
 }
 
 /* Dark theme styles */
-.dark-theme {
-    background-color: #121212;
-    color: #e0e0e0;
+.dark-theme, .dark-mode {
+    background-color: #0f172a;
+    color: #f8fafc;
 }
 
-.dark-theme .navbar {
-    background: linear-gradient(135deg, #1c2526, #2c2c2c);
+.dark-theme .navbar, .dark-mode .navbar {
+    background: linear-gradient(135deg, #0f172a, #1e293b);
 }
 
-.dark-theme .logo {
-    color: #1e90ff;
+.dark-theme .logo, .dark-mode .logo {
+    color: #38bdf8;
 }
 
-.dark-theme .nav-links a {
-    color: #e0e0e0;
+.dark-theme .nav-links a, .dark-mode .nav-links a {
+    color: #e2e8f0;
 }
 
-.dark-theme .nav-links a:hover {
-    color: #1e90ff;
+.dark-theme .nav-links a:hover, .dark-mode .nav-links a:hover {
+    color: #38bdf8;
 }
 
-.dark-theme .nav-utils ul .lang-toggle {
-    color: #e0e0e0;
+.dark-theme .nav-utils ul .lang-toggle, .dark-mode .nav-utils ul .lang-toggle {
+    color: #e2e8f0;
 }
 
 .dark-theme .nav-utils ul .help-link,
 .dark-theme .nav-utils ul .logout,
-.dark-theme .nav-utils ul .login {
-    color: #e0e0e0;
-}
-
-.dark-theme .nav-utils ul .help-link:hover,
-.dark-theme .nav-utils ul .logout:hover,
-.dark-theme .nav-utils ul .login:hover {
-    color: #1e90ff;
-}
-
-.dark-theme .hero {
-    background: url('https://source.unsplash.com/1600x900/?technology,dark') no-repeat center center/cover;
-}
-
-.dark-theme .hero::before {
-    background: linear-gradient(135deg, rgba(0, 0, 0, 0.7), rgba(30, 144, 255, 0.4));
+.dark-theme .nav-utils ul .login,
+.dark-mode .nav-utils ul .help-link,
+.dark-mode .nav-utils ul .logout,
+.dark-mode .nav-utils ul .login {
+    color: #e2e8f0;
 }
 
 .dark-theme .container,
-.dark-theme .footer {
-    background: #1c2526;
+.dark-mode .container,
+.dark-theme .footer,
+.dark-mode .footer {
+    background: transparent;
 }
 
-.dark-theme .team-card,
-.dark-theme .stat-card,
-.dark-theme .timeline-content {
-    background: #2c2c2c;
-    color: #e0e0e0;
+/* Mission & Core Pillars Section Dark Mode Fix */
+.dark-theme .mission-content,
+.dark-mode .mission-content {
+    background: #1e293b !important;
+    border: 1px solid rgba(255, 255, 255, 0.1) !important;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3) !important;
 }
 
-.dark-theme h2,
-.dark-theme h3 {
-    color: #e0e0e0;
+.dark-theme .mission-text,
+.dark-mode .mission-text {
+    color: #e2e8f0 !important;
 }
 
-.dark-theme p {
-    color: #b0b0b0;
+.dark-theme .value-card,
+.dark-mode .value-card {
+    background: #1e293b !important;
+    border: 1px solid rgba(255, 255, 255, 0.1) !important;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3) !important;
 }
 
-.dark-theme .btn-primary {
-    background: linear-gradient(135deg, #0056b3, #ff4d4d);
+.dark-theme .value-card h3,
+.dark-mode .value-card h3 {
+    color: #f8fafc !important;
 }
 
-.dark-theme .btn-primary:hover {
-    background: linear-gradient(135deg, #003d80, #cc0000);
+.dark-theme .value-card p,
+.dark-mode .value-card p {
+    color: #94a3b8 !important;
 }
 
-.dark-theme .btn-secondary {
-    background: #4a4a4a;
+.dark-theme h2, .dark-mode h2,
+.dark-theme h3, .dark-mode h3 {
+    color: #f8fafc !important;
 }
 
-.dark-theme .btn-secondary:hover {
-    background: #1e90ff;
+.dark-theme p, .dark-mode p {
+    color: #94a3b8 !important;
 }
 
-.dark-theme .social-icon {
-    color: #e0e0e0;
+.dark-theme .btn-primary, .dark-mode .btn-primary {
+    background: linear-gradient(135deg, #38bdf8, #818cf8);
 }
 
-.dark-theme .social-icon:hover {
-    color: #1e90ff;
+.dark-theme .btn-primary:hover, .dark-mode .btn-primary:hover {
+    box-shadow: 0 10px 25px rgba(56, 189, 248, 0.4);
 }
+
+.dark-theme .btn-secondary, .dark-mode .btn-secondary {
+    background: #0f172a;
+    color: #f8fafc;
+    border: 1px solid rgba(255, 255, 255, 0.15);
+}
+
+.dark-theme .btn-secondary:hover, .dark-mode .btn-secondary:hover {
+    background: #38bdf8;
+    color: #0f172a;
+}
+
+.dark-theme .social-icon, .dark-mode .social-icon {
+    color: #f8fafc;
+}
+
+.dark-theme .social-icon:hover, .dark-mode .social-icon:hover {
+    color: #38bdf8;
+}
+
 
